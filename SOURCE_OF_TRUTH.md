@@ -52,6 +52,8 @@ The public experience is a single server-rendered page with:
 8. FAQ answering all required commercial and ownership questions.
 9. Final CTA and legal footer.
 
+The public experience must remain easy to reach and navigate across desktop, tablet, and phone browsers. Primary navigation stays available on small screens, interactive controls use touch-friendly targets, keyboard users receive visible focus and a skip link, safe-area insets are respected, and platform metadata supports saving the site to a device home screen.
+
 Primary calls to action are `Start with the guarantee`, `Choose Monthly`, and `Sign In`.
 
 ## Client portal

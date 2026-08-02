@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { JasonAgent } from "@/components/jason-agent";
@@ -31,6 +31,13 @@ export const metadata: Metadata = {
   applicationName: "Jason Sirotin AI Automation Partner",
   authors: [{ name: "Jason Sirotin", url: "https://automatemejay.com" }],
   creator: "Jason Sirotin",
+  manifest: "/manifest.webmanifest",
+  formatDetection: { telephone: false },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "AutomateMeJay",
+  },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -50,6 +57,14 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  colorScheme: "dark",
+  themeColor: "#02060c",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -57,7 +72,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
-      <body>{children}<JasonAgent agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} /></body>
+      <body>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
+        <div id="main-content" tabIndex={-1}>{children}</div>
+        <JasonAgent agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} />
+      </body>
     </html>
   );
 }

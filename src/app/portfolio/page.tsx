@@ -3,6 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Bot, Check, Eye, Sparkles } from "lucide-react";
 import { PortfolioGallery } from "./portfolio-gallery";
+import { MobileNavigation } from "@/components/mobile-navigation";
+
+const mobileNavigation = [
+  { href: "/", label: "Home" },
+  { href: "/portfolio#featured-work", label: "Featured work" },
+  { href: "/portfolio#all-work", label: "All work" },
+  { href: "/#pricing", label: "Plans" },
+  { href: "/sign-in", label: "Client sign in" },
+];
 
 export const metadata: Metadata = {
   title: "Portfolio — Agent-Built Websites & Systems",
@@ -61,6 +70,7 @@ export default function PortfolioPage() {
       <header className="portfolio-header">
         <Link className="wordmark" href="/" aria-label="Jason Sirotin home"><span>JS</span><strong>Jason Sirotin</strong></Link>
         <Link className="portfolio-back" href="/"><ArrowLeft size={15} /> Back to the site</Link>
+        <MobileNavigation items={mobileNavigation} />
         <Link className="button button-small button-light" href="/start">Get started <ArrowRight size={15} /></Link>
       </header>
 

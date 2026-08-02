@@ -8,6 +8,15 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { MobileNavigation } from "@/components/mobile-navigation";
+
+const mobileNavigation = [
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#pricing", label: "Plans" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/sign-in", label: "Client sign in" },
+];
 
 const problems = [
   "Repetitive research",
@@ -153,6 +162,7 @@ export default function Home() {
           <a href="#pricing">Plans</a>
           <a href="#faq">FAQ</a>
         </nav>
+        <MobileNavigation items={mobileNavigation} />
         <Link className="button button-small button-light" href="/start">
           Get started <ArrowRight size={15} />
         </Link>
