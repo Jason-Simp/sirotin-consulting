@@ -32,6 +32,8 @@
 
 - Client-visible delivery is relationship-based, not a minute-by-minute timecard; Jason can track capacity internally.
 - Approved AI, token, API, hosting, software, data, messaging, storage, contractor, and other third-party costs are additional.
+- Prefer guided setup calls that place hosting, databases, domains, APIs, software, and other infrastructure in client-owned accounts. The client enters payment details directly with the provider and retains ownership, billing access, credentials, and administrative control.
+- If Jason or AutomateMeJay purchases, pays, or administratively manages an approved third-party service on the client’s behalf, bill the actual provider cost plus a 25% convenience charge calculated on that cost. This charge does not apply to client-owned, client-paid accounts.
 - Jason builds; the client tests and reports; Jason improves; the cycle continues while active.
 - Client retains responsibility for business decisions, access authorization, data rights, realistic testing, production approval, monitoring, compliance, and human review.
 - One active workstream is included. Additional ideas may be queued; simultaneous workstreams or independent decision-makers may require more capacity.

@@ -252,6 +252,9 @@ These are the current commercial rules unless a newer explicit instruction is in
 * One actively prioritized automation workstream
 * Thirty days’ written cancellation notice
 * Approved third-party costs are additional
+* Prefer client-owned third-party accounts established together on a guided call; the client enters payment details directly and keeps ownership and administrator access
+* If Jason or AutomateMeJay purchases, pays, or administratively manages a third-party service on the client’s behalf, charge the actual approved provider cost plus a 25% convenience charge on that cost
+* The convenience charge does not apply when the client owns and pays the provider directly
 
 ## Working relationship
 

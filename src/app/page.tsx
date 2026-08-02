@@ -90,7 +90,8 @@ const faqs = [
   ["Can multiple employees use the workspace?", "Other employees may test or provide information, but one primary person must direct priorities and approve work."],
   ["Can we work on multiple automations?", "Multiple ideas may be added to the queue. One automation workstream is actively prioritized under each standard subscription."],
   ["Can I book an introduction meeting?", "Yes. The site assistant can check Jason’s connected calendars and schedule a 30-minute introduction when calendar booking is available. The guaranteed first week is still a paid service."],
-  ["Who pays for software and AI usage?", "The client is responsible for approved third-party costs, including APIs, tokens, hosting, software, licenses, storage, messaging, and data services."],
+  ["Who pays for software, hosting, and AI usage?", "You approve and pay third-party providers directly whenever practical. We prefer to set up hosting, databases, domains, APIs, and other services together on a call so you can enter your payment details directly and keep ownership and administrative control of every account."],
+  ["What if I want Jason to manage third-party services for me?", "That is available by prior agreement. You pay the actual approved provider costs plus a 25% convenience charge on the third-party costs Jason or AutomateMeJay purchases, pays, or administratively manages on your behalf. The charge does not apply when you own and pay the provider directly."],
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
@@ -240,21 +241,23 @@ export default function Home() {
         <div className="home-proof-names"><span>SimplSolutions</span><span>ECG Productions</span><span>DriveOn Protection</span><span>SchoolAmplified</span></div>
       </section>
 
-      <section className="working-model section-pad">
-        <div className="model-statement">
-          <SectionLabel>The working model</SectionLabel>
-          <h2>I build.<br />You test.<br /><em>Together, we improve.</em></h2>
-        </div>
-        <div className="model-detail">
-          <div className="model-icon"><MessageSquareText size={32} /></div>
-          <p>AI and automation systems rarely become perfect on the first attempt. Strong results come from practical testing and clear communication.</p>
-          <ul>
-            <li><Check size={16} /> Test each delivery</li>
-            <li><Check size={16} /> Explain what worked and what failed</li>
-            <li><Check size={16} /> Provide screenshots or examples</li>
-            <li><Check size={16} /> Prioritize requested changes</li>
-            <li><Check size={16} /> Approve production use</li>
-          </ul>
+      <section className="working-model section-pad" id="working-model">
+        <div className="working-model-card">
+          <div className="model-statement">
+            <SectionLabel>The working model</SectionLabel>
+            <h2>I build.<br />You test.<br /><em>Together, we improve.</em></h2>
+          </div>
+          <div className="model-detail">
+            <div className="model-icon"><MessageSquareText size={30} /></div>
+            <p>AI and automation systems rarely become perfect on the first attempt. Strong results come from practical testing and clear communication.</p>
+            <ul>
+              <li><Check size={16} /> Test each delivery</li>
+              <li><Check size={16} /> Explain what worked and what failed</li>
+              <li><Check size={16} /> Provide screenshots or examples</li>
+              <li><Check size={16} /> Prioritize requested changes</li>
+              <li><Check size={16} /> Approve production use</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -275,7 +278,7 @@ export default function Home() {
         <div className="plans">
           {plans.map((plan) => (
             <article className={`plan ${plan.featured ? "featured" : ""}`} key={plan.name}>
-              {plan.featured && <div className="plan-badge"><Sparkles size={13} /> Best value</div>}
+              {plan.featured && <div className="plan-badge"><Sparkles size={13} /> Money-back guarantee</div>}
               <p className="plan-name">{plan.name}</p>
               <div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div>
               <p className="plan-description">{plan.description}</p>
@@ -284,7 +287,24 @@ export default function Home() {
             </article>
           ))}
         </div>
-        <p className="pricing-note">Third-party expenses—including APIs, hosting, software, storage, data, and messaging—are additional and always require your approval.</p>
+        <div className="asset-control-card">
+          <div className="asset-control-intro">
+            <SectionLabel>Your accounts, your assets</SectionLabel>
+            <h3>You own the infrastructure. We help you set it up.</h3>
+            <p>Our preference is a guided setup call where you create the accounts, enter your payment details directly with each provider, and keep full administrative control.</p>
+          </div>
+          <ol className="asset-control-steps">
+            <li><span>01</span><div><strong>Set up together</strong><p>We guide the database, hosting, domain, API, or software setup on a call.</p></div></li>
+            <li><span>02</span><div><strong>Pay providers directly</strong><p>Your card stays with the provider. Jason does not need your card number.</p></div></li>
+            <li><span>03</span><div><strong>Stay in control</strong><p>You retain ownership, billing access, credentials, and administrator rights.</p></div></li>
+          </ol>
+          <aside className="managed-services-note">
+            <span>Optional managed setup</span>
+            <strong>25% convenience charge</strong>
+            <p>If you ask Jason or AutomateMeJay to purchase, pay, or administratively manage a third-party service on your behalf, the approved provider cost plus a 25% convenience charge applies. There is no convenience charge when you own and pay the account directly.</p>
+          </aside>
+        </div>
+        <p className="pricing-note">All third-party services require your approval. Actual provider charges are separate from consulting fees and from the first-week service-fee guarantee.</p>
       </section>
 
       <section className="boundaries section-pad">
