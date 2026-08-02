@@ -21,7 +21,7 @@ services:
         sync: false
       - key: STRIPE_WEBHOOK_SECRET
         sync: false
-      - key: STRIPE_WEEKLY_PRICE_ID
+      - key: STRIPE_GUARANTEED_WEEK_PRICE_ID
         sync: false
       - key: STRIPE_MONTHLY_PRICE_ID
         sync: false
@@ -35,3 +35,21 @@ services:
         value: hello@automatemejay.com
       - key: JASON_NOTIFICATION_EMAIL
         value: hello@automatemejay.com
+      - key: NEXT_PUBLIC_ELEVENLABS_AGENT_ID
+        sync: false
+      - key: AGENT_TOOL_SECRET
+        sync: false
+      - key: GOOGLE_CALENDAR_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CALENDAR_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALENDAR_REFRESH_TOKEN_SIMPLSOLUTIONS
+        sync: false
+      - key: GOOGLE_CALENDAR_REFRESH_TOKEN_ECG
+        sync: false
+      - key: GOOGLE_CALENDAR_ID_SIMPLSOLUTIONS
+        value: jason@simplsolutions.app
+      - key: GOOGLE_CALENDAR_ID_ECG
+        value: sirotin@ecgprod.com
+      - key: GOOGLE_CALENDAR_BOOKING_ID
+        value: jason@simplsolutions.app

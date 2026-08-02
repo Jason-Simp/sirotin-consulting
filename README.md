@@ -8,6 +8,8 @@ Independent consulting website and private client-workspace foundation for `auto
 - Supabase Auth, Postgres, Storage, and Realtime
 - Stripe Standard account for paid subscriptions
 - Resend for transactional email and delivery events
+- ElevenLabs React SDK for the disclosed voice/text website assistant
+- Google Calendar API for confirmed 30-minute introduction scheduling
 - Render web service
 - GoDaddy-managed DNS
 
@@ -22,6 +24,18 @@ pnpm dev
 ```
 
 The public site builds without provider secrets. Intake, authentication, payment, and webhook actions remain unavailable until their corresponding environment variables are present.
+
+The current entry offer is a one-time $350 Guaranteed First Week. It never converts automatically. The verified end-of-week flow lets a client start the $1,000 monthly plan or request the full $350 service-fee refund.
+
+## ElevenLabs agent
+
+The public-safe source and prompt are in `knowledge/`. After setting an ElevenLabs API key and the saved Jason voice ID, run:
+
+```bash
+pnpm agent:provision
+```
+
+Attach the authenticated `check_availability` and `schedule_introduction` webhook tools before publishing the agent, then set `NEXT_PUBLIC_ELEVENLABS_AGENT_ID` on Render. Calendar booking remains unavailable unless both Google refresh tokens and `AGENT_TOOL_SECRET` are configured.
 
 ## Checks
 

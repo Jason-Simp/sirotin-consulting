@@ -2,6 +2,8 @@ Use this as the first file the agent sees. Name it **`00_START_HERE.md`** and pl
 
 # START HERE: AUTOMATEMEJAY WEBSITE AND CLIENT PORTAL
 
+> **CURRENT COMMERCIAL AND AGENT OVERRIDE — AUGUST 2, 2026:** A newer explicit instruction replaces every older reference in this document to a free trial, free first week, or public weekly plan. The current entry offer is a one-time **$350 Guaranteed First Week** with a full money-back guarantee on the $350 service fee, no automatic conversion, and an affirmative choice to continue at **$1,000 per month** or request the refund before the seven-day guarantee period ends. The site also includes a clearly disclosed ElevenLabs AI assistant using Jason's custom voice, with audited tools that check both of Jason's calendars before booking a confirmed 30-minute introduction. The current implementation and public-safe agent rules live in `SOURCE_OF_TRUTH.md` and `knowledge/automate-me-jay-public-agent-kb.md`.
+
 ## Project mission
 
 Build a visually exceptional, dynamic, high-technology website and private client portal for:
@@ -43,8 +45,8 @@ The finished product must make it extremely easy for Jason to:
 
 * Attract prospective clients
 * Explain the AI Automation Partner service
-* Offer a free first week
-* Sell weekly and monthly subscriptions
+* Offer a paid first week with a full service-fee money-back guarantee
+* Sell monthly subscriptions after an affirmative client choice
 * Communicate directly with clients
 * Receive notes, files, feedback, and testing results
 * Manage active automation workstreams
@@ -225,29 +227,19 @@ Do not begin broad implementation until the implementation map is internally coh
 
 These are the current commercial rules unless a newer explicit instruction is included in the package.
 
-## Free first week
+## Guaranteed first week
 
-* Price: $0
+* Price: $350 paid once
 * Seven-calendar-day introductory period
 * Approximately one hour of focused work
 * One primary client contact
 * One clearly defined automation opportunity
 * One initial recommendation, prototype, iteration, or improvement
 * Private client workspace access
-* No automatic conversion to a paid plan
-* No credit card required for the free week
-* Jason activates the trial before the seven-day clock begins
-
-## Weekly plan
-
-* $350 per week
-* Automatically charged weekly
-* Approximately one hour of substantive work per week
-* Reasonable asynchronous communication
-* One primary directing stakeholder
-* One actively prioritized automation workstream
-* Seven days’ written cancellation notice
-* Approved third-party costs are additional
+* Full money-back guarantee on the $350 service fee during the seven-day period
+* No automatic conversion to a paid monthly plan
+* Jason activates the engagement before the seven-day clock begins
+* At the end, the client chooses monthly continuation or requests the service-fee refund
 
 ## Monthly plan
 
@@ -290,8 +282,7 @@ It must immediately communicate:
 * Who Jason is
 * What an AI Automation Partner does
 * Who the service is for
-* How the free week works
-* What the weekly plan costs
+* How the guaranteed first week works
 * What the monthly plan costs
 * How the working relationship functions
 * Why client testing matters
@@ -651,8 +642,7 @@ The visible public content must directly answer:
 * What does Jason do?
 * What is an AI Automation Partner?
 * Who is the service for?
-* How does the free week work?
-* What does the weekly plan cost?
+* How does the guaranteed first week work?
 * What does the monthly plan cost?
 * What does the client receive?
 * What remains the client’s responsibility?
@@ -792,9 +782,9 @@ Do not build a separate site on `aimejay.com`.
 
 ## Phase 6: Validation
 
-1. Test free-week registration.
-2. Test trial activation.
-3. Test weekly payment.
+1. Test guaranteed-week intake and payment.
+2. Test engagement activation and guarantee timing.
+3. Test monthly-or-refund decision flow.
 4. Test monthly payment.
 5. Test failed payments.
 6. Test cancellation notice.
@@ -815,9 +805,11 @@ Do not build a separate site on `aimejay.com`.
 The current phase should deliver:
 
 * Public marketing page
-* Free-week registration
-* Weekly subscription
+* Guaranteed-first-week intake and one-time payment
+* Money-back-guarantee decision workflow
 * Monthly subscription
+* ElevenLabs website assistant with Jason's custom voice
+* Two-calendar availability checks and confirmed 30-minute booking
 * Client authentication
 * Client dashboard
 * One active workspace

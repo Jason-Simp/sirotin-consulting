@@ -71,8 +71,9 @@
 | Route | Purpose | Indexing |
 | --- | --- | --- |
 | `/` | One-page public marketing site | Index |
-| `/start` | Trial intake and account creation | Noindex |
-| `/checkout/weekly`, `/checkout/monthly` | Authenticated checkout launch | Noindex |
+| `/start` | Guaranteed-first-week intake | Noindex |
+| `/checkout/first-week`, `/checkout/monthly` | Stripe checkout launch | Noindex |
+| `/guarantee` | Verified monthly-or-refund choice | Noindex |
 | `/sign-in`, `/auth/callback` | Authentication | Noindex |
 | `/portal` | Client dashboard | Noindex |
 | `/portal/workspaces/[id]` | Workspace/conversation/notes/files/testing/approvals | Noindex |
@@ -81,6 +82,7 @@
 | `/admin` and `/admin/**` | Jason administration | Noindex |
 | `/legal/privacy`, `/legal/terms`, `/legal/service-agreement`, `/legal/payment-cancellation` | Legal content | Index where appropriate |
 | `/api/webhooks/stripe`, `/api/webhooks/resend` | Verified provider events | Never index |
+| `/api/agent/calendar/availability`, `/api/agent/calendar/book` | Authenticated ElevenLabs scheduling tools | Never index |
 | `/api/health` | Render health check | Never index |
 
 ## Analytics events

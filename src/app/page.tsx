@@ -42,38 +42,22 @@ const steps = [
 
 const plans = [
   {
-    name: "Free first week",
-    price: "$0",
-    cadence: "No card required",
-    description: "A practical introduction to working together.",
+    name: "Guaranteed first week",
+    price: "$350",
+    cadence: "one-time payment",
+    description: "A practical, paid introduction with the risk taken off your shoulders.",
     features: [
-      "Seven-day introductory period",
+      "Seven-day working period after activation",
       "Approximately one hour of focused work",
       "One automation opportunity",
       "Private workspace access",
       "One initial recommendation, prototype, iteration, or improvement",
+      "Full $350 service-fee money-back guarantee",
       "No automatic paid conversion",
     ],
     href: "/start",
-    action: "Start free",
-    featured: false,
-  },
-  {
-    name: "Weekly partner",
-    price: "$350",
-    cadence: "per week",
-    description: "Maximum flexibility with automatic weekly billing.",
-    features: [
-      "Ongoing partner access",
-      "Approximately one hour of substantive work weekly",
-      "Reasonable asynchronous communication",
-      "One primary directing stakeholder",
-      "One actively prioritized workstream",
-      "Seven days’ cancellation notice",
-    ],
-    href: "/checkout/weekly",
-    action: "Choose weekly",
-    featured: false,
+    action: "Start with the guarantee",
+    featured: true,
   },
   {
     name: "Monthly partner",
@@ -91,25 +75,26 @@ const plans = [
     ],
     href: "/checkout/monthly",
     action: "Choose monthly",
-    featured: true,
+    featured: false,
   },
 ];
 
 const faqs = [
-  ["Is the first week really free?", "Yes. The first week includes approximately one hour of focused work and access to your private workspace. It does not automatically convert into a paid subscription."],
-  ["Do I need a credit card for the free week?", "No. Payment information is collected only when you affirmatively select a paid plan."],
-  ["Can I purchase a paid plan immediately?", "Yes. You may begin with the weekly or monthly plan without using the free week."],
+  ["How does the first-week guarantee work?", "You pay $350 for the seven-day introductory engagement. If it is not the right fit, request your full $350 service-fee refund before the guarantee period ends. Approved third-party expenses are separate and are not part of the refund."],
+  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to continue on the $1,000 monthly plan or request your money back."],
+  ["When does the seven-day period start?", "It begins when Jason confirms that your engagement is activated—not simply when you submit the intake form."],
+  ["Can I purchase the monthly plan immediately?", "Yes. You may select the monthly plan directly if you are ready for an ongoing relationship."],
   ["What does “approximately one hour” mean?", "The service is priced around approximately one hour of substantive work per week. Research, planning, building, debugging, documentation, and substantive consulting use the available working capacity."],
   ["Is chat included?", "Reasonable asynchronous communication related to the active workstream is included."],
   ["Does real-time chat mean an immediate response?", "No. Messages appear immediately in the workspace, but Jason responds asynchronously based on workload, complexity, priority, and availability."],
   ["Can multiple employees use the workspace?", "Other employees may test or provide information, but one primary person must direct priorities and approve work."],
   ["Can we work on multiple automations?", "Multiple ideas may be added to the queue. One automation workstream is actively prioritized under each standard subscription."],
-  ["Are meetings included?", "Meetings are not routinely included. They may be arranged and billed separately when needed."],
+  ["Can I book an introduction meeting?", "Yes. The site assistant can check Jason’s connected calendars and schedule a 30-minute introduction when calendar booking is available. The guaranteed first week is still a paid service."],
   ["Who pays for software and AI usage?", "The client is responsible for approved third-party costs, including APIs, tokens, hosting, software, licenses, storage, messaging, and data services."],
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
-  ["Can I cancel?", "The weekly plan requires seven days’ written notice. The monthly plan requires 30 days’ written notice."],
+  ["Can I cancel?", "The monthly plan requires 30 days’ written notice. The guaranteed first week does not renew automatically."],
 ];
 
 const jsonLd = {
@@ -168,7 +153,7 @@ export default function Home() {
           <a href="#faq">FAQ</a>
         </nav>
         <Link className="button button-small button-light" href="/start">
-          Start free <ArrowRight size={15} />
+          Get started <ArrowRight size={15} />
         </Link>
       </header>
 
@@ -180,10 +165,10 @@ export default function Home() {
             <p className="hero-lede">I work directly with business owners and operating teams to design, build, troubleshoot, and continuously improve practical AI automations.</p>
             <p className="hero-promise">Bring me one recurring problem. We will turn it into a working process.</p>
             <div className="button-row">
-              <Link className="button button-primary" href="/start">Start your free week <ArrowRight size={18} /></Link>
+              <Link className="button button-primary" href="/start">Start with the guarantee <ArrowRight size={18} /></Link>
               <a className="button button-ghost" href="#pricing">View plans <ArrowDownRight size={18} /></a>
             </div>
-            <p className="fine-print">Seven days · About one focused hour · No card · No automatic paid conversion</p>
+            <p className="fine-print">$350 · Seven days after activation · Full service-fee money-back guarantee · No automatic conversion</p>
           </div>
 
           <div className="hero-visual" aria-label="A workflow moving from a business bottleneck to a tested automation">
@@ -285,7 +270,7 @@ export default function Home() {
       <section className="pricing section-pad" id="pricing">
         <div className="section-intro centered">
           <SectionLabel>Pricing</SectionLabel>
-          <h2>Start free. Continue when the relationship is valuable.</h2>
+          <h2>Start protected. Continue only when the relationship is valuable.</h2>
         </div>
         <div className="plans">
           {plans.map((plan) => (
@@ -330,8 +315,8 @@ export default function Home() {
       <section className="final-cta section-pad">
         <SectionLabel>Get started</SectionLabel>
         <h2>Bring me one<br /><em>business problem.</em></h2>
-        <p>Start with one free week and approximately one hour of focused automation work.</p>
-        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start your free week <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/sign-in">Client sign in</Link></div>
+        <p>Start with a paid first week, approximately one hour of focused automation work, and a full service-fee money-back guarantee.</p>
+        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start with the guarantee <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/sign-in">Client sign in</Link></div>
       </section>
 
       <footer>

@@ -3,7 +3,7 @@ import { getStripeCheckoutConfig } from "@/lib/env";
 import { createStripeClient } from "@/lib/stripe";
 
 const schema = z.object({
-  plan: z.enum(["weekly", "monthly"]),
+  plan: z.enum(["first-week", "monthly"]),
   fullName: z.string().trim().min(2).max(120),
   companyName: z.string().trim().min(1).max(160),
   email: z.string().trim().email().max(254),
@@ -18,9 +18,10 @@ export async function POST(request: Request) {
     const config = getStripeCheckoutConfig();
     const stripe = createStripeClient();
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;
-    const price = parsed.data.plan === "weekly" ? config.weeklyPriceId : config.monthlyPriceId;
+    const isGuaranteedWeek = parsed.data.plan === "first-week";
+    const price = isGuaranteedWeek ? config.guaranteedFirstWeekPriceId : config.monthlyPriceId;
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
+      mode: isGuaranteedWeek ? "payment" : "subscription",
       customer_email: parsed.data.email.toLowerCase(),
       line_items: [{ price, quantity: 1 }],
       billing_address_collection: "auto",
@@ -31,16 +32,16 @@ export async function POST(request: Request) {
         plan: parsed.data.plan,
         client_name: parsed.data.fullName,
         company_name: parsed.data.companyName,
-        policy_version: "2026-08-02",
+        policy_version: "2026-08-02-guaranteed-week",
       },
-      subscription_data: {
+      ...(isGuaranteedWeek ? {} : { subscription_data: {
         metadata: {
           application: "sirotin-consulting",
           plan: parsed.data.plan,
           client_name: parsed.data.fullName,
           company_name: parsed.data.companyName,
         },
-      },
+      } }),
     });
     if (!session.url) throw new Error("Stripe did not return a checkout URL.");
     return Response.json({ url: session.url });

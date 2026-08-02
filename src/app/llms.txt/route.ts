@@ -11,8 +11,7 @@ Jason Sirotin works directly with business owners and operating teams to design,
 
 ## Engagement model
 
-- Free first week: $0, approximately one focused hour, no payment card, no automatic conversion.
-- Weekly Partner: $350 per week, approximately one substantive hour weekly, seven days' written cancellation notice.
+- Guaranteed first week: $350 one-time, approximately one focused hour during a seven-day period after activation, full $350 service-fee money-back guarantee, no automatic conversion.
 - Monthly Partner: $1,000 per month, approximately four substantive hours monthly, 30 days' written cancellation notice.
 - Standard plans support one primary directing stakeholder and one actively prioritized workstream.
 - Third-party costs require client approval and are billed separately.

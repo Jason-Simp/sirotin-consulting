@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { ArrowRight, LockKeyhole } from "lucide-react";
 
-export function CheckoutForm({ plan }: { plan: "weekly" | "monthly" }) {
+export function CheckoutForm({ plan }: { plan: "first-week" | "monthly" }) {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,7 +32,7 @@ export function CheckoutForm({ plan }: { plan: "weekly" | "monthly" }) {
     <label>Full name<input name="fullName" autoComplete="name" required /></label>
     <label>Company name<input name="companyName" autoComplete="organization" required /></label>
     <label>Email<input name="email" type="email" autoComplete="email" required /></label>
-    <label className="consent"><input type="checkbox" name="acceptedPolicies" value="yes" required /><span>I accept the <a href="/legal/terms" target="_blank">Terms and Consulting Agreement</a>, <a href="/legal/privacy" target="_blank">Privacy Policy</a>, and recurring billing for the selected plan.</span></label>
+    <label className="consent"><input type="checkbox" name="acceptedPolicies" value="yes" required /><span>I accept the <a href="/legal/terms" target="_blank">Terms and Consulting Agreement</a> and <a href="/legal/privacy" target="_blank">Privacy Policy</a>{plan === "monthly" ? ", including recurring monthly billing" : ", including the guaranteed-first-week terms"}.</span></label>
     {error && <p className="form-error" role="alert">{error}</p>}
     <button className="button button-primary" type="submit" disabled={submitting}>{submitting ? "Opening secure checkout…" : "Continue to Stripe"}<ArrowRight size={17} /></button>
     <p><LockKeyhole size={13} /> Payment details are collected by Stripe and never stored on this site.</p>

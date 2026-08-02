@@ -61,7 +61,7 @@ export default function PortfolioPage() {
       <header className="portfolio-header">
         <Link className="wordmark" href="/" aria-label="Jason Sirotin home"><span>JS</span><strong>Jason Sirotin</strong></Link>
         <Link className="portfolio-back" href="/"><ArrowLeft size={15} /> Back to the site</Link>
-        <Link className="button button-small button-light" href="/start">Start free <ArrowRight size={15} /></Link>
+        <Link className="button button-small button-light" href="/start">Get started <ArrowRight size={15} /></Link>
       </header>
 
       <section className="portfolio-hero section-pad">
@@ -139,9 +139,9 @@ export default function PortfolioPage() {
       <section className="portfolio-cta section-pad">
         <p className="section-label">/ Your workflow could be next</p>
         <h2>Bring the problem.<br /><em>I’ll build the system.</em></h2>
-        <p>Start with one free week and one focused automation opportunity.</p>
-        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start your free week <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/#pricing">View plans</Link></div>
-        <div className="portfolio-cta-notes"><span><Check size={14} /> No card</span><span><Check size={14} /> No automatic conversion</span><span><Check size={14} /> Human approval built in</span></div>
+        <p>Start with one paid, guaranteed week and one focused automation opportunity.</p>
+        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start with the guarantee <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/#pricing">View plans</Link></div>
+        <div className="portfolio-cta-notes"><span><Check size={14} /> Full $350 service-fee guarantee</span><span><Check size={14} /> No automatic conversion</span><span><Check size={14} /> Human approval built in</span></div>
       </section>
 
       <footer>

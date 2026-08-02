@@ -51,8 +51,8 @@ export async function POST(request: Request) {
         from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
         to: process.env.JASON_NOTIFICATION_EMAIL,
         replyTo: parsed.data.email,
-        subject: `Free-week request from ${parsed.data.fullName}`,
-        text: `A new free-week request was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
+        subject: `Guaranteed-week intake from ${parsed.data.fullName}`,
+        text: `A new guaranteed-first-week intake was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
       });
     }
 

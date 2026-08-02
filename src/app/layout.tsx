@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { JasonAgent } from "@/components/jason-agent";
 
 const sans = DM_Sans({
   variable: "--font-sans",
@@ -56,7 +57,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>{children}<JasonAgent agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} /></body>
     </html>
   );
 }

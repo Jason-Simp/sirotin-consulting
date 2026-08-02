@@ -6,7 +6,7 @@ Inventory completed 2026-08-02. Status labels describe how each supplied item sh
 
 | File | Type | Purpose | Status | Product impact | Treatment |
 | --- | --- | --- | --- | --- | --- |
-| `00_START_HERE.md` | Markdown | Governing project mission, commercial rules, scope, sequence, domains, and quality bar | Current; final authority | Entire product | Use directly as the first source of truth |
+| `00_START_HERE.md` | Markdown | Governing project mission, scope, sequence, domains, and quality bar | Current with August 2, 2026 override banner | Entire product | Read first; the top override and newer explicit user instructions replace historical free/weekly commercial language |
 | `Raw Docs/00_READ_ME_FIRST.txt` | Text | Index and cautionary notes for the recreated package | Supporting; current for its four DOCX files | Business, legal, launch | Preserve; use as provenance and attorney-review warning |
 | `Raw Docs/01_Jason_AI_Automation_Partner_Launch_Kit.docx` | Word document, 30 pages | Consolidated offer, website copy, sales playbook, operations, forms, agreement, policies, and launch checklist | Supporting; heavily duplicates DOCX 02-04 | Entire product | Normalize against newer master brief and `00_START_HERE.md`; do not use as an unfiltered source |
 | `Raw Docs/03_AI_Automation_Partner_Website_and_Sales_Copy.docx` | Word document, 10 pages | Offer, one-page site copy, and conversion playbook | Supporting; duplicated in launch kit | Public website and sales | Use for copy options; newer master brief wins |

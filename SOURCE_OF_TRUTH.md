@@ -10,22 +10,15 @@
 
 ## Commercial model
 
-### Free first week
+### Guaranteed First Week
 
-- $0, seven calendar days, no card, no automatic paid conversion.
+- $350 paid once, seven calendar days after activation, no automatic paid conversion.
 - Approximately one focused hour.
 - One primary contact and one clearly defined automation opportunity.
 - Private workspace access.
-- Jason explicitly activates the trial; the activation timestamp starts the seven-day clock.
-- At expiry the workspace becomes read-only unless Jason extends it or the client chooses a paid plan.
-
-### Weekly Partner
-
-- $350 charged automatically each week in advance.
-- Approximately one hour of substantive work per week.
-- Reasonable asynchronous communication.
-- One directing stakeholder and one actively prioritized workstream.
-- Seven days' written cancellation notice.
+- Jason explicitly activates the engagement; the activation timestamp starts the seven-day clock.
+- Full money-back guarantee on the $350 service fee if requested before the guarantee period ends; approved third-party costs are separate.
+- At expiry the client affirmatively chooses the monthly plan or requests the refund. There is no automatic renewal; otherwise work pauses.
 
 ### Monthly Partner
 
@@ -48,16 +41,16 @@
 The public experience is a single server-rendered page with:
 
 1. Minimal navigation and clear Jason identity.
-2. Hero: one recurring problem, an ongoing AI partner, start free.
+2. Hero: one recurring problem, an ongoing AI partner, and a protected paid start.
 3. Problem and capability framing.
 4. Five-step build/test/improve loop.
 5. Client responsibilities and human-control checkpoints.
-6. Pricing cards for free, weekly, and monthly options.
+6. Pricing cards for the guaranteed first week and monthly continuation.
 7. Scope, communication, and exclusion language.
 8. FAQ answering all required commercial and ownership questions.
 9. Final CTA and legal footer.
 
-Primary calls to action are `Start Free`, `Choose Weekly`, `Choose Monthly`, and `Sign In`.
+Primary calls to action are `Start with the guarantee`, `Choose Monthly`, and `Sign In`.
 
 ## Client portal
 
@@ -88,7 +81,8 @@ Primary calls to action are `Start Free`, `Choose Weekly`, `Choose Monthly`, and
 - Stripe Checkout, Billing, Customer Portal for payment method/invoice access, and verified webhooks.
 - Resend transactional mail with verified `automatemejay.com` sending domain and signed webhooks where used.
 - Zod validation, server-only secrets, rate limiting, idempotency, audit events, and signed file access.
-- Provider boundaries for future agent, conversation, voice, and transcription integrations; ElevenLabs is not in MVP.
+- An ElevenLabs React SDK website assistant, clearly disclosed as AI, grounded in a public-safe knowledge base, and using Jason's existing custom ElevenLabs voice.
+- Authenticated calendar webhook tools check `jason@simplsolutions.app` and `sirotin@ecgprod.com` before scheduling a confirmed 30-minute introduction. Material agent actions are audited.
 
 ## Data model
 
