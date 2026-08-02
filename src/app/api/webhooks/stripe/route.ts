@@ -21,8 +21,8 @@ export async function POST(request: Request) {
 
       if (event.type === "checkout.session.completed") {
         const session = event.data.object as Stripe.Checkout.Session;
+        const customerEmail = session.customer_details?.email ?? session.customer_email;
         if (session.metadata?.plan === "first-week" && session.payment_status === "paid") {
-          const customerEmail = session.customer_details?.email ?? session.customer_email;
           if (!customerEmail) throw new Error("Guaranteed-week checkout has no customer email.");
           const { error: engagementError } = await supabase.from("guaranteed_engagements").upsert({
             stripe_checkout_session_id: session.id,
@@ -60,6 +60,37 @@ export async function POST(request: Request) {
             status: plan === "monthly" ? "monthly_active" : "payment_required",
             started_at: new Date().toISOString(),
           }).eq("organization_id", organizationId);
+        } else if (session.metadata?.plan === "monthly" && session.subscription) {
+          const stripeSubscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription.id;
+          const stripeCustomerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
+          const { data: existingSubscription, error: lookupError } = await supabase
+            .from("subscriptions")
+            .select("organization_id")
+            .eq("stripe_subscription_id", stripeSubscriptionId)
+            .maybeSingle();
+          if (lookupError) throw lookupError;
+
+          if (!existingSubscription) {
+            const { data: organization, error: organizationError } = await supabase
+              .from("organizations")
+              .insert({ name: session.metadata?.company_name ?? customerEmail ?? "New monthly client" })
+              .select("id")
+              .single();
+            if (organizationError) throw organizationError;
+
+            const { error: subscriptionError } = await supabase.from("subscriptions").insert({
+              organization_id: organization.id,
+              plan: "monthly",
+              stripe_customer_id: stripeCustomerId,
+              stripe_subscription_id: stripeSubscriptionId,
+              status: "monthly_active",
+              started_at: new Date().toISOString(),
+            });
+            if (subscriptionError) {
+              await supabase.from("organizations").delete().eq("id", organization.id);
+              throw subscriptionError;
+            }
+          }
         }
       }
     }
