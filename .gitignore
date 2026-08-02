@@ -15,6 +15,7 @@
 /output/
 /tmp/
 /.playwright-cli/
+/supabase/.temp/
 
 # next.js
 /.next/

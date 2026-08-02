@@ -1,11 +1,26 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { enforceRateLimit, getRequestId, safeLog } from "@/lib/security";
 
 export async function sendMagicLink(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   if (!email || !email.includes("@")) redirect("/sign-in?error=invalid-email");
+
+  const request = { headers: new Headers(await headers()) };
+  const requestId = getRequestId(request);
+  let allowed = false;
+  try {
+    const rate = await enforceRateLimit({ request, requestId, route: "auth.magic_link", limit: 5, windowSeconds: 3600, subject: email });
+    allowed = rate.allowed;
+    if (!allowed) safeLog("warn", "auth.magic_link_rate_limited", { requestId });
+  } catch (error) {
+    safeLog("error", "auth.magic_link_security_check_failed", { requestId, error });
+  }
+
+  if (!allowed) redirect("/sign-in?sent=1");
 
   try {
     const supabase = await createClient();
@@ -14,10 +29,9 @@ export async function sendMagicLink(formData: FormData) {
       email,
       options: { emailRedirectTo: `${siteUrl}/auth/callback?next=/portal`, shouldCreateUser: false },
     });
-    if (error) throw error;
+    if (error) safeLog("warn", "auth.magic_link_not_sent", { requestId, error });
   } catch (error) {
-    console.error("magic_link_failed", error);
-    redirect("/sign-in?error=unavailable");
+    safeLog("error", "auth.magic_link_failed", { requestId, error });
   }
   redirect("/sign-in?sent=1");
 }

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getStripeCheckoutConfig } from "@/lib/env";
 import { createStripeClient } from "@/lib/stripe";
+import { enforceRateLimit, getRequestId, isSameOriginRequest, rateLimitResponse, readLimitedJson, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 
 const schema = z.object({
   plan: z.enum(["first-week", "weekly", "monthly"]),
@@ -11,13 +12,24 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
-  const parsed = schema.safeParse(await request.json().catch(() => null));
+  const requestId = getRequestId(request);
+  if (!isSameOriginRequest(request)) return Response.json({ error: "Request origin is not allowed." }, { status: 403 });
+  let body: unknown;
+  try {
+    body = await readLimitedJson(request);
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) return Response.json({ error: error.message }, { status: 413 });
+    throw error;
+  }
+  const parsed = schema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Complete every required field before continuing." }, { status: 400 });
 
   try {
+    const rate = await enforceRateLimit({ request, requestId, route: "checkout.create", limit: 10, windowSeconds: 3600, subject: parsed.data.email });
+    if (!rate.allowed) return rateLimitResponse(rate.retryAfter);
     const config = getStripeCheckoutConfig();
     const stripe = createStripeClient();
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com";
     const isGuaranteedWeek = parsed.data.plan === "first-week";
     const isWeekly = parsed.data.plan === "weekly";
     const lineItems = isWeekly ? [{
@@ -57,9 +69,9 @@ export async function POST(request: Request) {
       } }),
     });
     if (!session.url) throw new Error("Stripe did not return a checkout URL.");
-    return Response.json({ url: session.url });
+    return Response.json({ url: session.url }, { headers: { "Cache-Control": "no-store", "x-request-id": requestId } });
   } catch (error) {
-    console.error("stripe_checkout_failed", error);
+    safeLog("error", "checkout.create_failed", { requestId, error });
     return Response.json({ error: "Secure checkout is temporarily unavailable." }, { status: 503 });
   }
 }

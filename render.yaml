@@ -39,6 +39,8 @@ services:
         sync: false
       - key: AGENT_TOOL_SECRET
         sync: false
+      - key: SECURITY_RATE_LIMIT_SECRET
+        sync: false
       - key: GOOGLE_CALENDAR_CLIENT_ID
         sync: false
       - key: GOOGLE_CALENDAR_CLIENT_SECRET

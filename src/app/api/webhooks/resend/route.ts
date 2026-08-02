@@ -1,11 +1,19 @@
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 
 export async function POST(request: Request) {
+  const requestId = getRequestId(request);
   const webhookSecret = process.env.RESEND_WEBHOOK_SECRET;
   if (!webhookSecret) return Response.json({ error: "Webhook is not configured." }, { status: 503 });
 
-  const payload = await request.text();
+  let payload: string;
+  try {
+    payload = await readLimitedText(request, 1_048_576);
+  } catch (error) {
+    safeLog("warn", "resend.webhook_body_rejected", { requestId, error });
+    return Response.json({ error: error instanceof RequestBodyTooLargeError ? error.message : "Invalid webhook body." }, { status: error instanceof RequestBodyTooLargeError ? 413 : 400 });
+  }
   const id = request.headers.get("svix-id");
   const timestamp = request.headers.get("svix-timestamp");
   const signature = request.headers.get("svix-signature");
@@ -20,7 +28,7 @@ export async function POST(request: Request) {
     if (error) throw error;
     return Response.json({ ok: true, processed: 1 });
   } catch (error) {
-    console.error("resend_webhook_failed", error);
+    safeLog("warn", "resend.webhook_rejected", { requestId, error });
     return Response.json({ error: "Invalid or unprocessable webhook." }, { status: 400 });
   }
 }

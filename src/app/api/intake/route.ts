@@ -1,7 +1,15 @@
 import { z } from "zod";
 import { Resend } from "resend";
-import { createClient } from "@supabase/supabase-js";
-import { getSupabasePublicConfig } from "@/lib/env";
+import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  enforceRateLimit,
+  getRequestId,
+  isSameOriginRequest,
+  rateLimitResponse,
+  readLimitedJson,
+  RequestBodyTooLargeError,
+  safeLog,
+} from "@/lib/security";
 
 const schema = z.object({
   fullName: z.string().trim().min(2).max(120),
@@ -20,13 +28,34 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null);
+  const requestId = getRequestId(request);
+  if (!isSameOriginRequest(request)) {
+    safeLog("warn", "intake.origin_rejected", { requestId });
+    return Response.json({ error: "Request origin is not allowed." }, { status: 403 });
+  }
+
+  let body: unknown;
+  try {
+    body = await readLimitedJson(request);
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) return Response.json({ error: error.message }, { status: 413 });
+    throw error;
+  }
   const parsed = schema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Please review the form and complete every required field." }, { status: 400 });
 
   try {
-    const { url, publishableKey } = getSupabasePublicConfig();
-    const supabase = createClient(url, publishableKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    const rate = await enforceRateLimit({
+      request,
+      requestId,
+      route: "intake.submit",
+      limit: 5,
+      windowSeconds: 3600,
+      subject: parsed.data.email,
+    });
+    if (!rate.allowed) return rateLimitResponse(rate.retryAfter);
+
+    const supabase = createAdminClient();
     const { error } = await supabase.from("intake_requests").insert({
       full_name: parsed.data.fullName,
       email: parsed.data.email.toLowerCase(),
@@ -56,15 +85,15 @@ export async function POST(request: Request) {
           text: `A new guaranteed-first-week intake was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
         });
 
-        if (emailError) console.error("intake_notification_failed", emailError);
+        if (emailError) safeLog("error", "intake.notification_failed", { requestId, error: emailError });
       } catch (emailError) {
-        console.error("intake_notification_failed", emailError);
+        safeLog("error", "intake.notification_failed", { requestId, error: emailError });
       }
     }
 
-    return Response.json({ ok: true });
+    return Response.json({ ok: true }, { headers: { "Cache-Control": "no-store", "x-request-id": requestId } });
   } catch (error) {
-    console.error("intake_submission_failed", error);
+    safeLog("error", "intake.submission_failed", { requestId, error });
     return Response.json({ error: "The intake service is not available yet." }, { status: 503 });
   }
 }

@@ -15,7 +15,7 @@ Independent consulting website and private client-workspace foundation for `auto
 
 ## Local development
 
-Requirements: Node.js 22 or newer and pnpm.
+Requirements: Node.js 24 and pnpm.
 
 ```bash
 cp .env.example .env.local
@@ -41,6 +41,7 @@ Attach the authenticated `check_availability` and `schedule_introduction` webhoo
 
 ```bash
 pnpm check
+pnpm security:check
 ```
 
 ## Supabase
@@ -61,7 +62,7 @@ Create a Node web service from this repository with:
 - Build command: `pnpm install --frozen-lockfile && pnpm build`
 - Start command: `pnpm start`
 - Health check path: `/api/health`
-- Node version: 22 or newer
+- Node version: 24 (pinned by `.node-version` and `render.yaml`)
 
 Set the values from `.env.example` in the Render environment. Configure `automatemejay.com` as the canonical domain; `aimejay.com` is redirected by the application after both domains point at the service.
 

@@ -3,13 +3,15 @@ import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getStripeWebhookSecret } from "@/lib/env";
 import { createStripeClient } from "@/lib/stripe";
+import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 
 export async function POST(request: Request) {
+  const requestId = getRequestId(request);
   const signature = request.headers.get("stripe-signature");
   if (!signature) return Response.json({ error: "Missing Stripe signature." }, { status: 400 });
 
   try {
-    const payload = await request.text();
+    const payload = await readLimitedText(request, 1_048_576);
     const stripe = createStripeClient();
     const event = stripe.webhooks.constructEvent(payload, signature, getStripeWebhookSecret());
 
@@ -48,7 +50,7 @@ export async function POST(request: Request) {
               });
               if (confirmationEmailError) throw confirmationEmailError;
             } catch (emailError) {
-              console.error("guaranteed_week_email_failed", emailError);
+              safeLog("error", "stripe.guaranteed_week_email_failed", { requestId, error: emailError });
             }
           }
         }
@@ -117,7 +119,8 @@ export async function POST(request: Request) {
 
     return Response.json({ received: true });
   } catch (error) {
-    console.error("stripe_webhook_failed", error);
-    return Response.json({ error: "Invalid or unprocessable webhook." }, { status: 400 });
+    const status = error instanceof RequestBodyTooLargeError ? 413 : 400;
+    safeLog("warn", "stripe.webhook_rejected", { requestId, error });
+    return Response.json({ error: error instanceof RequestBodyTooLargeError ? error.message : "Invalid or unprocessable webhook." }, { status });
   }
 }

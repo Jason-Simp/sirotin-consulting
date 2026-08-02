@@ -2,6 +2,7 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createStripeClient } from "@/lib/stripe";
+import { enforceRateLimit, getRequestId, isSameOriginRequest, rateLimitResponse, readLimitedJson, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 
 const schema = z.object({
   sessionId: z.string().startsWith("cs_").max(255),
@@ -10,10 +11,21 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
-  const parsed = schema.safeParse(await request.json().catch(() => null));
+  const requestId = getRequestId(request);
+  if (!isSameOriginRequest(request)) return Response.json({ error: "Request origin is not allowed." }, { status: 403 });
+  let body: unknown;
+  try {
+    body = await readLimitedJson(request);
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) return Response.json({ error: error.message }, { status: 413 });
+    throw error;
+  }
+  const parsed = schema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Enter the email used at checkout and choose an option." }, { status: 400 });
 
   try {
+    const rate = await enforceRateLimit({ request, requestId, route: "guarantee.decision", limit: 8, windowSeconds: 3600, subject: parsed.data.email });
+    if (!rate.allowed) return rateLimitResponse(rate.retryAfter);
     const stripe = createStripeClient();
     const session = await stripe.checkout.sessions.retrieve(parsed.data.sessionId);
     const checkoutEmail = session.customer_details?.email ?? session.customer_email;
@@ -51,7 +63,7 @@ export async function POST(request: Request) {
     if (parsed.data.decision === "continue_monthly") {
       const priceId = process.env.STRIPE_MONTHLY_PRICE_ID;
       if (!priceId?.startsWith("price_")) throw new Error("Monthly Stripe price is not configured.");
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? new URL(request.url).origin;
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com";
       const monthly = await stripe.checkout.sessions.create({
         mode: "subscription",
         customer_email: checkoutEmail ?? undefined,
@@ -93,13 +105,13 @@ export async function POST(request: Request) {
           text: `A verified customer requested the full $350 first-week service-fee refund.\n\nEmail: ${parsed.data.email}\nStripe checkout session: ${session.id}\n\nProcess the refund to the original payment method.`,
         });
       } catch (emailError) {
-        console.error("guarantee_refund_notification_failed", emailError);
+        safeLog("error", "guarantee.refund_notification_failed", { requestId, error: emailError });
       }
     }
 
     return Response.json({ ok: true });
   } catch (error) {
-    console.error("guarantee_decision_failed", error);
+    safeLog("error", "guarantee.decision_failed", { requestId, error });
     return Response.json({ error: "We could not record your choice. Email hello@automatemejay.com and your guarantee request will be honored based on the time you contacted us." }, { status: 503 });
   }
 }
