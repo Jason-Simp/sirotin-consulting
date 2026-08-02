@@ -162,6 +162,7 @@ export default function Home() {
           <strong>Jason Sirotin</strong>
         </Link>
         <nav aria-label="Primary navigation">
+          <Link href="/portfolio">Portfolio</Link>
           <a href="#how-it-works">How it works</a>
           <a href="#pricing">Plans</a>
           <a href="#faq">FAQ</a>
@@ -241,6 +242,17 @@ export default function Home() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="home-portfolio-proof section-pad">
+        <div className="home-proof-metric"><span>≈90%</span><p>agent-produced execution</p></div>
+        <div className="home-proof-copy">
+          <SectionLabel>Selected work</SectionLabel>
+          <h2>Real websites. Real systems. <em>Built differently.</em></h2>
+          <p>SimplSolutions, ECG Productions, DriveOn Protection, and SchoolAmplified are four custom websites built through the same agent-assisted delivery system—directed, reviewed, and approved by people.</p>
+          <Link className="button button-primary" href="/portfolio">Explore the portfolio <ArrowRight size={17} /></Link>
+        </div>
+        <div className="home-proof-names"><span>SimplSolutions</span><span>ECG Productions</span><span>DriveOn Protection</span><span>SchoolAmplified</span></div>
       </section>
 
       <section className="working-model section-pad">
@@ -324,7 +336,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
+        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>
