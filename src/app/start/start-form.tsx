@@ -1,0 +1,72 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+
+type FormState = "idle" | "submitting" | "success" | "error";
+
+export function StartForm() {
+  const [state, setState] = useState<FormState>("idle");
+  const [message, setMessage] = useState("");
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setState("submitting");
+    setMessage("");
+    const form = new FormData(event.currentTarget);
+    const payload = Object.fromEntries(form.entries());
+
+    try {
+      const response = await fetch("/api/intake", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json()) as { ok?: boolean; error?: string };
+      if (!response.ok) throw new Error(result.error || "Could not submit your request.");
+      setState("success");
+      event.currentTarget.reset();
+    } catch (error) {
+      setState("error");
+      setMessage(error instanceof Error ? error.message : "Could not submit your request.");
+    }
+  }
+
+  if (state === "success") {
+    return (
+      <div className="form-success" role="status">
+        <CheckCircle2 size={38} />
+        <h2>Your request is in.</h2>
+        <p>I’ll review the workflow and email you with the next step. Your seven-day period does not start until I activate it.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="intake-form" onSubmit={submit}>
+      <div className="field-grid">
+        <label>Full name<input name="fullName" autoComplete="name" required /></label>
+        <label>Email<input name="email" type="email" autoComplete="email" required /></label>
+        <label>Company name<input name="companyName" autoComplete="organization" required /></label>
+        <label>Job title <small>Optional</small><input name="jobTitle" autoComplete="organization-title" /></label>
+        <label>Phone <small>Optional</small><input name="phone" type="tel" autoComplete="tel" /></label>
+        <label>Company website <small>Optional</small><input name="website" type="url" autoComplete="url" placeholder="https://" /></label>
+      </div>
+      <label>What process would you like to automate?<textarea name="process" rows={4} required /></label>
+      <label>What currently happens?<textarea name="currentProcess" rows={4} required /></label>
+      <label>What result would be useful?<textarea name="desiredResult" rows={4} required /></label>
+      <label>What systems are involved?<textarea name="systems" rows={3} required /></label>
+      <fieldset>
+        <legend>Does this process involve sensitive or regulated information?</legend>
+        <label className="radio-label"><input type="radio" name="sensitiveData" value="yes" required /> Yes</label>
+        <label className="radio-label"><input type="radio" name="sensitiveData" value="no" required /> No</label>
+        <label className="radio-label"><input type="radio" name="sensitiveData" value="unsure" required /> Unsure</label>
+      </fieldset>
+      <label className="honeypot" aria-hidden="true">Leave this empty<input name="companyFax" tabIndex={-1} autoComplete="off" /></label>
+      <label className="consent"><input type="checkbox" name="acceptedPolicies" value="yes" required /><span>I accept the <a href="/legal/terms" target="_blank">Terms and Consulting Agreement</a>, <a href="/legal/privacy" target="_blank">Privacy Policy</a>, and <a href="/legal/security" target="_blank">Data and Security Notice</a>.</span></label>
+      {state === "error" && <p className="form-error" role="alert">{message} You can also email <a href="mailto:hello@automatemejay.com">hello@automatemejay.com</a>.</p>}
+      <button className="button button-primary submit-button" type="submit" disabled={state === "submitting"}>{state === "submitting" ? "Sending…" : "Request your free week"}<ArrowRight size={18} /></button>
+      <p className="form-note">No payment information is collected. Do not include passwords, financial account numbers, health information, or other sensitive data in this form.</p>
+    </form>
+  );
+}

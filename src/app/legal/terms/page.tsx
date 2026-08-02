@@ -1,0 +1,17 @@
+import type { Metadata } from "next";
+import { SubpageHeader } from "@/components/subpage-header";
+
+export const metadata: Metadata = { title: "Terms and Consulting Agreement", robots: { index: false, follow: false } };
+
+export default function TermsPage() {
+  return <main className="subpage"><SubpageHeader /><div className="legal-page"><span className="legal-status">Draft pending legal and accounting review</span><h1>Terms and Consulting Agreement</h1><p className="legal-meta">Working version · August 2, 2026</p><article>
+    <p>These draft terms summarize the proposed standard engagement with Jason Sirotin, an independent consultant. A client must accept the final published version before work is activated.</p>
+    <h2>Service model</h2><p>Services may include planning, research, implementation, troubleshooting, documentation, and improvement of AI-enabled or automated workflows. Each standard plan supports one primary directing stakeholder and one actively prioritized workstream. The relationship is nonexclusive.</p>
+    <h2>Plans and payment</h2><ul><li>Free week: $0, approximately one hour of focused work, no card required, and no automatic paid conversion.</li><li>Weekly Partner: $350 per week through automatic payment.</li><li>Monthly Partner: $1,000 per month paid automatically in advance.</li></ul><p>Approved third-party expenses are additional. Pricing describes available capacity, not a client-facing minute-by-minute timecard.</p>
+    <h2>Cancellation</h2><p>The weekly plan requires seven days’ written notice. The monthly plan requires 30 days’ written notice. Service and scheduled charges continue through the effective cancellation date. A request must be submitted through the client workspace or another accepted written channel.</p>
+    <h2>Client responsibilities</h2><p>The client supplies timely access and accurate information, tests deliveries, prioritizes requests, approves production use, maintains backups, monitors results, and applies appropriate human review. Meetings, emergency support, 24/7 availability, guaranteed immediate responses, and continuous production monitoring are not included unless separately agreed.</p>
+    <h2>Ownership and reuse</h2><p>The client owns its data and paid client-specific deliverables. Jason retains preexisting technology and reusable components, templates, methods, prompts, frameworks, tools, and general know-how. Confidential client information will not be disclosed or reused improperly.</p>
+    <h2>No guaranteed outcome</h2><p>Automations require testing and iteration. Results depend on the client’s systems, data, cooperation, third-party services, technical feasibility, and intended use. No particular business outcome, uninterrupted operation, or error-free result is guaranteed.</p>
+    <h2>Final terms required</h2><p>Liability limits, indemnification, dispute terms, governing law, notice address, tax treatment, and legal payee details remain subject to professional review before launch. Questions may be sent to <a href="mailto:hello@automatemejay.com">hello@automatemejay.com</a>.</p>
+  </article></div></main>;
+}
