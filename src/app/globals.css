@@ -337,6 +337,20 @@ footer { padding: 4rem max(5vw, 1.25rem) 2rem; background: #0d0e0c; color: #fff;
 .checkout-summary { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; max-width: 800px; margin: 2rem auto 0; }
 .checkout-summary span { display: flex; align-items: center; gap: .5rem; border: 1px solid var(--line); border-radius: 999px; padding: .55rem .8rem; font-size: .72rem; }
 .checkout-summary svg { color: var(--orange); }
+.checkout-layout { display: grid; min-height: calc(100vh - 65px); grid-template-columns: .8fr 1fr; gap: 8vw; align-items: center; padding: 5rem max(5vw, 1.25rem); }
+.checkout-layout h1 { margin: 1rem 0; font-size: clamp(4rem, 8vw, 8rem); font-weight: 520; letter-spacing: -.075em; line-height: .86; }
+.checkout-layout h1 span { display: block; margin-top: .75rem; color: var(--muted); font-family: var(--font-sans), sans-serif; font-size: .95rem; font-weight: 500; letter-spacing: 0; }
+.checkout-layout section > p:not(.section-label) { max-width: 540px; color: var(--muted); }
+.checkout-layout .checkout-summary { justify-content: flex-start; margin: 2rem 0 0; }
+.test-badge { display: inline-flex; border-radius: 999px; padding: .4rem .7rem; background: #fff0b8; color: #6e5300; font-family: var(--font-mono), monospace; font-size: .62rem; text-transform: uppercase; }
+.checkout-form { border: 1px solid var(--line); border-radius: 1.1rem; padding: clamp(1.5rem, 4vw, 3rem); background: rgba(255,255,255,.48); }
+.checkout-form > label:not(.consent) { display: block; margin-bottom: 1rem; font-size: .74rem; font-weight: 650; }
+.checkout-form input:not([type="checkbox"]) { display: block; width: 100%; margin-top: .4rem; border: 1px solid var(--line); border-radius: .55rem; outline: none; padding: .85rem; background: #fff; font: inherit; }
+.checkout-form input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,108,53,.12); }
+.checkout-form .button { width: 100%; border: 0; cursor: pointer; }
+.checkout-form .button:disabled { cursor: wait; opacity: .65; }
+.checkout-form > p:last-child { display: flex; align-items: center; justify-content: center; gap: .4rem; margin: .8rem 0 0; color: var(--muted); font-size: .66rem; }
+.success-icon { margin-bottom: 1.5rem; color: #527c21; }
 
 .portal-shell { display: grid; min-height: 100vh; grid-template-columns: 240px 1fr; background: #eae7de; }
 .portal-nav { padding: 1.5rem; background: var(--ink); color: #fff; }
@@ -374,6 +388,7 @@ footer { padding: 4rem max(5vw, 1.25rem) 2rem; background: #0d0e0c; color: #fff;
   .boundary-copy { grid-column: 2; }
   .intake-layout { grid-template-columns: 1fr; }
   .intake-layout aside { position: static; }
+  .checkout-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {

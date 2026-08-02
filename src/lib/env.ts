@@ -25,21 +25,23 @@ export function getSupabaseAdminConfig() {
   return { ...publicConfig, secretKey };
 }
 
-export function getStripeConfig() {
+export function getStripeCheckoutConfig() {
   const parsed = z.object({
     secretKey: z.string().min(1),
-    webhookSecret: z.string().min(1),
     weeklyPriceId: z.string().startsWith("price_"),
     monthlyPriceId: z.string().startsWith("price_"),
   }).safeParse({
     secretKey: process.env.STRIPE_SECRET_KEY,
-    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     weeklyPriceId: process.env.STRIPE_WEEKLY_PRICE_ID,
     monthlyPriceId: process.env.STRIPE_MONTHLY_PRICE_ID,
   });
 
   if (!parsed.success) throw new Error("Stripe is not fully configured.");
   return parsed.data;
+}
+
+export function getStripeWebhookSecret() {
+  return z.string().startsWith("whsec_").parse(process.env.STRIPE_WEBHOOK_SECRET);
 }
 
 export function getResendConfig() {
