@@ -47,13 +47,18 @@ export const metadata: Metadata = {
     title: "Build better business automations with an ongoing AI partner.",
     description:
       "Bring one recurring problem. We will turn it into a working process.",
-    images: [{ url: "/automation-workflow-social.png", width: 1731, height: 909, alt: "Multiple business processes resolving into one clear automation workflow" }],
+    images: [{
+      url: "/jason-sirotin-ai-automation-og.png",
+      width: 1200,
+      height: 630,
+      alt: "Jason Sirotin, your AI automation partner — real systems built fast and human approved",
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Jason Sirotin — AI Automation Partner",
     description: "Practical AI automation consulting for operating teams.",
-    images: ["/automation-workflow-social.png"],
+    images: ["/jason-sirotin-ai-automation-og.png"],
   },
 };
 
