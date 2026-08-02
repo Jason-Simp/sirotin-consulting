@@ -240,15 +240,24 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-portfolio-proof section-pad">
-        <div className="home-proof-metric"><span>95%</span><p>agent-produced execution</p></div>
-        <div className="home-proof-copy">
-          <SectionLabel>Selected work</SectionLabel>
-          <h2>Real websites. Real systems. <em>Built differently.</em></h2>
-          <p>SimplSolutions, ECG Productions, DriveOn Protection, SchoolAmplified, SimplDemocracy, and SimplCity Manchester are six live web experiences built through the same agent-assisted delivery system—directed, reviewed, and approved by people.</p>
-          <Link className="button button-primary" href="/portfolio">Explore the portfolio <ArrowRight size={17} /></Link>
-        </div>
-        <div className="home-proof-names"><span>SimplSolutions</span><span>ECG Productions</span><span>DriveOn Protection</span><span>SchoolAmplified</span><span>SimplDemocracy</span><span>SimplCity Manchester</span></div>
+      <section className="home-portfolio-section" aria-label="Selected work">
+        <details className="home-portfolio-accordion">
+          <summary>
+            <span className="home-portfolio-kicker">/ Selected work</span>
+            <strong>Explore the agent-built portfolio</strong>
+            <span className="home-portfolio-summary-action">Six live projects <b aria-hidden="true">+</b></span>
+          </summary>
+          <div className="home-portfolio-proof section-pad">
+            <div className="home-proof-metric"><span>95%</span><p>agent-produced execution</p></div>
+            <div className="home-proof-copy">
+              <SectionLabel>Selected work</SectionLabel>
+              <h2>Real websites. Real systems. <em>Built differently.</em></h2>
+              <p>SimplSolutions, ECG Productions, DriveOn Protection, SchoolAmplified, SimplDemocracy, and SimplCity Manchester are six live web experiences built through the same agent-assisted delivery system—directed, reviewed, and approved by people.</p>
+              <Link className="button button-primary" href="/portfolio">Explore the portfolio <ArrowRight size={17} /></Link>
+            </div>
+            <div className="home-proof-names"><span>SimplSolutions</span><span>ECG Productions</span><span>DriveOn Protection</span><span>SchoolAmplified</span><span>SimplDemocracy</span><span>SimplCity Manchester</span></div>
+          </div>
+        </details>
       </section>
 
       <section className="working-model section-pad" id="working-model">
