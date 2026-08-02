@@ -3,12 +3,21 @@ import Link from "next/link";
 import {
   ArrowDownRight,
   ArrowRight,
+  Blocks,
+  CalendarDays,
+  CalendarRange,
   Check,
+  CircleDotDashed,
+  FlaskConical,
   MessageSquareText,
+  RefreshCw,
+  SearchCheck,
   ShieldCheck,
+  SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
 import { MobileNavigation } from "@/components/mobile-navigation";
+import { HomePortfolioAccordion } from "@/components/home-portfolio-accordion";
 
 const mobileNavigation = [
   { href: "/portfolio", label: "Portfolio" },
@@ -42,11 +51,11 @@ const capabilities = [
 ];
 
 const steps = [
-  ["Choose the problem", "Identify one recurring task, bottleneck, or process that is consuming time or creating inconsistency."],
-  ["Build the first iteration", "I design and build the first practical version around the real way your business operates."],
-  ["Test it", "You test the work, report what happened, and explain what needs to change."],
-  ["Improve it", "I use your feedback to refine the automation and move it closer to the result your business needs."],
-  ["Keep moving", "Once the active workstream is stable, we improve it further or move the next idea into the queue."],
+  { title: "Choose the problem", description: "Identify one recurring task, bottleneck, or process that is consuming time or creating inconsistency.", Icon: SearchCheck },
+  { title: "Build the first iteration", description: "I design and build the first practical version around the real way your business operates.", Icon: Blocks },
+  { title: "Test it", description: "You test the work, report what happened, and explain what needs to change.", Icon: FlaskConical },
+  { title: "Improve it", description: "I use your feedback to refine the automation and move it closer to the result your business needs.", Icon: SlidersHorizontal },
+  { title: "Keep moving", description: "Once the active workstream is stable, we improve it further or move the next idea into the queue.", Icon: RefreshCw },
 ];
 
 const plans = [
@@ -67,6 +76,26 @@ const plans = [
     href: "/start",
     action: "Start with the guarantee",
     featured: true,
+    Icon: ShieldCheck,
+  },
+  {
+    name: "Weekly partner",
+    price: "$350",
+    cadence: "per week",
+    description: "Simple week-to-week access when flexibility matters most.",
+    features: [
+      "Ongoing partner access",
+      "Approximately one hour of substantive work weekly",
+      "One primary directing stakeholder",
+      "One actively prioritized workstream",
+      "Cancel anytime in your membership",
+      "Service continues through the paid week",
+      "No further weekly charge after cancellation",
+    ],
+    href: "/checkout/weekly",
+    action: "Choose weekly",
+    featured: false,
+    Icon: CalendarDays,
   },
   {
     name: "Monthly partner",
@@ -80,19 +109,39 @@ const plans = [
       "Reasonable asynchronous communication",
       "One primary directing stakeholder",
       "One actively prioritized workstream",
-      "Thirty days’ cancellation notice",
+      "A 30-day billing period",
+      "Cancel anytime in your membership",
+      "No further monthly charge after the paid period",
     ],
     href: "/checkout/monthly",
     action: "Choose monthly",
     featured: false,
+    Icon: CalendarRange,
+  },
+  {
+    name: "One-off additions",
+    price: "Quoted",
+    cadence: "one-time",
+    description: "Clearly scoped additions, builds, audits, or fixes purchased only when needed.",
+    features: [
+      "A defined deliverable and price",
+      "No subscription required",
+      "Secure one-time Stripe checkout",
+      "Products can be added as needs arise",
+      "Separate approval before work begins",
+    ],
+    href: "/one-off",
+    action: "View one-off work",
+    featured: false,
+    Icon: Sparkles,
   },
 ];
 
 const faqs = [
   ["How does the first-week guarantee work?", "You pay $350 for the seven-day introductory engagement. If it is not the right fit, request your full $350 service-fee refund before the guarantee period ends. Approved third-party expenses are separate and are not part of the refund."],
-  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to continue on the $1,000 monthly plan or request your money back."],
+  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to continue on a weekly or monthly membership or request your money back."],
   ["When does the seven-day period start?", "It begins when Jason confirms that your engagement is activated—not simply when you submit the intake form."],
-  ["Can I purchase the monthly plan immediately?", "Yes. You may select the monthly plan directly if you are ready for an ongoing relationship."],
+  ["Can I purchase an ongoing plan immediately?", "Yes. You may select the weekly or monthly plan directly if you are ready for an ongoing relationship."],
   ["What does “approximately one hour” mean?", "The service is priced around approximately one hour of substantive work per week. Research, planning, building, debugging, documentation, and substantive consulting use the available working capacity."],
   ["Is chat included?", "Reasonable asynchronous communication related to the active workstream is included."],
   ["Does real-time chat mean an immediate response?", "No. Messages appear immediately in the workspace, but Jason responds asynchronously based on workload, complexity, priority, and availability."],
@@ -104,7 +153,7 @@ const faqs = [
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
-  ["Can I cancel?", "The monthly plan requires 30 days’ written notice. The guaranteed first week does not renew automatically."],
+  ["Can I cancel?", "Yes. Monthly and weekly memberships can be canceled through the client membership area at any time. Service remains available through the current paid billing period, and no future renewal is charged. The guaranteed first week and one-off work do not renew automatically."],
 ];
 
 const jsonLd = {
@@ -123,7 +172,7 @@ const jsonLd = {
       name: "AI Automation Partner",
       provider: { "@id": "https://automatemejay.com/#jason" },
       description: "Ongoing consulting to design, build, troubleshoot, and improve practical AI-enabled workflows.",
-      offers: plans.map((plan) => ({
+      offers: plans.filter((plan) => plan.price.startsWith("$")).map((plan) => ({
         "@type": "Offer",
         name: plan.name,
         price: plan.price.replace(/[$,]/g, ""),
@@ -231,40 +280,22 @@ export default function Home() {
           <p>Focused building, real-world testing, clear feedback, and repeated improvement.</p>
         </div>
         <div className="steps">
-          {steps.map(([title, description], index) => (
+          {steps.map(({ title, description, Icon }, index) => (
             <article key={title} className="step">
-              <span>0{index + 1}</span>
+              <div className="step-top"><span>0{index + 1}</span><Icon size={25} aria-hidden="true" /></div>
               <div><h3>{title}</h3><p>{description}</p></div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="home-portfolio-section" aria-label="Selected work">
-        <details className="home-portfolio-accordion">
-          <summary>
-            <span className="home-portfolio-kicker">/ Selected work</span>
-            <strong>Explore the agent-built portfolio</strong>
-            <span className="home-portfolio-summary-action">Six live projects <b aria-hidden="true">+</b></span>
-          </summary>
-          <div className="home-portfolio-proof section-pad">
-            <div className="home-proof-metric"><span>95%</span><p>agent-produced execution</p></div>
-            <div className="home-proof-copy">
-              <SectionLabel>Selected work</SectionLabel>
-              <h2>Real websites. Real systems. <em>Built differently.</em></h2>
-              <p>SimplSolutions, ECG Productions, DriveOn Protection, SchoolAmplified, SimplDemocracy, and SimplCity Manchester are six live web experiences built through the same agent-assisted delivery system—directed, reviewed, and approved by people.</p>
-              <Link className="button button-primary" href="/portfolio">Explore the portfolio <ArrowRight size={17} /></Link>
-            </div>
-            <div className="home-proof-names"><span>SimplSolutions</span><span>ECG Productions</span><span>DriveOn Protection</span><span>SchoolAmplified</span><span>SimplDemocracy</span><span>SimplCity Manchester</span></div>
-          </div>
-        </details>
-      </section>
+      <HomePortfolioAccordion />
 
       <section className="working-model section-pad" id="working-model">
         <div className="working-model-card">
           <div className="model-statement">
             <SectionLabel>The working model</SectionLabel>
-            <h2>I build.<br />You test.<br /><em>Together, we improve.</em></h2>
+            <h2 aria-label="I build. You test. Together, we improve.">I build.<br />You test.<br /><em>Together, we improve.</em></h2>
           </div>
           <div className="model-detail">
             <div className="model-icon"><MessageSquareText size={30} /></div>
@@ -289,6 +320,25 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="visual-proof section-pad">
+        <div className="visual-proof-copy">
+          <SectionLabel>Inside the work</SectionLabel>
+          <h2>Built for the actual business—not a generic demo.</h2>
+          <p>Each system gets its own structure, visual language, workflows, and safeguards. The interface is only the visible layer; the real work is how everything connects behind it.</p>
+          <div className="jason-note"><div className="jason-note-avatar"><Image src="/jason-sirotin-headshot.png" alt="Jason Sirotin" fill sizes="64px" /></div><p><strong>Directed by Jason.</strong><br />Built with agents. Reviewed by people.</p></div>
+        </div>
+        <div className="application-shots">
+          <a href="https://www.simplsolutions.app/" target="_blank" rel="noreferrer" className="application-shot application-shot-large">
+            <Image src="/portfolio/simplsolutions.jpg" alt="SimplSolutions application portfolio" fill sizes="(max-width: 900px) 100vw, 55vw" />
+            <span><CircleDotDashed size={16} /> SimplSolutions <ArrowDownRight size={16} /></span>
+          </a>
+          <a href="https://simplsite.app/cities/manchester-new-hampshire#ask" target="_blank" rel="noreferrer" className="application-shot application-shot-small">
+            <Image src="/portfolio/simplcity.jpg" alt="SimplCity Manchester application" fill sizes="(max-width: 900px) 90vw, 34vw" />
+            <span><CircleDotDashed size={16} /> SimplCity Manchester <ArrowDownRight size={16} /></span>
+          </a>
+        </div>
+      </section>
+
       <section className="pricing section-pad" id="pricing">
         <div className="section-intro centered">
           <SectionLabel>Pricing</SectionLabel>
@@ -298,6 +348,7 @@ export default function Home() {
           {plans.map((plan) => (
             <article className={`plan ${plan.featured ? "featured" : ""}`} key={plan.name}>
               {plan.featured && <div className="plan-badge"><Sparkles size={13} /> Money-back guarantee</div>}
+              <div className="plan-icon"><plan.Icon size={22} aria-hidden="true" /></div>
               <p className="plan-name">{plan.name}</p>
               <div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div>
               <p className="plan-description">{plan.description}</p>
@@ -360,7 +411,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
+        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>

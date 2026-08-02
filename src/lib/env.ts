@@ -40,6 +40,15 @@ export function getStripeCheckoutConfig() {
   return parsed.data;
 }
 
+export function hasStripeCheckoutConfig() {
+  try {
+    getStripeCheckoutConfig();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function getGoogleCalendarConfig() {
   const parsed = z.object({
     clientId: z.string().min(1),

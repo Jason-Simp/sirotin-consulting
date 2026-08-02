@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Bot, Check, Eye, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Bot, Check, Eye, Globe2, Sparkles } from "lucide-react";
 import { PortfolioGallery } from "./portfolio-gallery";
 import { MobileNavigation } from "@/components/mobile-navigation";
 
@@ -115,20 +114,14 @@ export default function PortfolioPage() {
           <div><p className="section-label">/ Custom-built websites</p><h2>Six live examples.<br /><em>Six different problems.</em></h2></div>
           <p>These are not templates with a new logo. Each site was shaped around a different audience, business model, conversion path, and operating reality.</p>
         </div>
-        <div className="featured-sites-grid">
+        <div className="featured-site-links">
           {featured.map((item, index) => (
-            <article className="featured-site" key={item.name}>
-              <a className="featured-site-image" href={item.href} target="_blank" rel="noreferrer" aria-label={`Visit ${item.name}`}>
-                <Image src={item.image} alt={`${item.name} website homepage`} fill loading={index < 2 ? "eager" : "lazy"} sizes="(max-width: 900px) 100vw, 50vw" />
-                <span><ArrowUpRight size={17} /> Visit live site</span>
-              </a>
-              <div className="featured-site-copy">
-                <div><span>0{index + 1}</span><p>{item.sector}</p></div>
-                <h3>{item.name}</h3>
-                <p>{item.summary}</p>
-                <div className="featured-site-tags"><span>Custom UX</span><span>Agent-produced</span><span>Human-approved</span></div>
-              </div>
-            </article>
+            <a className="featured-site-link" href={item.href} target="_blank" rel="noreferrer" aria-label={`Visit ${item.name}`} key={item.name}>
+              <span>0{index + 1}</span>
+              <Globe2 size={21} aria-hidden="true" />
+              <div><p>{item.sector}</p><h3>{item.name}</h3><small>{item.summary}</small></div>
+              <ArrowUpRight size={22} aria-hidden="true" />
+            </a>
           ))}
         </div>
       </section>
@@ -155,7 +148,7 @@ export default function PortfolioPage() {
       <section className="all-work section-pad" id="all-work">
         <div className="portfolio-section-heading">
           <div><p className="section-label">/ Project index</p><h2>The complete<br /><em>working portfolio.</em></h2></div>
-          <p>Search and filter across public websites, AI product experiences, campaign systems, and private operational tools.</p>
+            <p>Open a category to explore public websites, AI product experiences, campaign systems, and private operational tools.</p>
         </div>
         <PortfolioGallery />
       </section>
@@ -170,7 +163,7 @@ export default function PortfolioPage() {
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/">Home</Link><Link href="/portfolio">Portfolio</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link></div>
+        <div className="footer-links"><Link href="/">Home</Link><Link href="/portfolio">Portfolio</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>

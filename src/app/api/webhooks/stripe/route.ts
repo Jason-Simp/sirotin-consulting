@@ -58,10 +58,12 @@ export async function POST(request: Request) {
           await supabase.from("subscriptions").update({
             stripe_customer_id: typeof session.customer === "string" ? session.customer : session.customer?.id,
             stripe_subscription_id: typeof session.subscription === "string" ? session.subscription : session.subscription?.id,
-            status: plan === "monthly" ? "monthly_active" : "payment_required",
+            plan: plan === "weekly" ? "weekly" : "monthly",
+            status: plan === "weekly" ? "weekly_active" : plan === "monthly" ? "monthly_active" : "payment_required",
             started_at: new Date().toISOString(),
           }).eq("organization_id", organizationId);
-        } else if (session.metadata?.plan === "monthly" && session.subscription) {
+        } else if ((session.metadata?.plan === "weekly" || session.metadata?.plan === "monthly") && session.subscription) {
+          const plan = session.metadata.plan;
           const stripeSubscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription.id;
           const stripeCustomerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
           const { data: existingSubscription, error: lookupError } = await supabase
@@ -74,17 +76,17 @@ export async function POST(request: Request) {
           if (!existingSubscription) {
             const { data: organization, error: organizationError } = await supabase
               .from("organizations")
-              .insert({ name: session.metadata?.company_name ?? customerEmail ?? "New monthly client" })
+              .insert({ name: session.metadata?.company_name ?? customerEmail ?? `New ${plan} client` })
               .select("id")
               .single();
             if (organizationError) throw organizationError;
 
             const { error: subscriptionError } = await supabase.from("subscriptions").insert({
               organization_id: organization.id,
-              plan: "monthly",
+              plan,
               stripe_customer_id: stripeCustomerId,
               stripe_subscription_id: stripeSubscriptionId,
-              status: "monthly_active",
+              status: plan === "weekly" ? "weekly_active" : "monthly_active",
               started_at: new Date().toISOString(),
             });
             if (subscriptionError) {
@@ -93,6 +95,23 @@ export async function POST(request: Request) {
             }
           }
         }
+      }
+
+      if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
+        const subscription = event.data.object as Stripe.Subscription;
+        const plan = subscription.metadata.plan === "weekly" ? "weekly" : "monthly";
+        const deleted = event.type === "customer.subscription.deleted";
+        const canceling = !deleted && subscription.cancel_at_period_end;
+        const cancellationEffectiveAt = subscription.cancel_at
+          ? new Date(subscription.cancel_at * 1000).toISOString()
+          : null;
+        const { error: subscriptionUpdateError } = await supabase.from("subscriptions").update({
+          plan,
+          status: deleted ? "canceled" : canceling ? "cancellation_notice" : plan === "weekly" ? "weekly_active" : "monthly_active",
+          cancellation_requested_at: deleted || canceling ? new Date().toISOString() : null,
+          cancellation_effective_at: deleted ? new Date().toISOString() : cancellationEffectiveAt,
+        }).eq("stripe_subscription_id", subscription.id);
+        if (subscriptionUpdateError) throw subscriptionUpdateError;
       }
     }
 
