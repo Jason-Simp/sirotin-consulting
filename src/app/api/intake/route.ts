@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { Resend } from "resend";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@supabase/supabase-js";
+import { getSupabasePublicConfig } from "@/lib/env";
 
 const schema = z.object({
   fullName: z.string().trim().min(2).max(120),
@@ -24,8 +25,9 @@ export async function POST(request: Request) {
   if (!parsed.success) return Response.json({ error: "Please review the form and complete every required field." }, { status: 400 });
 
   try {
-    const supabase = createAdminClient();
-    const { data, error } = await supabase.from("intake_requests").insert({
+    const { url, publishableKey } = getSupabasePublicConfig();
+    const supabase = createClient(url, publishableKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    const { error } = await supabase.from("intake_requests").insert({
       full_name: parsed.data.fullName,
       email: parsed.data.email.toLowerCase(),
       company_name: parsed.data.companyName,
@@ -40,7 +42,7 @@ export async function POST(request: Request) {
       policy_version: "2026-08-02",
       request_ip: request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null,
       user_agent: request.headers.get("user-agent"),
-    }).select("id").single();
+    });
     if (error) throw error;
 
     if (process.env.RESEND_API_KEY && process.env.JASON_NOTIFICATION_EMAIL) {
@@ -50,7 +52,7 @@ export async function POST(request: Request) {
         to: process.env.JASON_NOTIFICATION_EMAIL,
         replyTo: parsed.data.email,
         subject: `Free-week request from ${parsed.data.fullName}`,
-        text: `A new free-week request was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}\n\nIntake ID: ${data.id}`,
+        text: `A new free-week request was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
       });
     }
 
