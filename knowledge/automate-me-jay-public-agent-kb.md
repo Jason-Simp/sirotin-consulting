@@ -67,14 +67,16 @@ Never describe the first week as free. Never describe the $350 payment as a recu
 
 The portfolio center at https://automatemejay.com/portfolio shows websites, systems, and product work created through Jason’s agent-assisted delivery process.
 
-Four highlighted custom websites are:
+Six highlighted live web experiences are:
 
 - SimplSolutions — https://www.simplsolutions.app/
 - ECG Productions — https://www.ecgprod.com/
 - DriveOn Protection — https://www.driveonprotection.com/
 - SchoolAmplified — https://www.schoolamplified.com/
+- SimplDemocracy — https://simpldemocracy.app/
+- SimplCity — Manchester, New Hampshire — https://simplsite.app/cities/manchester-new-hampshire#ask
 
-These sites were built using an agent-assisted system in which agents performed approximately 90% of the execution, while people directed the strategy, reviewed the work, made consequential decisions, and approved release. Describe that figure as an estimate or “approximately 90%,” not an independently audited measurement.
+These experiences were built using an agent-assisted system in which agents performed approximately 95% of the execution, while people directed the strategy, reviewed the work, made consequential decisions, and approved release. Describe that figure as an estimate or “approximately 95%,” not an independently audited measurement.
 
 ## Thirty-minute introduction meetings
 

@@ -48,6 +48,20 @@ const featured = [
     sector: "K–12 intelligence",
     summary: "A district-ready platform narrative built around governance, public trust, operational continuity, and pilot adoption.",
   },
+  {
+    name: "SimplDemocracy",
+    href: "https://simpldemocracy.app/",
+    image: "/portfolio/simpldemocracy.jpg",
+    sector: "Civic intelligence",
+    summary: "A public-facing civic information platform designed to make complex issues understandable, source-grounded, and easier to explore.",
+  },
+  {
+    name: "SimplCity — Manchester, NH",
+    href: "https://simplsite.app/cities/manchester-new-hampshire#ask",
+    image: "/portfolio/simplcity.jpg",
+    sector: "Municipal AI experience",
+    summary: "A Manchester-focused city guide that gives residents and visitors a conversational way to explore local information and services.",
+  },
 ];
 
 const itemListJsonLd = {
@@ -85,7 +99,7 @@ export default function PortfolioPage() {
           </div>
         </div>
         <div className="agent-proof-card">
-          <div className="agent-proof-value"><span>≈</span>90<sup>%</sup></div>
+          <div className="agent-proof-value" aria-label="95 percent agent-produced execution">95<span>%</span></div>
           <p>agent-produced execution</p>
           <div className="agent-proof-line"><span /><i /></div>
           <ul>
@@ -98,7 +112,7 @@ export default function PortfolioPage() {
 
       <section className="featured-work section-pad" id="featured-work">
         <div className="portfolio-section-heading">
-          <div><p className="section-label">/ Custom-built websites</p><h2>Four live examples.<br /><em>Four different problems.</em></h2></div>
+          <div><p className="section-label">/ Custom-built websites</p><h2>Six live examples.<br /><em>Six different problems.</em></h2></div>
           <p>These are not templates with a new logo. Each site was shaped around a different audience, business model, conversion path, and operating reality.</p>
         </div>
         <div className="featured-sites-grid">
