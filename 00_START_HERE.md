@@ -2,6 +2,8 @@ Use this as the first file the agent sees. Name it **`00_START_HERE.md`** and pl
 
 # START HERE: AUTOMATEMEJAY WEBSITE AND CLIENT PORTAL
 
+> **NON-NEGOTIABLE RENDER SAFETY RULE:** This repository may use only Jason's Render workspace `tea-d8ujm2po3t8c73drl260` through `jason@brainbytescreative.com`, and only the `sirotin-consulting` service `srv-d9nonab7uimc739d1emg`. Savvy's workspace `tea-d8smb5m7r5hc73fmjdu0` is forbidden. Never enter, select, inspect, query, deploy to, configure, bill, or modify it, even temporarily. Every Render connector call must pass Jason's allowed workspace ID explicitly. Never use the Render CLI directly; use `pnpm render:safe -- <render arguments>`, which fails closed unless the active workspace is exactly the allowed workspace. See `AGENTS.md`.
+
 > **CURRENT COMMERCIAL AND AGENT OVERRIDE — AUGUST 2, 2026:** A newer explicit instruction replaces every older reference in this document to a free trial, free first week, or public weekly plan. The current entry offer is a one-time **$350 Guaranteed First Week** with a full money-back guarantee on the $350 service fee, no automatic conversion, and an affirmative choice to continue at **$1,000 per month** or request the refund before the seven-day guarantee period ends. The site also includes a clearly disclosed ElevenLabs AI assistant using Jason's custom voice, with audited tools that check both of Jason's calendars before booking a confirmed 30-minute introduction. The current implementation and public-safe agent rules live in `SOURCE_OF_TRUTH.md` and `knowledge/automate-me-jay-public-agent-kb.md`.
 
 ## Project mission

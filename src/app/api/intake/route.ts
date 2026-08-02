@@ -46,14 +46,20 @@ export async function POST(request: Request) {
     if (error) throw error;
 
     if (process.env.RESEND_API_KEY && process.env.JASON_NOTIFICATION_EMAIL) {
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
-        to: process.env.JASON_NOTIFICATION_EMAIL,
-        replyTo: parsed.data.email,
-        subject: `Guaranteed-week intake from ${parsed.data.fullName}`,
-        text: `A new guaranteed-first-week intake was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
-      });
+      try {
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        const { error: emailError } = await resend.emails.send({
+          from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
+          to: process.env.JASON_NOTIFICATION_EMAIL,
+          replyTo: parsed.data.email,
+          subject: `Guaranteed-week intake from ${parsed.data.fullName}`,
+          text: `A new guaranteed-first-week intake was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
+        });
+
+        if (emailError) console.error("intake_notification_failed", emailError);
+      } catch (emailError) {
+        console.error("intake_notification_failed", emailError);
+      }
     }
 
     return Response.json({ ok: true });

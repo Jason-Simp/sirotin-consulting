@@ -12,9 +12,10 @@ export function StartForm() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const formElement = event.currentTarget;
     setState("submitting");
     setMessage("");
-    const form = new FormData(event.currentTarget);
+    const form = new FormData(formElement);
     const payload = Object.fromEntries(form.entries());
 
     try {
@@ -25,8 +26,8 @@ export function StartForm() {
       });
       const result = (await response.json()) as { ok?: boolean; error?: string };
       if (!response.ok) throw new Error(result.error || "Could not submit your request.");
+      formElement.reset();
       setState("success");
-      event.currentTarget.reset();
     } catch (error) {
       setState("error");
       setMessage(error instanceof Error ? error.message : "Could not submit your request.");
@@ -54,10 +55,10 @@ export function StartForm() {
         <label>Phone <small>Optional</small><input name="phone" type="tel" autoComplete="tel" /></label>
         <label>Company website <small>Optional</small><input name="website" type="url" autoComplete="url" placeholder="https://" /></label>
       </div>
-      <label>What process would you like to automate?<textarea name="process" rows={4} required /></label>
-      <label>What currently happens?<textarea name="currentProcess" rows={4} required /></label>
-      <label>What result would be useful?<textarea name="desiredResult" rows={4} required /></label>
-      <label>What systems are involved?<textarea name="systems" rows={3} required /></label>
+      <label>What process would you like to automate? <small>At least 10 characters</small><textarea name="process" rows={4} minLength={10} required /></label>
+      <label>What currently happens? <small>At least 10 characters</small><textarea name="currentProcess" rows={4} minLength={10} required /></label>
+      <label>What result would be useful? <small>At least 10 characters</small><textarea name="desiredResult" rows={4} minLength={10} required /></label>
+      <label>What systems are involved? <small>At least 2 characters</small><textarea name="systems" rows={3} minLength={2} required /></label>
       <fieldset>
         <legend>Does this process involve sensitive or regulated information?</legend>
         <label className="radio-label"><input type="radio" name="sensitiveData" value="yes" required /> Yes</label>
