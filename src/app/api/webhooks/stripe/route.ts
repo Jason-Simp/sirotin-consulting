@@ -39,13 +39,14 @@ export async function POST(request: Request) {
             const decisionUrl = `${siteUrl}/guarantee?session_id=${encodeURIComponent(session.id)}`;
             const resend = new Resend(process.env.RESEND_API_KEY);
             try {
-              await resend.emails.send({
+              const { error: confirmationEmailError } = await resend.emails.send({
                 from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
                 to: customerEmail,
                 replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
                 subject: "Your guaranteed first week with Jason",
                 text: `Your $350 payment is confirmed. Jason will review your intake and confirm when the seven-day working period is activated.\n\nThe first week does not renew automatically. Save this private link so you can continue monthly or request your full $350 service-fee refund before the guarantee period ends:\n${decisionUrl}\n\nApproved third-party expenses are separate from the service-fee guarantee.`,
               });
+              if (confirmationEmailError) throw confirmationEmailError;
             } catch (emailError) {
               console.error("guaranteed_week_email_failed", emailError);
             }
