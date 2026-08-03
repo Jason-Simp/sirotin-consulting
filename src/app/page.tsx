@@ -7,7 +7,6 @@ import {
   CalendarDays,
   CalendarRange,
   Check,
-  CircleDotDashed,
   FlaskConical,
   MessageSquareText,
   RefreshCw,
@@ -323,26 +322,43 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="visual-proof section-pad">
-        <div className="visual-proof-copy">
-          <SectionLabel>What you receive</SectionLabel>
-          <h2>Your first working automation.</h2>
-          <p>Not a generic demo or strategy deck. We choose one painful process, build the first usable version around your actual tools, and put it in your hands to test. You can see what it does, where information moves, and what still needs human approval.</p>
-          <div className="proof-deliverables" aria-label="What the client receives">
-            <div><Blocks size={21} aria-hidden="true" /><span><strong>A working first version</strong><small>Built against one real process—not a generic demonstration.</small></span></div>
-            <div><SearchCheck size={21} aria-hidden="true" /><span><strong>A clear system map</strong><small>See what connects, where data moves, and where a person stays involved.</small></span></div>
-            <div><ShieldCheck size={21} aria-hidden="true" /><span><strong>Control of your assets</strong><small>Your accounts, access, documentation, and approval points remain visible.</small></span></div>
+      <section className="proof-showcase section-pad">
+        <div className="proof-showcase-header">
+          <div>
+            <SectionLabel>Live work</SectionLabel>
+            <h2>Working systems you can open right now.</h2>
           </div>
+          <p>These are live, public examples—not concept art. Each one was shaped around a different audience, information model, and business goal.</p>
         </div>
-        <div className="application-shots">
-          <a href="https://www.simplsolutions.app/" target="_blank" rel="noreferrer" className="application-shot application-shot-large">
-            <Image src="/portfolio/simplsolutions.jpg" alt="SimplSolutions application portfolio" fill sizes="(max-width: 900px) 100vw, 55vw" />
-            <span><CircleDotDashed size={16} /> SimplSolutions <ArrowDownRight size={16} /></span>
+
+        <div className="proof-projects">
+          <a href="https://www.simplsolutions.app/" target="_blank" rel="noreferrer" className="proof-project-card" aria-label="Open SimplSolutions in a new tab">
+            <div className="proof-project-media"><Image src="/portfolio/simplsolutions.jpg" alt="SimplSolutions connected product portfolio" fill sizes="(max-width: 800px) 100vw, 50vw" /></div>
+            <div className="proof-project-body">
+              <div className="proof-project-meta"><span>01</span><small>AI product ecosystem</small></div>
+              <h3>SimplSolutions</h3>
+              <p>A connected product portfolio that makes a broad AI platform understandable—from its shared Business Brain to content, email, voice, social, and training products.</p>
+              <div className="proof-project-tags"><span>Product architecture</span><span>Custom UX</span><span>Live system</span></div>
+              <div className="proof-project-open">Open live project <ArrowDownRight size={18} aria-hidden="true" /></div>
+            </div>
           </a>
-          <a href="https://simplsite.app/cities/manchester-new-hampshire#ask" target="_blank" rel="noreferrer" className="application-shot application-shot-small">
-            <Image src="/portfolio/simplcity.jpg" alt="SimplCity Manchester application" fill sizes="(max-width: 900px) 90vw, 34vw" />
-            <span><CircleDotDashed size={16} /> SimplCity Manchester <ArrowDownRight size={16} /></span>
+
+          <a href="https://simplsite.app/cities/manchester-new-hampshire#ask" target="_blank" rel="noreferrer" className="proof-project-card" aria-label="Open SimplCity Manchester in a new tab">
+            <div className="proof-project-media"><Image src="/portfolio/simplcity.jpg" alt="SimplCity Manchester public information experience" fill sizes="(max-width: 800px) 100vw, 50vw" /></div>
+            <div className="proof-project-body">
+              <div className="proof-project-meta"><span>02</span><small>Public information system</small></div>
+              <h3>SimplCity Manchester</h3>
+              <p>A city-specific experience that organizes local services, records, meetings, and public questions into one accessible destination.</p>
+              <div className="proof-project-tags"><span>Information architecture</span><span>City data</span><span>Live system</span></div>
+              <div className="proof-project-open">Open live project <ArrowDownRight size={18} aria-hidden="true" /></div>
+            </div>
           </a>
+        </div>
+
+        <div className="proof-build-strip" aria-label="How the work is produced">
+          <div><span>01</span><strong>Directed around a real problem</strong></div>
+          <div><span>02</span><strong>Agent-assisted research, content, and code</strong></div>
+          <div><span>03</span><strong>Human-reviewed before release</strong></div>
         </div>
       </section>
 
