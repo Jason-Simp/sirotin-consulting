@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getStripeWebhookSecret } from "@/lib/env";
 import { createStripeClient } from "@/lib/stripe";
 import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from "@/lib/security";
+import { createAccessToken, hashAccessToken } from "@/lib/sow-security";
 
 export async function POST(request: Request) {
   const requestId = getRequestId(request);
@@ -24,6 +25,43 @@ export async function POST(request: Request) {
       if (event.type === "checkout.session.completed") {
         const session = event.data.object as Stripe.Checkout.Session;
         const customerEmail = session.customer_details?.email ?? session.customer_email;
+        const sowId = session.metadata?.sow_id;
+        if (sowId && (session.metadata?.plan === "weekly" || session.metadata?.plan === "monthly") && session.payment_status === "paid") {
+          const { data: sow, error: sowLookupError } = await supabase.from("service_sows").select("*").eq("id", sowId).maybeSingle();
+          if (sowLookupError || !sow) throw sowLookupError ?? new Error("Checkout references an unknown SOW.");
+          if (sow.sow_version !== session.metadata.sow_version || sow.document_hash !== session.metadata.sow_hash || sow.plan !== session.metadata.plan) throw new Error("Checkout SOW metadata does not match the signed record.");
+
+          const signingToken = createAccessToken();
+          const signingExpiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+          const { data: updatedSow, error: sowUpdateError } = await supabase.from("service_sows").update({
+            status: "payment_confirmed",
+            stripe_checkout_session_id: session.id,
+            stripe_payment_intent_id: typeof session.payment_intent === "string" ? session.payment_intent : session.payment_intent?.id,
+            stripe_subscription_id: typeof session.subscription === "string" ? session.subscription : session.subscription?.id,
+            payment_confirmed_at: new Date().toISOString(),
+            jason_signing_token_hash: hashAccessToken(signingToken),
+            jason_signing_token_expires_at: signingExpiresAt,
+          }).eq("id", sowId).eq("status", "client_signed_checkout_pending").select("id").maybeSingle();
+          if (sowUpdateError) throw sowUpdateError;
+
+          if (updatedSow && process.env.RESEND_API_KEY && process.env.JASON_NOTIFICATION_EMAIL) {
+            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com";
+            const signingUrl = `${siteUrl}/sow/${sowId}/countersign?token=${encodeURIComponent(signingToken)}`;
+            const resend = new Resend(process.env.RESEND_API_KEY);
+            try {
+              const { error: signingEmailError } = await resend.emails.send({
+                from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
+                to: process.env.JASON_NOTIFICATION_EMAIL,
+                replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
+                subject: `Counter-sign ${sow.plan === "weekly" ? "Weekly" : "Monthly"} Partner SOW — ${sow.company_name}`,
+                text: `${sow.client_name} signed the ${sow.plan} SOW for ${sow.company_name}, and Stripe confirmed payment. Review and counter-sign the exact document here:\n\n${signingUrl}\n\nThis private signing link expires in 30 days.`,
+              });
+              if (signingEmailError) throw signingEmailError;
+            } catch (emailError) {
+              safeLog("error", "sow.jason_signing_email_failed", { requestId, error: emailError });
+            }
+          }
+        }
         if (session.metadata?.plan === "first-week" && session.payment_status === "paid") {
           if (!customerEmail) throw new Error("Guaranteed-week checkout has no customer email.");
           const { error: engagementError } = await supabase.from("guaranteed_engagements").upsert({

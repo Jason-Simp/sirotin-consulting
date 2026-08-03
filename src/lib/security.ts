@@ -4,7 +4,7 @@ import { createHmac, randomUUID } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { publicEnv } from "@/lib/env";
 
-type RequestLike = { headers: Headers };
+type RequestLike = { headers: Headers; url?: string };
 
 type SecuritySeverity = "info" | "warning" | "critical";
 
@@ -88,6 +88,10 @@ function fingerprint(request: RequestLike, subject?: string) {
     .digest("hex");
 }
 
+export function getRequestFingerprint(request: RequestLike, subject?: string) {
+  return fingerprint(request, subject);
+}
+
 export async function logSecurityEvent(input: {
   request: RequestLike;
   requestId: string;
@@ -135,6 +139,13 @@ export async function enforceRateLimit(input: {
 export function isSameOriginRequest(request: RequestLike) {
   const origin = request.headers.get("origin");
   if (!origin) return true;
+  if (request.url) {
+    try {
+      if (origin === new URL(request.url).origin) return true;
+    } catch {
+      return false;
+    }
+  }
   const canonical = new URL(publicEnv.siteUrl ?? "https://automatemejay.com").origin;
   return origin === canonical || origin === canonical.replace("://", "://www.");
 }

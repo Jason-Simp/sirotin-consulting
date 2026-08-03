@@ -26,7 +26,21 @@
 - Approximately four hours of substantive work per billing month, generally on a weekly cadence.
 - Reasonable asynchronous communication.
 - One directing stakeholder and one actively prioritized workstream.
-- Thirty days' written cancellation notice.
+- Cancel anytime through the membership billing portal; cancellation stops the next renewal and service continues through the current paid 30-day period.
+
+### Weekly Partner
+
+- $350 paid once for one seven-day service period.
+- Approximately one hour of substantive work during the paid period.
+- One directing stakeholder and one actively prioritized workstream.
+- No automatic renewal; the client affirmatively purchases another week to continue.
+
+### Statements of Work
+
+- Weekly and Monthly Partner purchases require distinct, plan-specific SOWs signed electronically by both parties.
+- The client reviews and signs the exact version before Stripe checkout. Jason counter-signs that version after payment confirmation.
+- Preserve the exact document snapshot, version, SHA-256 hash, signer identity and capacity, timestamps, payment linkage, and a printable executed copy.
+- Signature records are server-only; public and ordinary authenticated database roles receive no direct access.
 
 ### Common rules
 
@@ -47,7 +61,7 @@ The public experience is a single server-rendered page with:
 3. Problem and capability framing.
 4. Five-step build/test/improve loop.
 5. Client responsibilities and human-control checkpoints.
-6. Pricing cards for the guaranteed first week and monthly continuation.
+6. Pricing cards for the guaranteed first week, non-renewing weekly service, monthly continuation, and one-off work.
 7. Scope, communication, and exclusion language.
 8. FAQ answering all required commercial and ownership questions.
 9. Final CTA and legal footer.
@@ -56,7 +70,7 @@ The public experience must remain easy to reach and navigate across desktop, tab
 
 The portfolio presents 95% agent-produced execution as the current estimated share, with human direction, review, and release approval stated alongside it. Six live featured experiences are SimplSolutions, ECG Productions, DriveOn Protection, SchoolAmplified, SimplDemocracy, and SimplCity for Manchester, New Hampshire.
 
-Primary calls to action are `Start with the guarantee`, `Choose Monthly`, and `Sign In`.
+Primary calls to action are `Start with the guarantee`, `Choose Weekly`, `Choose Monthly`, and `Sign In`.
 
 ## Client portal
 
@@ -92,7 +106,7 @@ Primary calls to action are `Start with the guarantee`, `Choose Monthly`, and `S
 
 ## Data model
 
-Core records: profiles, organizations, organization members, trials, subscriptions, workspaces, queued ideas, messages, message reads, notes, files, testing reports, approvals, cost authorizations, agreements/acceptances, cancellation requests, notification preferences, and activity/audit events.
+Core records: profiles, organizations, organization members, trials, subscriptions, workspaces, queued ideas, messages, message reads, notes, files, testing reports, approvals, cost authorizations, agreements/acceptances, bilateral service SOWs, cancellation requests, notification preferences, and activity/audit events.
 
 Authorization is organization/workspace membership-based. Administrative authority is stored in trusted server-controlled/app metadata and database records, never user-editable metadata.
 

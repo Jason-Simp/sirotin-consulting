@@ -728,6 +728,43 @@ footer { padding: 5rem max(5vw, 1.25rem) 2rem; background: #02060c; color: #fff;
 .checkout-layout .checkout-summary { justify-content: flex-start; margin: 2rem 0 0; }
 .checkout-form .button { width: 100%; border: 0; cursor: pointer; }
 .checkout-form > p:last-child { display: flex; align-items: center; justify-content: center; gap: .4rem; margin: .8rem 0 0; color: var(--muted); font-size: .65rem; }
+.sow-checkout-block { margin: 1.5rem 0; border: 1px solid rgba(34, 211, 238, .22); border-radius: .9rem; padding: 1.1rem; background: rgba(34, 211, 238, .035); }
+.sow-checkout-block > div { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.sow-checkout-block > div strong { color: #ecf7ff; font-size: .82rem; }
+.sow-checkout-block > div a { color: var(--cyan); font-size: .68rem; text-decoration: underline; text-underline-offset: 3px; }
+.sow-checkout-block > p { margin: .75rem 0 1.1rem; color: var(--muted); font-size: .68rem; }
+.sow-checkout-block > label:not(.consent), .sow-sign-panel > label:not(.consent) { display: block; margin-bottom: 1rem; color: #cbd6e2; font-size: .73rem; font-weight: 650; }
+
+.sow-page { padding-bottom: 8rem; }
+.sow-page-actions { display: flex; max-width: 940px; align-items: center; justify-content: flex-end; gap: 1rem; margin: 0 auto; padding: 2rem max(3vw, 1.25rem) 0; }
+.print-button { border: 1px solid var(--line); cursor: pointer; }
+.sow-private-banner { max-width: 940px; margin: 2rem auto 0; border: 1px solid rgba(34, 211, 238, .2); border-radius: .7rem; padding: .75rem 1rem; background: rgba(34, 211, 238, .045); color: #9fcbd4; font-family: var(--font-mono), monospace; font-size: .62rem; text-align: center; text-transform: uppercase; }
+.sow-document { max-width: 940px; margin: 2rem auto 0; border: 1px solid var(--line); border-radius: 1.3rem; padding: clamp(1.5rem, 5vw, 4.5rem); background: rgba(7, 16, 28, .86); box-shadow: 0 35px 100px rgba(0, 0, 0, .24); }
+.sow-document > header { border-bottom: 1px solid var(--line); padding-bottom: 2.5rem; }
+.sow-document h1 { max-width: 760px; margin: 1rem 0 2rem; font-size: clamp(2.8rem, 6vw, 5.4rem); font-weight: 650; letter-spacing: -.065em; line-height: .94; }
+.sow-summary { max-width: 700px; margin: 2rem 0 0; color: #b9c8d7; font-size: 1.05rem; }
+.sow-facts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: .75rem; background: var(--line); }
+.sow-facts div { padding: .9rem; background: #07111d; }
+.sow-facts dt { margin-bottom: .35rem; color: #65778a; font-family: var(--font-mono), monospace; font-size: .55rem; text-transform: uppercase; }
+.sow-facts dd { margin: 0; color: #dce8f3; font-size: .75rem; }
+.sow-document > section { padding-top: 2.6rem; }
+.sow-document > section + section { border-top: 1px solid rgba(122, 155, 189, .1); }
+.sow-document h2 { margin: 0 0 1rem; color: #f3f8fc; font-size: 1.45rem; letter-spacing: -.03em; }
+.sow-document section p, .sow-document section li { color: #9aaabb; font-size: .84rem; line-height: 1.75; }
+.sow-document section ul { padding-left: 1.2rem; }
+.sow-document section li { margin-bottom: .55rem; }
+.sow-signatures > div { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.sow-signatures > div > div { display: grid; min-height: 140px; align-content: end; border: 1px solid var(--line); border-radius: .8rem; padding: 1.15rem; background: rgba(3, 10, 18, .6); }
+.sow-signatures span { color: var(--cyan); font-family: var(--font-mono), monospace; font-size: .55rem; text-transform: uppercase; }
+.sow-signatures strong { margin: .5rem 0; font-size: 1.1rem; }
+.sow-signatures small { color: #7e8fa2; font-size: .66rem; }
+.sow-sign-panel { max-width: 940px; margin: 1.5rem auto 0; border: 1px solid rgba(139, 92, 246, .25); border-radius: 1.2rem; padding: clamp(1.5rem, 4vw, 3rem); background: rgba(20, 18, 47, .45); }
+.sow-sign-panel h2 { margin: .7rem 0; font-size: 2rem; letter-spacing: -.04em; }
+.sow-sign-panel > p:not(.section-label) { color: var(--muted); }
+.sow-sign-panel input:not([type="checkbox"]) { display: block; width: 100%; margin-top: .45rem; border: 1px solid var(--line); border-radius: .65rem; outline: none; padding: .85rem; background: #050c15; color: var(--ink); font: inherit; }
+.sow-sign-panel .button { border: 0; cursor: pointer; }
+.sow-sign-complete svg { color: var(--cyan); }
+.sow-legal-note { max-width: 940px; margin: 1.5rem auto 0; padding-inline: 1rem; color: #68798b; font-size: .68rem; text-align: center; }
 .guarantee-form { display: grid; gap: .75rem; }
 .guarantee-form > p { margin: -.4rem 0 .6rem; color: var(--muted); font-size: .68rem; }
 
@@ -1009,6 +1046,23 @@ footer { padding: 5rem max(5vw, 1.25rem) 2rem; background: #02060c; color: #fff;
   .blog-article-visual { margin-inline: .75rem; border-radius: 1rem; }
   .blog-article-layout { padding-top: 3.5rem; }
   .booking-layout { padding-top: 7rem; }
+  .sow-page-actions, .sow-private-banner, .sow-document, .sow-sign-panel { margin-right: .75rem; margin-left: .75rem; }
+  .sow-facts, .sow-signatures > div { grid-template-columns: 1fr; }
+  .sow-checkout-block > div { align-items: flex-start; flex-direction: column; }
+}
+
+@media print {
+  @page { margin: .55in; }
+  body { background: #fff !important; color: #111 !important; }
+  .subpage { background: #fff !important; color: #111 !important; }
+  .subpage-header, .sow-page-actions, .sow-private-banner, .sow-sign-panel, .sow-legal-note, .agent-shell { display: none !important; }
+  .sow-page { padding: 0 !important; }
+  .sow-document { max-width: none; margin: 0; border: 0; padding: 0; background: #fff; box-shadow: none; }
+  .sow-document h1, .sow-document h2, .sow-document strong, .sow-facts dd { color: #111 !important; }
+  .sow-document p, .sow-document li, .sow-document small, .sow-facts dt { color: #333 !important; }
+  .sow-facts { border-color: #bbb; background: #bbb; }
+  .sow-facts div, .sow-signatures > div > div { border-color: #bbb; background: #fff; }
+  .sow-document > section { break-inside: avoid; }
 }
 
 @media (prefers-reduced-motion: reduce) {
