@@ -28,7 +28,7 @@ export const blogPosts: BlogPost[] = [
     category: "AI automation strategy",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "8 min read",
+    readTime: "12 min read",
     image: "/automation-workflow-social.png",
     keywords: ["automate repetitive business tasks", "AI workflow automation", "business process automation"],
     intro: [
@@ -38,24 +38,33 @@ export const blogPosts: BlogPost[] = [
     sections: [
       {
         heading: "Start with evidence, not a tool",
-        paragraphs: ["Write down what happens today from trigger to completion. Include where information arrives, who touches it, what gets copied, which decisions require judgment, and where mistakes occur. This becomes the baseline for deciding whether automation is worthwhile."],
-        bullets: ["How often does the task happen?", "How long does one cycle take?", "Which inputs are predictable?", "Where is human approval necessary?", "What would a successful output look like?"],
+        paragraphs: ["Observe five to ten real examples before designing anything. Write down what happens from trigger to completion: where information arrives, who touches it, what gets copied, which decisions require judgment, which exceptions appear, and where evidence of completion lives. NIST's AI RMF calls this mapping: the task, context, people, impacts, and system boundaries must be understood before risk can be measured or managed.", "Capture a baseline you can compare later. If a task occurs 80 times a month, takes nine minutes, and needs correction 12% of the time, the baseline is 12 labor hours plus correction time—not a vague claim that the process is 'slow.'"],
+        bullets: ["Trigger: what observable event starts the work?", "Inputs: which fields or documents are required, and who owns them?", "Decision: which rule or judgment changes the next step?", "Action: what is drafted, created, sent, or updated?", "Evidence: where can a reviewer prove the right action occurred?", "Exceptions: which real examples do not follow the normal path?"],
       },
       {
         heading: "Choose a narrow first version",
-        paragraphs: ["Do not begin by automating an entire department. Choose one trigger and one useful outcome. An example might be turning a completed intake form into a structured summary, a draft follow-up, and a task for human review."],
+        paragraphs: ["Do not begin by automating an entire department. Choose one trigger and one useful outcome. A defensible first version might turn a completed intake form into a structured summary and a draft follow-up, then stop for human review. It should not simultaneously qualify the lead, change pricing, send the message, update five systems, and close the record.", "Use a boundary statement: 'When X arrives, the system will produce Y for Z to review; it will not perform A, B, or C.' This sentence prevents a prototype from quietly becoming an uncontrolled production system."],
       },
       {
         heading: "Build review into the workflow",
-        paragraphs: ["AI output can be incomplete or wrong. Consequential messages, approvals, financial actions, account changes, and customer-facing claims should include an appropriate review step. Keep source material, output, reviewer, and final action visible."],
+        paragraphs: ["AI output can be incomplete, unsupported, or wrong. Separate preparation from authority: the model may extract, summarize, classify, or draft, while a named person approves consequential messages, money movement, access changes, employment decisions, contractual language, and production releases.", "A useful review screen shows the source, proposed output, confidence or validation failures, what will happen after approval, and how to reject or edit it. A generic 'Approve' button without that context is not meaningful human control."],
+      },
+      {
+        heading: "Test normal cases, boundaries, and failure paths",
+        paragraphs: ["Create a test sheet before launch. Include ordinary examples, incomplete inputs, duplicates, stale information, contradictory instructions, unsupported file types, provider timeouts, revoked permissions, and low-confidence output. For each case record the expected result, actual result, reviewer, and change required.", "Retries deserve special attention. If a timeout occurs after a CRM update but before the workflow receives confirmation, a retry must not create a second record or send a second email. Use a stable request ID and idempotent writes."],
+        bullets: ["Five representative normal cases", "Two incomplete or malformed inputs", "One duplicate submission", "One provider outage or timeout", "One permission failure", "One case that must be handed to a person"],
       },
       {
         heading: "Measure the process after launch",
-        paragraphs: ["Track cycle time, correction rate, adoption, exceptions, and the number of manual touches. If the automation saves time but creates more cleanup, it is not finished. Treat the first release as a tested iteration, not a permanent final state."],
+        paragraphs: ["Track median cycle time, manual touches, correction rate, exception rate, adoption, and completed outcomes. Compare the same measurement window before and after release. If the automation saves eight minutes upfront but creates ten minutes of cleanup, it has moved the work rather than removed it.", "Review results after enough cycles to see variation. Record which failures came from code, model behavior, data quality, unclear policy, or user training; each category needs a different fix."],
       },
     ],
     takeaway: "Bring one recurring task with a clear owner and outcome. Map it, automate the mechanical steps, preserve human approval, and improve it from real use.",
-    sources: [{ label: "NIST AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" }],
+    sources: [
+      { label: "NIST AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
+      { label: "NIST AI RMF Core: Govern, Map, Measure, Manage", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OpenAI: A practical guide to building agents", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+    ],
   },
   {
     slug: "ai-automation-cost-for-small-business",
@@ -64,7 +73,7 @@ export const blogPosts: BlogPost[] = [
     category: "Budgeting",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "7 min read",
+    readTime: "11 min read",
     image: "/portfolio/simplengine-product.jpg",
     keywords: ["AI automation cost", "small business automation pricing", "AI consultant cost"],
     intro: [
@@ -74,12 +83,12 @@ export const blogPosts: BlogPost[] = [
     sections: [
       {
         heading: "The five cost categories",
-        paragraphs: ["A complete budget includes more than build time."],
-        bullets: ["Discovery and process mapping", "Implementation and integration", "Provider charges for hosting, APIs, storage, email, or messaging", "Testing, documentation, and training", "Monitoring, maintenance, and future changes"],
+        paragraphs: ["A complete budget includes more than build time. Separate one-time implementation, recurring provider charges, recurring service or maintenance, and internal staff time. Otherwise an inexpensive API can disguise an expensive operating process."],
+        bullets: ["Discovery: observation, process mapping, risk and access decisions", "Implementation: interface, integration, data model, prompts or rules", "Infrastructure: hosting, database, APIs, storage, email, voice, and monitoring", "Readiness: test data, security checks, documentation, training, and rollback", "Operations: review time, exception handling, maintenance, and future changes"],
       },
       {
         heading: "Complexity changes the estimate",
-        paragraphs: ["Costs rise when a process has inconsistent inputs, several systems of record, complex permissions, regulated information, high transaction volume, or actions that are difficult to reverse. A narrow internal workflow is usually less expensive than a public autonomous agent."],
+        paragraphs: ["Costs rise when inputs are inconsistent, several systems claim to be authoritative, permissions differ by role, information is regulated, volume is high, or actions are difficult to reverse. A narrow internal drafting workflow is usually less expensive than a public agent with identity, payments, calendar access, and write permissions.", "Ask what must be true for the workflow to be production-ready. Authentication, audit evidence, signed webhooks, rate limits, backups, error queues, data retention, and incident response are real work even when the first demo took one afternoon."],
       },
       {
         heading: "Keep infrastructure in your name",
@@ -87,10 +96,19 @@ export const blogPosts: BlogPost[] = [
       },
       {
         heading: "Compare cost to the current process",
-        paragraphs: ["Estimate monthly hours, delay, rework, missed follow-up, and error exposure in the existing process. A workflow is financially sensible when the expected operational value comfortably exceeds its build and ongoing cost, with room for maintenance and exceptions."],
+        paragraphs: ["Use one shared model: monthly current cost = volume × minutes per case ÷ 60 × loaded hourly cost, plus measurable rework, delay, and error cost. Expected monthly benefit = time actually removed × loaded cost, plus conservatively valued recovered outcomes. Do not count time that employees cannot realistically redeploy.", "Example: 300 requests × 8 minutes at $36 per loaded hour is $1,440 per month. If a reviewed workflow safely removes five minutes from 70% of cases, gross labor capacity is $630 per month—not $1,440. Compare that conservative benefit with implementation, provider, review, and maintenance costs."],
+      },
+      {
+        heading: "Use a 12-month total-cost worksheet",
+        paragraphs: ["Write one-time implementation in month zero, then forecast monthly software, usage, support, review labor, and contingency. Model low, expected, and high usage rather than one precise guess. Include an exit cost: data export, credential rotation, and handoff documentation.", "A credible proposal identifies assumptions and shows which provider charges go directly to the client. Price certainty comes from a narrow scope and visible assumptions, not from pretending future volume and exceptions are known."],
+        bullets: ["One-time build and setup", "Monthly fixed providers", "Usage-based low / expected / high", "Human review and exception time", "Maintenance or partner service", "10–20% contingency for unknowns", "Ownership and exit plan"],
       },
     ],
-    takeaway: "Ask for a scoped workflow estimate that separates service fees from third-party expenses and explains who owns every account and asset.",
+    takeaway: "Ask for a 12-month estimate that separates implementation, providers, internal review, maintenance, assumptions, and asset ownership—then compare it with a measured baseline.",
+    sources: [
+      { label: "OpenAI business leader’s guide: establish time, cost, and accuracy baselines", url: "https://cdn.openai.com/business-guides-and-resources/a-business-leaders-guide-to-working-with-agents.pdf" },
+      { label: "NIST Secure Software Development Framework", url: "https://csrc.nist.gov/pubs/sp/800/218/final" },
+    ],
   },
   {
     slug: "ai-automation-consultant-vs-software",
@@ -99,7 +117,7 @@ export const blogPosts: BlogPost[] = [
     category: "Buying guide",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "7 min read",
+    readTime: "10 min read",
     image: "/jason-sirotin-headshot.png",
     keywords: ["AI automation consultant", "automation software vs consultant", "hire AI consultant"],
     intro: [
@@ -108,11 +126,11 @@ export const blogPosts: BlogPost[] = [
     sections: [
       {
         heading: "Choose software when the process is standard",
-        paragraphs: ["Packaged software is usually the better answer for established jobs such as accounting, scheduling, basic email marketing, or customer support ticketing. If the business can adapt to the product's workflow, configuration may be enough."],
+        paragraphs: ["Packaged software is usually the better answer for established jobs such as accounting, scheduling, basic email marketing, or support ticketing. If 80–90% of the requirement matches a mature product and the business can adopt its workflow, configuration is usually cheaper, faster, and easier to maintain than custom code.", "Test the product with five real cases before buying an annual plan. Verify export, permissions, audit history, integration limits, usage pricing, and what happens when you leave."],
       },
       {
         heading: "Choose consulting when the process crosses systems",
-        paragraphs: ["A consultant becomes useful when the real process lives across inboxes, spreadsheets, documents, databases, and informal decisions. The work is not merely connecting applications; it is deciding which information is authoritative and how exceptions should be handled."],
+        paragraphs: ["A consultant becomes useful when the real process crosses inboxes, spreadsheets, documents, databases, and informal decisions. The hard part is not merely connecting applications; it is deciding which information is authoritative, translating policy into testable rules, limiting access, and handling exceptions.", "The deliverable should include more than a working demo: a process map, boundary statement, permission list, test evidence, owner, operating instructions, asset inventory, and recovery path."],
       },
       {
         heading: "Choose an internal hire when demand is continuous",
@@ -120,10 +138,19 @@ export const blogPosts: BlogPost[] = [
       },
       {
         heading: "Use a short consultation to decide",
-        paragraphs: ["A focused consultation should identify one process, the systems involved, the likely risk, and whether the next step is configuration, custom implementation, or no project at all. A good recommendation can be to use an existing product."],
+        paragraphs: ["A focused consultation should identify one process, the systems involved, the likely risk, and whether the next step is configuration, custom implementation, or no project at all. A credible advisor should be willing to recommend an existing product or no automation when those are the better choices."],
+      },
+      {
+        heading: "Use this decision matrix",
+        paragraphs: ["Score each statement from zero to two. Favor software when the process is standard, the team can change its habits, and the product already meets security and integration needs. Favor consulting when the process is differentiating, crosses several systems, includes non-obvious exceptions, or requires tailored controls. Favor an internal hire when demand is continuous across multiple teams and the organization can support product ownership.", "A blended path is common: buy the system of record, then use focused consulting to configure it, connect it safely, migrate data, document decisions, and build only the missing pieces."],
+        bullets: ["Can a mature product solve at least 80% without custom code?", "Will the team adopt the product's process?", "Does the workflow create strategic differentiation?", "Are exceptions or permissions business-specific?", "Is there a permanent backlog for one full-time owner?", "Who maintains the result after launch?"],
       },
     ],
-    takeaway: "Buy software for standard work, use consulting for business-specific integration and judgment, and hire internally when the workload is truly continuous.",
+    takeaway: "Buy software for standard work, use consulting for business-specific integration and controls, and hire internally when the backlog and ownership needs are truly continuous.",
+    sources: [
+      { label: "OpenAI: when an agent is appropriate—and when deterministic automation may suffice", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+      { label: "NIST SSDF: a common vocabulary for producers and purchasers", url: "https://csrc.nist.gov/pubs/sp/800/218/final" },
+    ],
   },
   {
     slug: "best-business-processes-to-automate-with-ai",
@@ -132,7 +159,7 @@ export const blogPosts: BlogPost[] = [
     category: "Process design",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "8 min read",
+    readTime: "11 min read",
     image: "/portfolio/simplcity.jpg",
     keywords: ["best processes to automate", "AI automation ideas", "business automation opportunities"],
     intro: ["The strongest first projects are valuable enough to matter and controlled enough to test. High frequency alone is not enough; the workflow also needs understandable inputs and a safe recovery path."],
@@ -148,15 +175,23 @@ export const blogPosts: BlogPost[] = [
       },
       {
         heading: "Use a simple scoring model",
-        paragraphs: ["Score each idea from one to five for frequency, manual effort, input consistency, output reviewability, reversibility, and business value. Reduce the score when data access or consequences are high. The highest responsible score becomes the first candidate."],
+        paragraphs: ["Score each idea from one to five for frequency, manual effort, input consistency, output reviewability, reversibility, and business value. Then score consequence, data sensitivity, permission breadth, and exception variability from one to five.", "Use a transparent formula: opportunity = frequency + effort + consistency + reviewability + reversibility + value. Risk = consequence + sensitivity + permission breadth + variability. Rank by opportunity minus risk, but treat any consequence score of five as a required governance review rather than something an average can erase."],
       },
       {
         heading: "Do not automate a broken policy",
-        paragraphs: ["If the team cannot agree on what should happen, automation will reproduce the disagreement faster. Resolve ownership, rules, and exceptions before building."],
+        paragraphs: ["If the team cannot agree on what should happen, automation will reproduce the disagreement faster. Resolve ownership, authoritative data, rules, and exceptions before building. If people repeatedly override the stated procedure for legitimate reasons, study those overrides; they contain the real policy."],
+      },
+      {
+        heading: "Run a 45-minute opportunity workshop",
+        paragraphs: ["Invite the process owner, one frequent user, and the person accountable for risk or customer impact. List no more than ten candidates, score them independently, then discuss the disagreements. The disagreement is useful: it exposes hidden effort, risk, and exception knowledge.", "Select one workflow and write a one-page charter: trigger, inputs, output, owner, human checkpoint, excluded actions, representative test data, success metrics, and stop condition. Do not select a second active workstream until the first produces credible evidence."],
+        bullets: ["10 minutes: list recurring work", "10 minutes: score opportunity", "10 minutes: score risk", "10 minutes: discuss score disagreements", "5 minutes: name one owner and next evidence-gathering step"],
       },
     ],
     takeaway: "Prioritize a frequent, reviewable, reversible process with one owner. Avoid starting with your most consequential decision simply because it is painful.",
-    sources: [{ label: "NIST AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" }],
+    sources: [
+      { label: "NIST AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OpenAI: use-case criteria for agents", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+    ],
   },
   {
     slug: "connect-gmail-crm-spreadsheets-with-ai",
@@ -165,29 +200,39 @@ export const blogPosts: BlogPost[] = [
     category: "Workflow architecture",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "9 min read",
+    readTime: "12 min read",
     image: "/portfolio/simplbridge.jpg",
     keywords: ["connect Gmail CRM AI", "email automation workflow", "spreadsheet CRM automation"],
     intro: ["Email, a CRM, and spreadsheets often contain overlapping versions of the same customer story. AI can help structure and summarize that information, but the workflow needs one declared system of record."],
     sections: [
       {
         heading: "Declare the source of truth",
-        paragraphs: ["Choose which system owns contact identity, opportunity status, consent, and completed actions. A spreadsheet can support analysis, but it should not silently override the CRM unless that is the explicit design."],
+        paragraphs: ["Create a field-level ownership table before connecting anything. The CRM may own contact identity and opportunity status; Gmail owns the original message; the spreadsheet may own temporary analysis; an email platform may own marketing consent. A spreadsheet should never silently override the CRM unless that is an explicit, approved rule.", "Assign a stable external ID across systems. Names and email addresses can change; row numbers and message positions are not durable identifiers."],
       },
       {
         heading: "Separate extraction from action",
-        paragraphs: ["First extract fields and confidence from the message. Then validate required values. Only after validation should the workflow draft a response, create a task, or propose a CRM update. This separation makes errors easier to see and recover."],
+        paragraphs: ["Use a staged pipeline: receive an event, store a minimal reference, extract into a fixed schema, validate required fields and allowed values, compare with the system of record, prepare proposed actions, request review when required, then commit and record the result. Each stage gets its own status.", "Do not let free-form model text become an API request. Convert it to a typed object and reject unknown fields, invalid identifiers, unsupported actions, or changes outside the user's organization."],
       },
       {
         heading: "Use least-privilege access",
-        paragraphs: ["Give each integration only the permissions it needs. A process that reads a labeled inbox and drafts messages should not automatically receive permission to delete mail, change account settings, or export unrelated conversations."],
+        paragraphs: ["Give each integration only the permissions it needs. Google explicitly advises using the narrowest OAuth scope possible. A process that only sends email can use gmail.send; it should not receive full mailbox access. Broad Gmail scopes are restricted, can require verification, and—when restricted data is stored or transmitted by a server—may trigger a security assessment.", "Use a dedicated mailbox label or alias when possible. Keep test and production credentials separate, document who can revoke access, and handle token expiration without silently skipping steps."],
       },
       {
         heading: "Log the business event",
-        paragraphs: ["Keep a request ID, source message reference, proposed change, reviewer, final result, and timestamp. Avoid copying complete sensitive messages into general application logs."],
+        paragraphs: ["Keep a request ID, source message reference, proposed change, reviewer, provider response, final status, and timestamp. Avoid copying full sensitive messages into general logs. Store enough evidence to diagnose what happened, not an unnecessary duplicate of every customer's content."],
+      },
+      {
+        heading: "Reference architecture for a safe first release",
+        paragraphs: ["A practical first flow is: Gmail label → event queue → extraction schema → validation → review queue → CRM write → confirmation log. The spreadsheet receives a reporting view only after the CRM write succeeds. Failed or ambiguous items go to an exception queue with a named owner.", "Use a stable idempotency key derived from the source message and workflow version. Before writing, check whether that key already completed. This prevents duplicate records when providers retry webhooks or workers restart."],
+        bullets: ["One declared owner for each field", "Typed extraction schema", "Allowlisted CRM actions", "Human approval for customer-facing drafts", "Idempotent writes and retry limits", "Exception queue and alert owner", "Minimal event log with correlation ID"],
       },
     ],
-    takeaway: "Choose one system of record, separate AI extraction from consequential actions, use narrow permissions, and preserve an auditable approval trail.",
+    takeaway: "Choose field-level systems of record, stage and validate every action, request the narrowest Google scopes, and make retries, review, and exceptions explicit.",
+    sources: [
+      { label: "Google: Choose Gmail API scopes", url: "https://developers.google.com/workspace/gmail/api/auth/scopes" },
+      { label: "Google OAuth 2.0 policies", url: "https://developers.google.com/identity/protocols/oauth2/policies" },
+      { label: "Google: Restricted scope verification", url: "https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification" },
+    ],
   },
   {
     slug: "ai-automation-mistakes-small-business",
@@ -196,7 +241,7 @@ export const blogPosts: BlogPost[] = [
     category: "Implementation",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "8 min read",
+    readTime: "11 min read",
     image: "/portfolio/simplengine.jpg",
     keywords: ["AI automation mistakes", "small business AI risks", "automation implementation problems"],
     intro: ["Most automation failures are not caused by one bad prompt. They come from unclear ownership, inconsistent data, missing exception handling, and systems that act without enough review."],
@@ -208,15 +253,24 @@ export const blogPosts: BlogPost[] = [
       },
       {
         heading: "Build failure paths deliberately",
-        paragraphs: ["Define what happens when a provider is unavailable, an input is missing, a duplicate request arrives, or confidence is low. A safe workflow pauses or routes the exception instead of inventing a successful result."],
+        paragraphs: ["Define what happens when a provider is unavailable, an input is missing, a duplicate request arrives, credentials expire, or confidence is low. A safe workflow pauses or routes the exception instead of inventing a successful result. Document a maximum retry count and a dead-letter or exception queue.", "Make destructive or external actions harder than drafts. CISA's secure-by-design guidance emphasizes ownership of customer security outcomes; responsibility cannot be shifted to users through a warning after an unsafe default."],
       },
       {
         heading: "Make success observable",
-        paragraphs: ["Use structured status, request IDs, alerts, and a small set of business metrics. Observability should explain whether the workflow completed, not expose the sensitive content it processed."],
+        paragraphs: ["Use structured status, correlation IDs, alerts, and a small set of business metrics. Observability should explain whether the workflow completed, not expose the sensitive content it processed. Monitor the rate of completion, exception, retry, human edit, and reversal by workflow version.", "Write a stop rule before launch. Examples: disable automatic sending if the correction rate exceeds 5%, if unauthorized data appears, if a required provider loses authentication, or if duplicate actions are detected."],
+      },
+      {
+        heading: "Turn the list into a release gate",
+        paragraphs: ["A checklist matters only when it changes the release decision. Assign an owner and evidence to each control: a screenshot of permission scopes, a test report for duplicate handling, a link to the rollback runbook, or an alert demonstration. Mark unresolved items as accepted risk with a named approver and review date.", "Before each material workflow change, rerun the cases most likely to break. Model upgrades, prompt changes, provider API changes, and new data sources can alter behavior even when the interface looks unchanged."],
+        bullets: ["Process owner signs off on expected behavior", "Security owner reviews data and permissions", "Tester verifies normal and exception cases", "Operator demonstrates disable and recovery", "Business owner approves production scope and metrics"],
       },
     ],
     takeaway: "A reliable automation has a defined owner, constrained access, test data, human review, exception handling, monitoring, and a recovery plan.",
-    sources: [{ label: "CISA secure AI development guidance", url: "https://www.cisa.gov/news-events/alerts/2023/11/26/cisa-and-uk-ncsc-unveil-joint-guidelines-secure-ai-system-development" }],
+    sources: [
+      { label: "CISA secure AI development guidance", url: "https://www.cisa.gov/news-events/alerts/2023/11/26/cisa-and-uk-ncsc-unveil-joint-guidelines-secure-ai-system-development" },
+      { label: "NIST Secure Software Development Framework", url: "https://csrc.nist.gov/pubs/sp/800/218/final" },
+      { label: "OpenAI: guardrails and agent design", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+    ],
   },
   {
     slug: "secure-ai-automation-customer-data",
@@ -225,32 +279,39 @@ export const blogPosts: BlogPost[] = [
     category: "Security",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "10 min read",
+    readTime: "14 min read",
     image: "/portfolio/simplwiki-2.jpg",
     keywords: ["secure AI automation", "AI customer data security", "AI workflow privacy"],
     intro: ["Security starts before a model receives data. The workflow needs to know who is asking, which records they may access, why the data is needed, and what actions are allowed afterward."],
     sections: [
       {
         heading: "Minimize the data path",
-        paragraphs: ["Send only the fields required for the task. Avoid using production secrets, entire mailboxes, or complete customer histories when a narrower approved context will work."],
+        paragraphs: ["Draw the data path from source to deletion. For each hop, record purpose, fields, sensitivity, legal or contractual constraint, processor, region if relevant, retention, and deletion method. Send only the fields required for the task; do not use production secrets, whole mailboxes, or complete customer histories when a narrower approved context will work.", "Replace direct identifiers with internal IDs where possible. Keep secrets and authentication tokens outside prompts, model context, analytics, and error messages."],
       },
       {
         heading: "Enforce identity at the data layer",
-        paragraphs: ["Application checks are helpful, but database and storage policies should independently restrict records by authenticated user, organization, and role. Server-only tables should not inherit public access by default."],
+        paragraphs: ["Application checks are helpful, but database and storage policies should independently restrict records by authenticated user, organization, and role. Test isolation using two organizations and attempt cross-tenant reads, writes, file access, signed URLs, and realtime subscriptions.", "Server-only tables should not inherit public API access. Authentication answers who the user is; authorization decides whether that identity can read this record or perform this action. Both must be tested."],
       },
       {
         heading: "Protect every external action",
-        paragraphs: ["Verify signed webhooks, bound payload size, rate-limit public routes, use idempotency for retries, and require confirmation for irreversible actions. Keep credentials in provider secret stores rather than source code."],
+        paragraphs: ["Verify signed webhooks before parsing business data, bound payload size, rate-limit public routes, validate schema, and use idempotency for retries. Require confirmation for irreversible actions. Keep credentials in provider secret stores rather than source code, scope them narrowly, and rehearse rotation.", "Treat retrieved documents, emails, web pages, and tool output as untrusted data. Prompt injection can arrive indirectly inside content. Do not let instructions found in a customer document expand the agent's permissions or modify its governing policy."],
       },
       {
         heading: "Prepare for incidents",
-        paragraphs: ["Document how to disable the workflow, rotate credentials, revoke sessions, preserve necessary evidence, identify affected records, notify stakeholders, and deploy a verified fix."],
+        paragraphs: ["Document how to disable the workflow, rotate credentials, revoke sessions, preserve necessary evidence, identify affected records, notify stakeholders, and deploy a verified fix. Assign an incident owner and an out-of-band contact method before the system is needed.", "Run a tabletop exercise: a malicious document causes an agent to propose sending customer data to an unknown URL. Verify that allowlisted destinations, action validation, human approval, and logging prevent the action and produce useful evidence."],
+      },
+      {
+        heading: "A minimum production security review",
+        paragraphs: ["Use this as a starting review, not a claim of compliance. Higher-risk or regulated work needs qualified legal, privacy, and security advice. NIST's AI RMF organizes ongoing work into govern, map, measure, and manage; security is a lifecycle activity, not a launch-day scan."],
+        bullets: ["Data inventory and purpose limitation", "Tenant and role isolation tests", "Least-privilege provider scopes", "Secret storage and rotation runbook", "Prompt-injection and untrusted-content tests", "Signed webhook and replay protection", "Idempotency and duplicate-action tests", "Human confirmation for consequential actions", "Redacted logs with correlation IDs", "Backup, disable, recovery, and notification exercise"],
       },
     ],
     takeaway: "Secure the whole workflow: identity, data access, integrations, actions, logs, and recovery—not only the model request.",
     sources: [
       { label: "NIST Generative AI Profile", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" },
       { label: "CISA secure AI system development guidance", url: "https://www.cisa.gov/news-events/alerts/2023/11/26/cisa-and-uk-ncsc-unveil-joint-guidelines-secure-ai-system-development" },
+      { label: "OWASP: LLM Prompt Injection Prevention", url: "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html" },
+      { label: "NIST Secure Software Development Framework", url: "https://csrc.nist.gov/pubs/sp/800/218/final" },
     ],
   },
   {
@@ -260,29 +321,38 @@ export const blogPosts: BlogPost[] = [
     category: "Knowledge systems",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "9 min read",
+    readTime: "12 min read",
     image: "/portfolio/simplwiki-product.jpg",
     keywords: ["AI knowledge base", "business knowledge management AI", "RAG knowledge base"],
     intro: ["An AI knowledge base is not a folder uploaded to a chatbot. It is a maintained collection of approved sources with clear ownership, access rules, and a way to show where an answer came from."],
     sections: [
       {
         heading: "Inventory sources before ingestion",
-        paragraphs: ["List policies, service descriptions, procedures, product facts, templates, contracts, training materials, and frequently answered questions. Mark the owner, audience, sensitivity, and last review date for each source."],
+        paragraphs: ["List policies, service descriptions, procedures, product facts, templates, contracts, training materials, and frequently answered questions. For every source record the owner, intended audience, sensitivity, authority, effective date, last review date, and next review date.", "Start with the questions people actually ask and the decisions they need to make. A smaller collection that answers 50 important questions with traceable sources is more useful than thousands of unreviewed files."],
       },
       {
         heading: "Resolve contradictions",
-        paragraphs: ["Older documents often disagree with current pricing or policy. Do not ask retrieval software to decide which source is correct. Establish a source-of-truth hierarchy and archive superseded material."],
+        paragraphs: ["Older documents often disagree with current pricing or policy. Do not ask retrieval software to decide which source is correct. Establish a source-of-truth hierarchy, add effective dates, and archive superseded material outside the active index.", "Create a contradiction queue during ingestion. When two authoritative-looking sources disagree, retrieval should not blend them; the content owner must choose or document the condition under which each applies."],
       },
       {
         heading: "Design answers around evidence",
-        paragraphs: ["A useful system can cite the approved source, distinguish fact from inference, acknowledge missing context, and route sensitive or uncertain questions to a person."],
+        paragraphs: ["A useful system cites the approved source and relevant section, distinguishes sourced fact from inference, acknowledges missing context, and routes sensitive or uncertain questions to a person. Test whether citations actually support the answer rather than merely discussing the same topic.", "Permissions must apply before retrieval. Filtering the final answer is weaker than preventing unauthorized documents from entering the model context."],
       },
       {
         heading: "Make freshness operational",
-        paragraphs: ["Assign review dates and owners. Monitor questions that return no answer or conflicting evidence. Update the source rather than repeatedly patching a prompt around incorrect knowledge."],
+        paragraphs: ["Assign review dates and owners. Monitor questions that return no answer, low confidence, unsupported citations, or conflicting evidence. Update the source rather than repeatedly patching a prompt around incorrect knowledge.", "Version the index and retain a reproducible evaluation set. Before publishing an update, rerun the same questions and compare answer support, refusal behavior, and access isolation."],
+      },
+      {
+        heading: "Build a 30-question evaluation set",
+        paragraphs: ["Use ten straightforward questions, ten questions requiring more than one source, five questions the system should refuse because of permissions, and five questions with no approved answer. For each, write the expected sources, acceptable answer boundaries, and reviewer.", "Track grounded answer rate, correct refusal rate, citation support, unauthorized retrieval attempts, and unanswered-question trends. A single overall 'accuracy' number hides the failures that matter."],
+        bullets: ["Answer supported by an approved source", "Citation supports the exact claim", "Correct source version used", "Restricted source not retrieved", "Unanswered question is acknowledged", "Human escalation includes useful context"],
       },
     ],
-    takeaway: "Quality comes from governed sources and ownership. Retrieval technology cannot repair contradictory, stale, or unapproved business information by itself.",
+    takeaway: "A trustworthy knowledge system combines approved sources, field-level access, contradiction handling, citations, freshness ownership, and a repeatable evaluation set.",
+    sources: [
+      { label: "NIST Generative AI Profile", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" },
+      { label: "OWASP: prompt injection and RAG poisoning guidance", url: "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html" },
+    ],
   },
   {
     slug: "ai-agents-vs-chatbots-for-business",
@@ -291,29 +361,39 @@ export const blogPosts: BlogPost[] = [
     category: "AI agents",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "7 min read",
+    readTime: "11 min read",
     image: "/portfolio/simplvoice.jpg",
     keywords: ["AI agents vs chatbots", "AI agent for business", "business chatbot automation"],
     intro: ["A chatbot primarily exchanges messages. An agent may also retrieve private information, choose tools, and take actions. The practical difference is authority, not personality."],
     sections: [
       {
         heading: "Level one: answer",
-        paragraphs: ["A public assistant can explain approved services, summarize public information, and route a visitor. Its knowledge should be limited to public-safe sources and it should disclose that it is AI."],
+        paragraphs: ["A public assistant can explain approved services, summarize public information, and route a visitor. Its knowledge should be limited to public-safe sources, it should disclose that it is AI, and it should say when the approved material does not answer the question. Conversation alone does not make it an agent."],
       },
       {
         heading: "Level two: recommend",
-        paragraphs: ["A recommendation system uses context to propose a next step, draft, classification, or schedule. A person can review the proposal before anything consequential happens."],
+        paragraphs: ["A recommendation system uses context to propose a next step, draft, classification, or schedule. A person reviews the source and proposed result before anything consequential happens. This is often the best first operating model because it creates evidence without granting write authority."],
       },
       {
         heading: "Level three: act",
-        paragraphs: ["An action agent can create records, schedule meetings, send approved messages, or update systems. Each tool needs narrow authorization, validated inputs, rate limits, confirmation rules, and an auditable result."],
+        paragraphs: ["An action agent can create records, schedule meetings, send approved messages, or update systems. OpenAI's practical definition emphasizes that an agent uses a model to manage workflow execution and tools to gather context or take action within guardrails. Each tool needs narrow authorization, typed and validated inputs, allowlisted actions, rate limits, confirmation rules, and an auditable result.", "Keep the agent's words separate from tool authority. Saying 'I booked it' is not evidence; the calendar provider's confirmed event ID is. On tool failure the agent must report the failure and preserve control rather than invent success."],
       },
       {
         heading: "Choose the least authority that solves the problem",
-        paragraphs: ["Do not grant write access simply to make a demo feel impressive. Start with answers or recommendations, measure accuracy, and add actions only when the business can control exceptions and recovery."],
+        paragraphs: ["Do not grant write access simply to make a demo feel impressive. Start with answers or recommendations, measure accuracy, and add one action at a time only when the business can control exceptions and recovery. If deterministic rules solve the workflow, an agent may add cost and unpredictability without adding value."],
+      },
+      {
+        heading: "Use an authority ladder for every tool",
+        paragraphs: ["Document each tool on an authority ladder: read public data; read private data; draft; create reversible records; communicate externally; change money, access, legal status, or production. Require stronger authentication, confirmation, logging, and review as authority rises.", "Tool descriptions should state purpose, permitted inputs, prohibited actions, expected output, timeout behavior, and escalation. Capture edge cases in instructions and tests rather than relying on the model to infer policy."],
+        bullets: ["What identity is acting?", "Which organization's records are in scope?", "What is the narrowest required permission?", "Can the result be reversed?", "What evidence proves success?", "Which failure returns control to a person?", "How is the tool disabled immediately?"],
       },
     ],
-    takeaway: "The more an AI system can do, the more deliberately its identity, permissions, confirmations, logging, and failure behavior must be designed.",
+    takeaway: "Classify the system by authority, not personality. Add tools one at a time, require provider evidence, and increase controls as actions become harder to reverse.",
+    sources: [
+      { label: "OpenAI: A practical guide to building agents", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+      { label: "OWASP: AI Agent Security Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+      { label: "NIST AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
+    ],
   },
   {
     slug: "how-long-ai-automation-implementation-takes",
@@ -322,29 +402,39 @@ export const blogPosts: BlogPost[] = [
     category: "Project planning",
     published: "2026-08-03",
     updated: "2026-08-03",
-    readTime: "7 min read",
+    readTime: "10 min read",
     image: "/portfolio/simplsolutions.jpg",
     keywords: ["AI automation timeline", "how long AI implementation takes", "automation project plan"],
     intro: ["A first useful workflow can sometimes be demonstrated quickly, but production readiness depends on access, data quality, risk, integration behavior, and how fast the business can test decisions."],
     sections: [
       {
         heading: "Phase 1: consultation and definition",
-        paragraphs: ["Define the problem, owner, current process, systems, sensitive information, outcome, constraints, and the test that will show whether the idea works. A clear narrow scope shortens every later phase."],
+        paragraphs: ["Define the problem, owner, current process, systems, sensitive information, outcome, constraints, excluded actions, and the test that will show whether the idea works. A clear narrow scope shortens every later phase. Access approval and representative data are often the actual schedule drivers."],
       },
       {
         heading: "Phase 2: first working iteration",
-        paragraphs: ["Build the smallest end-to-end path using representative data and safe test accounts. The purpose is to expose assumptions early, not to present a polished final system."],
+        paragraphs: ["Build the smallest end-to-end path using representative data and safe test accounts. The purpose is to expose assumptions early, not to present a polished final system. Keep irreversible actions disabled or redirected to a sandbox."],
       },
       {
         heading: "Phase 3: business testing",
-        paragraphs: ["Users test normal cases and exceptions. Corrections often reveal missing business rules rather than coding defects. The project timeline depends heavily on the speed and quality of this feedback."],
+        paragraphs: ["Users test normal cases and exceptions. Corrections often reveal missing business rules rather than coding defects. The schedule depends heavily on how quickly a named tester can provide specific evidence: source, expected result, actual result, and priority."],
       },
       {
         heading: "Phase 4: controlled release",
-        paragraphs: ["Complete permissions, logging, backups, documentation, rollback, alerts, and ownership. Release to a limited audience, monitor results, and expand only when the workflow behaves as expected."],
+        paragraphs: ["Complete permissions, logging, backups, documentation, rollback, alerts, and ownership. Release to a limited audience, monitor results, and expand only when the workflow behaves as expected. Production readiness is a set of verified controls, not a date on a proposal."],
+      },
+      {
+        heading: "Estimate using gates, not optimistic days",
+        paragraphs: ["A useful plan has exit criteria. Definition ends when owner, boundaries, data, and success measures are approved. Build ends when the smallest path runs with representative data. Testing ends when agreed cases pass and known risks have owners. Release ends when access, monitoring, recovery, and handoff are verified.", "Use ranges tied to dependencies: a narrow internal workflow with ready access may reach a useful test in days; cross-system or customer-facing work may take weeks; regulated or high-consequence systems may take longer because review and evidence are part of the product. Treat any estimate without access, testing, and decision-owner assumptions as incomplete."],
+        bullets: ["Who approves access, and by what date?", "Who supplies representative data?", "Who returns test results?", "What must pass before production?", "Which provider or legal review is outside the builder's control?", "Who owns operations after release?"],
       },
     ],
-    takeaway: "Estimate by risk and integration complexity, not by the speed of the first demo. A small tested workflow is more valuable than a broad unfinished system.",
+    takeaway: "Plan around evidence gates and named dependencies. The speed of a demo says little about the time needed for permissions, exceptions, security, review, and a controlled release.",
+    sources: [
+      { label: "NIST AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "NIST Secure Software Development Framework", url: "https://csrc.nist.gov/pubs/sp/800/218/final" },
+      { label: "OpenAI business leader’s guide to agent performance and iteration", url: "https://cdn.openai.com/business-guides-and-resources/a-business-leaders-guide-to-working-with-agents.pdf" },
+    ],
   },
 ];
 

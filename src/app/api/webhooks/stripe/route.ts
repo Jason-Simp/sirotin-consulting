@@ -5,6 +5,7 @@ import { getStripeWebhookSecret } from "@/lib/env";
 import { createStripeClient } from "@/lib/stripe";
 import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 import { createAccessToken, hashAccessToken } from "@/lib/sow-security";
+import { provisionClientWorkspace } from "@/lib/provision-client-workspace";
 
 export async function POST(request: Request) {
   const requestId = getRequestId(request);
@@ -79,6 +80,22 @@ export async function POST(request: Request) {
           }, { onConflict: "stripe_checkout_session_id", ignoreDuplicates: true });
           if (engagementError) throw engagementError;
 
+          const { data: intake } = await supabase.from("intake_requests")
+            .select("full_name,company_name,process_to_automate,desired_result,systems_involved")
+            .eq("email", customerEmail.toLowerCase())
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          await provisionClientWorkspace({
+            supabase,
+            email: customerEmail,
+            fullName: intake?.full_name ?? session.metadata?.client_name ?? session.customer_details?.name,
+            companyName: intake?.company_name ?? session.metadata?.company_name,
+            problem: intake?.process_to_automate,
+            desiredOutcome: intake?.desired_result,
+            systemsInvolved: intake?.systems_involved,
+          });
+
           if (process.env.RESEND_API_KEY) {
             const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com";
             const decisionUrl = `${siteUrl}/guarantee?session_id=${encodeURIComponent(session.id)}`;
@@ -107,6 +124,13 @@ export async function POST(request: Request) {
             status: plan === "weekly" ? "weekly_active" : plan === "monthly" ? "monthly_active" : "payment_required",
             started_at: new Date().toISOString(),
           }).eq("organization_id", organizationId);
+          if (customerEmail && (plan === "weekly" || plan === "monthly")) await provisionClientWorkspace({
+            supabase,
+            email: customerEmail,
+            fullName: session.metadata?.client_name ?? session.customer_details?.name,
+            companyName: session.metadata?.company_name,
+            organizationId,
+          });
         } else if ((session.metadata?.plan === "weekly" || session.metadata?.plan === "monthly") && session.subscription) {
           const plan = session.metadata.plan;
           const stripeSubscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription.id;
@@ -118,6 +142,7 @@ export async function POST(request: Request) {
             .maybeSingle();
           if (lookupError) throw lookupError;
 
+          let membershipOrganizationId = existingSubscription?.organization_id;
           if (!existingSubscription) {
             const { data: organization, error: organizationError } = await supabase
               .from("organizations")
@@ -125,6 +150,7 @@ export async function POST(request: Request) {
               .select("id")
               .single();
             if (organizationError) throw organizationError;
+            membershipOrganizationId = organization.id;
 
             const { error: subscriptionError } = await supabase.from("subscriptions").insert({
               organization_id: organization.id,
@@ -139,6 +165,13 @@ export async function POST(request: Request) {
               throw subscriptionError;
             }
           }
+          if (customerEmail && membershipOrganizationId) await provisionClientWorkspace({
+            supabase,
+            email: customerEmail,
+            fullName: session.metadata?.client_name ?? session.customer_details?.name,
+            companyName: session.metadata?.company_name,
+            organizationId: membershipOrganizationId,
+          });
         }
       }
 

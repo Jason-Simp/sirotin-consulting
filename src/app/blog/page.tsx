@@ -1,30 +1,37 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BookOpenText } from "lucide-react";
+import { ArrowRight, BookOpenText, GraduationCap, Newspaper } from "lucide-react";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SubpageHeader } from "@/components/subpage-header";
 import { blogPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "AI Automation Insights",
+  title: "AI Automation News & Practical Guides",
   description: "Practical guides for choosing, building, securing, and improving AI automation for real business operations.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "AI Automation Insights — Jason Sirotin",
+    title: "AI Automation News — Jason Sirotin",
     description: "Practical answers to the AI automation questions business owners are asking.",
     url: "/blog",
     images: ["/jason-sirotin-ai-automation-og.png"],
   },
 };
 
-export default function BlogPage() {
+export default async function BlogPage({ searchParams }: { searchParams: Promise<{ unsubscribe?: string }> }) {
+  const { unsubscribe } = await searchParams;
   return (
     <main className="subpage blog-page">
       <SubpageHeader />
       <section className="blog-hero">
-        <p className="section-label">/ AI automation field guide</p>
-        <h1>Useful answers for people building <em>real systems.</em></h1>
-        <p>Clear, practical guidance on process design, cost, security, AI agents, knowledge systems, and implementation.</p>
+        <Newspaper size={30} aria-hidden="true" />
+        <p className="section-label">/ News + AI automation field guide</p>
+        <h1>Research, news, and playbooks for building <em>real systems.</em></h1>
+        <p>Every article is designed to help you make a decision, map a workflow, or test an automation—not simply repeat AI headlines.</p>
+      </section>
+      <section className="newsletter-card" aria-labelledby="newsletter-title">
+        <div className="newsletter-copy"><GraduationCap size={31} /><p className="section-label">/ Free five-part email course</p><h2 id="newsletter-title">Learn AI automation basics one useful step at a time.</h2><p>Five short lessons. One per day. No sales pitch until lesson five—first we help you understand the work, the risks, and what a responsible first project looks like.</p><div className="newsletter-sequence"><span>01 Map the process</span><span>02 Pick the right target</span><span>03 Keep human control</span><span>04 Test exceptions</span><span>05 Build the first version</span></div></div>
+        <div>{unsubscribe === "success" && <p className="newsletter-notice">You are unsubscribed. No more campaign emails will be sent.</p>}<NewsletterSignup /></div>
       </section>
       <section className="blog-grid" aria-label="AI automation articles">
         {blogPosts.map((post, index) => (
@@ -36,7 +43,7 @@ export default function BlogPage() {
               <div className="blog-meta"><span>{post.category}</span><time dateTime={post.published}>{new Date(`${post.published}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}</time><span>{post.readTime}</span></div>
               <h2><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2>
               <p>{post.description}</p>
-              <Link className="blog-read-link" href={`/blog/${post.slug}`}>Read the guide <ArrowRight size={16} /></Link>
+              <Link className="blog-read-link" href={`/blog/${post.slug}`}>Read the researched guide <ArrowRight size={16} /></Link>
             </div>
           </article>
         ))}

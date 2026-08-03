@@ -12,7 +12,7 @@
 
 ### 2. Public website
 
-- Build sections: hero, problem, capabilities, process, collaboration, human control, pricing, scope, communication, FAQ, final CTA, footer.
+- Build sections: hero, problem, capabilities, process, collaboration, human control, two-choice pricing, scope, communication, FAQ, final CTA, footer.
 - Use master-brief copy normalized to the final domain and commercial rules.
 - Add original animated workflow/approval visual, reduced-motion behavior, responsive imagery, and accessible interactions.
 - Add trial application, plan selection, registration/sign-in, and legal acceptance.
@@ -28,7 +28,7 @@
 
 ### 4. Billing
 
-- Create one Stripe product with weekly and monthly recurring prices.
+- Keep the public offer to a $350 one-time protected first week and a $1,000 monthly partnership. Legacy weekly and one-off checkout infrastructure remains private and is not indexed or promoted.
 - Create Checkout Sessions server-side only after authentication and agreement acceptance.
 - Verify Stripe signatures using the raw request body; make processing idempotent by event ID.
 - Handle checkout completion, subscription create/update/delete, invoice paid/failed, and payment-method events.
@@ -37,7 +37,7 @@
 
 ### 5. Client portal
 
-- Dashboard and active workspace overview.
+- Dashboard and active workspace overview, exposed through the public `Client workspace` navigation link.
 - Realtime conversation, unread state, replies, pins, decision/testing/approval message types.
 - Notes with client-visible vs Jason-private separation.
 - Private file upload/download with metadata, allowlist/size checks, and signed access.
@@ -55,7 +55,8 @@
 ### 7. Email and notifications
 
 - Resend domain verification and sender identities.
-- Templates: verification, welcome, Jason trial alert, new message digest, testing request, approval request, payment failure, cancellation received/effective, trial ending/ended.
+- Templates: verification, welcome, Jason trial alert, new message digest, testing request, approval request, payment failure, cancellation received/effective, trial ending/ended, and a five-message News education sequence.
+- News messages 1–4 teach AI automation fundamentals without a sales offer; message 5 may introduce the protected first week and monthly partnership.
 - Store notification events and respect per-user preferences; portal remains source of truth.
 
 ### 8. Domains and deployment
@@ -72,14 +73,12 @@
 | --- | --- | --- |
 | `/` | One-page public marketing site | Index |
 | `/start` | Guaranteed-first-week intake | Noindex |
-| `/checkout/first-week`, `/checkout/monthly` | Stripe checkout launch | Noindex |
+| `/checkout/weekly`, `/checkout/monthly` | Protected first-week and monthly Stripe checkout launch | Noindex |
 | `/guarantee` | Verified monthly-or-refund choice | Noindex |
 | `/sign-in`, `/auth/callback` | Authentication | Noindex |
-| `/portal` | Client dashboard | Noindex |
-| `/portal/workspaces/[id]` | Workspace/conversation/notes/files/testing/approvals | Noindex |
-| `/portal/billing` | Plan, invoices/payment method link, cancellation | Noindex |
-| `/portal/settings` | Account/notifications | Noindex |
-| `/admin` and `/admin/**` | Jason administration | Noindex |
+| `/portal` | Client workspace: conversation, notes, files, testing, approvals, and billing | Noindex |
+| `/contact` | Email, click-to-call, consultation, and client workspace entry points | Index |
+| `/blog` | News index and newsletter signup | Index |
 | `/legal/privacy`, `/legal/terms`, `/legal/service-agreement`, `/legal/payment-cancellation` | Legal content | Index where appropriate |
 | `/api/webhooks/stripe`, `/api/webhooks/resend` | Verified provider events | Never index |
 | `/api/agent/calendar/availability`, `/api/agent/calendar/book` | Authenticated ElevenLabs scheduling tools | Never index |
@@ -87,7 +86,7 @@
 
 ## Analytics events
 
-`cta_start_free`, `cta_weekly`, `cta_monthly`, `sign_in_started`, `trial_application_started`, `trial_application_submitted`, `trial_activated`, `checkout_started`, `checkout_completed`, `message_sent`, `file_uploaded`, `testing_submitted`, `approval_submitted`, `billing_portal_opened`, and `cancellation_requested`.
+`cta_first_week`, `cta_monthly`, `sign_in_started`, `trial_application_started`, `trial_application_submitted`, `trial_activated`, `checkout_started`, `checkout_completed`, `newsletter_subscribed`, `message_sent`, `file_uploaded`, `testing_submitted`, `approval_submitted`, and `billing_portal_opened`.
 
 Do not send message content, file names, client data, credentials, or sensitive intake responses to analytics.
 

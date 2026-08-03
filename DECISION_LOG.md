@@ -24,6 +24,10 @@
 | Runtime | Render defaults can change and Supabase dropped Node 20 support in 2026 | Pin a Node 22+ compatible range with an upper bound; prefer Node 24 for the new service | Current Render and Supabase guidance |
 | Supabase keys | Older examples commonly use legacy anon/service-role keys | Use a publishable key in browser/server session clients and a secret key only in tightly scoped server code; never expose it to clients | Current Supabase key guidance |
 | Supabase API exposure | New tables are no longer automatically exposed to Data/GraphQL APIs | Explicitly grant only required privileges and enable RLS on every exposed table | Supabase 2026 breaking change and security guidance |
+| Public pricing | Four public choices created unnecessary decision friction | Show only the $350 protected first week and $1,000 monthly partnership; keep one-off and legacy weekly work private and specifically scoped | Jason's August 2, 2026 explicit direction |
+| Client workspace | The sign-in link did not expose a useful communication surface | Make `Client workspace` persistent in navigation and provide messages, notes, private files, testing, approvals, and Stripe membership management in `/portal` | Jason's August 2, 2026 explicit direction |
+| News nurture | Insights and thin articles did not establish expertise or trust | Rename the section News, publish research-backed articles, store explicit subscribers in Supabase, and send four educational messages before a fifth service introduction | Jason's August 2, 2026 explicit direction |
+| ElevenLabs deployment | The assistant shell existed but no production agent was connected | Publish agent `agent_0901kz2twnd6e68vzfyc65ga8njy` in the SimplSolutions ElevenLabs workspace with Jason's saved voice and public-safe knowledge; route booking to the live schedule until direct Google OAuth tools are configured | Jason's August 2, 2026 explicit direction and action-safety requirements |
 
 ## Launch confirmations still required
 
@@ -33,8 +37,4 @@ These are not safe to invent and do not block local foundation work.
 2. Governing state, county/venue, legal notice address, and privacy contact.
 3. Attorney approval of the agreement, clickwrap presentation, recurring-payment disclosures, nonrefundability, cancellation notice, liability, indemnity, and privacy terms.
 4. Accountant confirmation of tax treatment and the Stripe account/bank payout identity.
-5. Which Render workspace to use: `Jason's workspace` or `Savvy's workspace`.
-6. Which Supabase organization should own the new project, plus approval of the displayed project cost before creation.
-7. Stripe connector reauthentication, followed by confirmation that the connected account is the intended merchant account.
-8. Written permission and captions for any portfolio item that may become a public case study.
-9. Production sender addresses (recommended: `hello@automatemejay.com` and `notifications@automatemejay.com`) and the administrative inbox that receives client alerts.
+5. Written permission and captions for any portfolio item that may become a public case study.

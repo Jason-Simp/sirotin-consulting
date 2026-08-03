@@ -25,9 +25,10 @@ export async function sendMagicLink(formData: FormData) {
   try {
     const supabase = await createClient();
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    const isOwnerTestAccount = email === "jason@simplsolutions.app" || email === "sirotin@ecgprod.com";
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${siteUrl}/auth/callback?next=/portal`, shouldCreateUser: false },
+      options: { emailRedirectTo: `${siteUrl}/auth/callback?next=/portal`, shouldCreateUser: isOwnerTestAccount },
     });
     if (error) safeLog("warn", "auth.magic_link_not_sent", { requestId, error });
   } catch (error) {

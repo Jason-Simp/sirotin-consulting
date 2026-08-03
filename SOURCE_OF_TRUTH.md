@@ -28,16 +28,9 @@
 - One directing stakeholder and one actively prioritized workstream.
 - Cancel anytime through the membership billing portal; cancellation stops the next renewal and service continues through the current paid 30-day period.
 
-### Weekly Partner
-
-- $350 paid once for one seven-day service period.
-- Approximately one hour of substantive work during the paid period.
-- One directing stakeholder and one actively prioritized workstream.
-- No automatic renewal; the client affirmatively purchases another week to continue.
-
 ### Statements of Work
 
-- Weekly and Monthly Partner purchases require distinct, plan-specific SOWs signed electronically by both parties.
+- Monthly Partner purchases require a plan-specific SOW signed electronically by both parties. Legacy or privately scoped weekly work retains its own SOW but is not a public pricing choice.
 - The client reviews and signs the exact version before Stripe checkout. Jason counter-signs that version after payment confirmation.
 - Preserve the exact document snapshot, version, SHA-256 hash, signer identity and capacity, timestamps, payment linkage, and a printable executed copy.
 - Signature records are server-only; public and ordinary authenticated database roles receive no direct access.
@@ -61,7 +54,7 @@ The public experience is a single server-rendered page with:
 3. Problem and capability framing.
 4. Five-step build/test/improve loop.
 5. Client responsibilities and human-control checkpoints.
-6. Pricing cards for the guaranteed first week, non-renewing weekly service, monthly continuation, and one-off work.
+6. Two pricing cards only: the $350 guaranteed first week and the $1,000 monthly partnership.
 7. Scope, communication, and exclusion language.
 8. FAQ answering all required commercial and ownership questions.
 9. Final CTA and legal footer.
@@ -70,7 +63,7 @@ The public experience must remain easy to reach and navigate across desktop, tab
 
 The portfolio presents 95% agent-produced execution as the current estimated share, with human direction, review, and release approval stated alongside it. Six live featured experiences are SimplSolutions, ECG Productions, DriveOn Protection, SchoolAmplified, SimplDemocracy, and SimplCity for Manchester, New Hampshire.
 
-Primary calls to action are `Start with the guarantee`, `Choose Weekly`, `Choose Monthly`, and `Sign In`.
+Primary calls to action are `Start with the guarantee`, `Choose Monthly`, `Book a consultation`, and `Client workspace`.
 
 ## Client portal
 
@@ -103,6 +96,8 @@ Primary calls to action are `Start with the guarantee`, `Choose Weekly`, `Choose
 - Zod validation, server-only secrets, rate limiting, idempotency, audit events, and signed file access.
 - An ElevenLabs React SDK website assistant, clearly disclosed as AI, grounded in a public-safe knowledge base, and using Jason's existing custom ElevenLabs voice.
 - Authenticated calendar webhook tools check `jason@simplsolutions.app` and `sirotin@ecgprod.com` before scheduling a confirmed 30-minute introduction. Material agent actions are audited.
+- The public website assistant is ElevenLabs agent `agent_0901kz2twnd6e68vzfyc65ga8njy`, disclosed as AI and published with Jason's saved custom voice. Until Google OAuth credentials are configured for direct tool calls, it directs visitors to the live Google appointment schedule at `/book` rather than claiming to book directly.
+- News subscribers are stored server-side in Supabase. Resend schedules five messages: the first four are educational and the fifth may introduce the paid services. Every message includes an unsubscribe path.
 
 ## Data model
 

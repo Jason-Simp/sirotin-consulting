@@ -18,13 +18,17 @@ export function HomePortfolioAccordion() {
   useEffect(() => {
     const details = detailsRef.current;
     if (!details) return;
+    const summary = details.querySelector("summary");
+    if (!summary) return;
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting && details.open) details.open = false;
-    }, { threshold: 0 });
+    const closeWhenSummaryLeavesViewport = () => {
+      if (!details.open) return;
+      const bounds = summary.getBoundingClientRect();
+      if (bounds.bottom < 0 || bounds.top > window.innerHeight) details.open = false;
+    };
 
-    observer.observe(details);
-    return () => observer.disconnect();
+    window.addEventListener("scroll", closeWhenSummaryLeavesViewport, { passive: true });
+    return () => window.removeEventListener("scroll", closeWhenSummaryLeavesViewport);
   }, []);
 
   return (
