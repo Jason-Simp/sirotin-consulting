@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { StartForm } from "./start-form";
 import { SubpageHeader } from "@/components/subpage-header";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Start Your Guaranteed First Week",
   description: "Bring one recurring business problem and begin a paid first week of focused AI automation work with a full service-fee money-back guarantee.",
-  alternates: { canonical: "/start" },
-};
+  path: "/start",
+});
 
 export default function StartPage() {
   return (

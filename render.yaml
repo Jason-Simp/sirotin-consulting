@@ -13,6 +13,10 @@ services:
         value: https://automatemejay.com
       - key: NEXT_PUBLIC_CONSULTATION_BOOKING_URL
         value: https://calendar.google.com/calendar/appointments/schedules/AcZssZ0lVz4Ms-gCu6Lih6OaMA48D_Uv9-CsRAjf-XUZqHExVVZX4KOabqb7dJl74DgQ-LSGfcEiLhyp
+      - key: NEXT_PUBLIC_GTM_ID
+        sync: false
+      - key: NEXT_PUBLIC_BING_SITE_VERIFICATION
+        sync: false
       - key: NEXT_PUBLIC_SUPABASE_URL
         sync: false
       - key: NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY

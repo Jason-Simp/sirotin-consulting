@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Mail, MessageSquareText, Phone } from "lucide-react";
 import { SubpageHeader } from "@/components/subpage-header";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Contact Jason Sirotin",
   description: "Email, call, or book a free AI automation consultation with Jason Sirotin.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return <main className="subpage contact-page">

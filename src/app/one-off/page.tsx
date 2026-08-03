@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, PackagePlus, Sparkles } from "lucide-react";
 import type Stripe from "stripe";
 import { SubpageHeader } from "@/components/subpage-header";
 import { hasStripeCheckoutConfig } from "@/lib/env";
 import { createStripeClient } from "@/lib/stripe";
+import { createPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "One-Off AI Automation Services",
   description: "Purchase a clearly scoped, non-renewing AI automation service or add-on from Jason Sirotin.",
-};
+  path: "/one-off",
+});
 
 function isPublicProduct(product: string | Stripe.Product | Stripe.DeletedProduct): product is Stripe.Product {
   return typeof product !== "string" && !product.deleted && product.active && product.metadata.application === "sirotin-consulting" && product.metadata.public_catalog === "true";

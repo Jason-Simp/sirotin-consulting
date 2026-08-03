@@ -4,7 +4,8 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SubpageHeader } from "@/components/subpage-header";
-import { blogPosts, getBlogPost } from "@/lib/blog";
+import { blogPosts, getBlogPost, getRelatedBlogPosts } from "@/lib/blog";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -30,24 +31,56 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       authors: ["Jason Sirotin"],
       images: [{ url: post.image, alt: post.title }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [post.image],
+    },
   };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
   const post = getBlogPost((await params).slug);
   if (!post) notFound();
+  const relatedPosts = getRelatedBlogPosts(post);
+  const wordCount = [post.title, post.description, ...post.intro, ...post.sections.flatMap((section) => [section.heading, ...section.paragraphs, ...(section.bullets ?? [])]), post.takeaway]
+    .join(" ")
+    .trim()
+    .split(/\s+/).length;
   const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.published,
-    dateModified: post.updated,
-    author: { "@type": "Person", name: "Jason Sirotin", url: "https://automatemejay.com" },
-    publisher: { "@type": "Person", name: "Jason Sirotin" },
-    image: `https://automatemejay.com${post.image}`,
-    mainEntityOfPage: `https://automatemejay.com/blog/${post.slug}`,
-    keywords: post.keywords.join(", "),
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${SITE_URL}/blog/${post.slug}#article`,
+        headline: post.title,
+        description: post.description,
+        datePublished: post.published,
+        dateModified: post.updated,
+        author: { "@id": `${SITE_URL}/#jason` },
+        publisher: { "@id": `${SITE_URL}/#organization` },
+        image: `${SITE_URL}${post.image}`,
+        mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        articleSection: post.category,
+        inLanguage: "en-US",
+        isAccessibleForFree: true,
+        wordCount,
+        keywords: post.keywords.join(", "),
+        about: post.keywords.map((keyword) => ({ "@type": "DefinedTerm", name: keyword })),
+        citation: post.sources?.map((source) => source.url),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${SITE_URL}/blog/${post.slug}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "News and guides", item: `${SITE_URL}/blog` },
+          { "@type": "ListItem", position: 3, name: post.title, item: `${SITE_URL}/blog/${post.slug}` },
+        ],
+      },
+    ],
   };
 
   return (
@@ -80,6 +113,19 @@ export default async function BlogPostPage({ params }: PageProps) {
           </div>
         </div>
       </article>
+      <section className="blog-related" aria-labelledby="related-guides-title">
+        <div><p className="section-label">/ Continue learning</p><h2 id="related-guides-title">Related practical guides</h2></div>
+        <div className="blog-related-grid">
+          {relatedPosts.map((related) => (
+            <article key={related.slug}>
+              <span>{related.category}</span>
+              <h3><Link href={`/blog/${related.slug}`}>{related.title}</Link></h3>
+              <p>{related.description}</p>
+              <Link href={`/blog/${related.slug}`}>Read the guide <ArrowRight size={15} /></Link>
+            </article>
+          ))}
+        </div>
+      </section>
       <section className="blog-post-cta"><div><p className="section-label">/ Ready to apply it?</p><h2>Bring one process. Leave with a clearer next step.</h2></div><Link className="button button-primary" href="/book">Book a free consultation <ArrowRight size={17} /></Link></section>
     </main>
   );

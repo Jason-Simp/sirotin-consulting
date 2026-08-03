@@ -3,6 +3,8 @@ import { DM_Sans, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { JasonAgent } from "@/components/jason-agent";
 import { AUTOMATEMEJAY_AGENT_ID } from "@/lib/agent-config";
+import { GoogleTagManager } from "@/components/google-tag-manager";
+import { SITE_NAME, SITE_URL, SOCIAL_IMAGE } from "@/lib/seo";
 
 const sans = DM_Sans({
   variable: "--font-sans",
@@ -22,15 +24,15 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? SITE_URL),
   title: {
-    default: "Jason Sirotin — AI Automation Partner",
+    default: "AI Automation Consultant — Jason Sirotin | AutomateMeJay",
     template: "%s — Jason Sirotin",
   },
   description:
-    "Independent AI automation consulting for businesses that need practical workflows built, repaired, connected, and improved.",
-  applicationName: "Jason Sirotin AI Automation Partner",
-  authors: [{ name: "Jason Sirotin", url: "https://automatemejay.com" }],
+    "Work directly with AI automation consultant Jason Sirotin to design, build, secure, troubleshoot, and improve practical business workflows.",
+  applicationName: SITE_NAME,
+  authors: [{ name: "Jason Sirotin", url: SITE_URL }],
   creator: "Jason Sirotin",
   manifest: "/manifest.webmanifest",
   formatDetection: { telephone: false },
@@ -44,23 +46,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "Jason Sirotin — AI Automation Partner",
+    siteName: SITE_NAME,
     title: "Build better business automations with an ongoing AI partner.",
     description:
       "Bring one recurring problem. We will turn it into a working process.",
-    images: [{
-      url: "/jason-sirotin-ai-automation-og.png",
-      width: 1200,
-      height: 630,
-      alt: "Jason Sirotin, your AI automation partner — real systems built fast and human approved",
-    }],
+    images: [SOCIAL_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Jason Sirotin — AI Automation Partner",
     description: "Practical AI automation consulting for operating teams.",
-    images: ["/jason-sirotin-ai-automation-og.png"],
+    images: [SOCIAL_IMAGE.url],
   },
+  verification: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+    ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+    : undefined,
 };
 
 export const viewport: Viewport = {
@@ -82,6 +82,7 @@ export default function RootLayout({
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <div id="main-content" tabIndex={-1}>{children}</div>
         <JasonAgent agentId={AUTOMATEMEJAY_AGENT_ID} />
+        <GoogleTagManager containerId={process.env.NEXT_PUBLIC_GTM_ID} />
       </body>
     </html>
   );

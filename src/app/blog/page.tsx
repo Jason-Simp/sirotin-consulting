@@ -1,22 +1,16 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookOpenText, GraduationCap, Newspaper } from "lucide-react";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SubpageHeader } from "@/components/subpage-header";
 import { blogPosts } from "@/lib/blog";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "AI Automation News & Practical Guides",
   description: "Practical guides for choosing, building, securing, and improving AI automation for real business operations.",
-  alternates: { canonical: "/blog" },
-  openGraph: {
-    title: "AI Automation News — Jason Sirotin",
-    description: "Practical answers to the AI automation questions business owners are asking.",
-    url: "/blog",
-    images: ["/jason-sirotin-ai-automation-og.png"],
-  },
-};
+  path: "/blog",
+});
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ unsubscribe?: string }> }) {
   const { unsubscribe } = await searchParams;
