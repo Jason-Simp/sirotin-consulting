@@ -11,8 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/book`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${base}/contact`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/start`, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${base}/legal/privacy`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${base}/legal/terms`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${base}/legal/security`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${base}/one-off`, changeFrequency: "monthly", priority: 0.6 },
   ];
 }

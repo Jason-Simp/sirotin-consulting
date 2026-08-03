@@ -1,9 +1,17 @@
+import { blogPosts } from "@/lib/blog";
+
+const articleIndex = blogPosts
+  .map((post) => `- [${post.title}](https://automatemejay.com/blog/${post.slug}): ${post.description}`)
+  .join("\n");
+
 const body = `# Jason Sirotin — AI Automation Partner
 
 > Independent AI automation consulting for businesses that need practical workflows built, repaired, connected, and improved.
 
 Canonical URL: https://automatemejay.com
 Contact: hello@automatemejay.com
+Phone: +1-678-855-5169
+Last updated: ${blogPosts[0]?.updated ?? "2026-08-03"}
 
 ## Service
 
@@ -23,13 +31,26 @@ Jason Sirotin works directly with business owners and operating teams to design,
 
 The client tests deliveries, supplies access and accurate information, approves production use, and maintains appropriate human review. Results depend on systems, data, cooperation, third-party services, and technical feasibility.
 
+## Expertise
+
+- Business process and workflow automation
+- AI agents and governed knowledge systems
+- Human approval, testing, security, and exception design
+- Email, CRM, document, database, and operations integrations
+- Troubleshooting and improving existing automations
+
 ## Useful links
 
 - Book a free consultation: https://automatemejay.com/book
 - Portfolio: https://automatemejay.com/portfolio
 - AI automation news and researched guides: https://automatemejay.com/blog
+- Full public knowledge file: https://automatemejay.com/llms-full.txt
+
+## Researched guides
+
+${articleIndex}
 `;
 
 export function GET() {
-  return new Response(body, { headers: { "content-type": "text/plain; charset=utf-8" } });
+  return new Response(body, { headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "public, max-age=3600" } });
 }

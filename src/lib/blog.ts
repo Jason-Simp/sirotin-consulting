@@ -553,3 +553,25 @@ export const blogPosts: BlogPost[] = [
 export function getBlogPost(slug: string) {
   return blogPosts.find((post) => post.slug === slug);
 }
+
+function topicTokens(post: BlogPost) {
+  const ignored = new Set(["with", "from", "that", "this", "your", "what", "when", "where", "which", "into", "about", "business", "automation"]);
+  return new Set(`${post.title} ${post.category} ${post.keywords.join(" ")}`
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((token) => token.length > 2 && !ignored.has(token)));
+}
+
+export function getRelatedBlogPosts(post: BlogPost, limit = 3) {
+  const currentTokens = topicTokens(post);
+  return blogPosts
+    .filter((candidate) => candidate.slug !== post.slug)
+    .map((candidate, index) => {
+      const sharedTokens = [...topicTokens(candidate)].filter((token) => currentTokens.has(token)).length;
+      const categoryMatch = candidate.category === post.category ? 4 : 0;
+      return { candidate, score: sharedTokens + categoryMatch, index };
+    })
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .slice(0, limit)
+    .map(({ candidate }) => candidate);
+}

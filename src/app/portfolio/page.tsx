@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Bot, Check, Eye, Globe2, Sparkles } from "lucide-react";
 import { PortfolioGallery } from "./portfolio-gallery";
 import { MobileNavigation } from "@/components/mobile-navigation";
+import { createPageMetadata } from "@/lib/seo";
 
 const mobileNavigation = [
   { href: "/", label: "Home" },
@@ -14,11 +14,11 @@ const mobileNavigation = [
   { href: "/sign-in", label: "Client sign in" },
 ];
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Portfolio — Agent-Built Websites & Systems",
   description: "Explore websites, AI products, internal systems, and go-to-market experiences built through Jason Sirotin’s agent-assisted delivery system.",
-  alternates: { canonical: "/portfolio" },
-};
+  path: "/portfolio",
+});
 
 const featured = [
   {

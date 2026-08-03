@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, CalendarCheck, CalendarClock, Handshake, Mail, Phone, Video } from "lucide-react";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Book a Free AI Automation Consultation",
   description: "Book a free 30-minute consultation with Jason Sirotin to define one practical AI automation opportunity and the right next step.",
-  alternates: { canonical: "/book" },
-};
+  path: "/book",
+});
 
 export default function BookPage() {
   const bookingUrl = process.env.NEXT_PUBLIC_CONSULTATION_BOOKING_URL
