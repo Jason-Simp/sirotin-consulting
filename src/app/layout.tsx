@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { JasonAgent } from "@/components/jason-agent";
+import { AUTOMATEMEJAY_AGENT_ID } from "@/lib/agent-config";
 
 const sans = DM_Sans({
   variable: "--font-sans",
@@ -80,7 +81,7 @@ export default function RootLayout({
       <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <div id="main-content" tabIndex={-1}>{children}</div>
-        <JasonAgent agentId={process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID} />
+        <JasonAgent agentId={AUTOMATEMEJAY_AGENT_ID} />
       </body>
     </html>
   );

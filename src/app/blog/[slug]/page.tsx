@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       <SubpageHeader />
       <article className="blog-article">
         <header className="blog-article-header">
-          <Link className="blog-back" href="/blog"><ArrowLeft size={16} /> All insights</Link>
+          <Link className="blog-back" href="/blog"><ArrowLeft size={16} /> All news and guides</Link>
           <div className="blog-meta"><span>{post.category}</span><time dateTime={post.published}>Published {new Date(`${post.published}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}</time><span>{post.readTime}</span></div>
           <h1>{post.title}</h1>
           <p className="blog-article-deck">{post.description}</p>

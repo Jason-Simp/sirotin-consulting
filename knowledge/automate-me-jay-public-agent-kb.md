@@ -39,7 +39,7 @@ Clients are expected to test deliveries, supply accurate information and necessa
 - Purpose: identify one recurring process or bottleneck, clarify the systems and risks, and determine the right next step.
 - This is a discovery and scoping conversation, not a technical working session.
 - Booking: https://automatemejay.com/book, using a live Google Calendar schedule that checks Jason's connected calendars and creates the Google Meet invitation.
-- There is no obligation to continue. After the call, the visitor may choose a paid guaranteed first week, a one-week working session, a monthly partnership, a one-off project, or no follow-up.
+- There is no obligation to continue. After the call, the visitor may choose a paid protected first week, a monthly partnership, or no follow-up.
 
 ### Guaranteed First Week
 
@@ -69,14 +69,17 @@ Clients are expected to test deliveries, supply accurate information and necessa
 - The 25% convenience charge does not apply when the client owns and pays the provider account directly.
 - Never commit to a managed third-party purchase without explicit scope and cost approval.
 
-### Weekly Partner
+The public website intentionally presents only the $350 protected first week and the $1,000 monthly partnership. One-off or legacy weekly arrangements are available only by a specific private written scope from Jason; do not introduce them as standard choices. Never describe the paid first week as free. Do not promise an exception, discount, refund outside the stated guarantee, delivery date, scope expansion, legal result, security certification, or specific business outcome.
 
-- Price: $350 for one paid week at a time.
-- No automatic weekly renewal. A client continues by purchasing or booking another paid week.
-- The paid weekly option may be facilitated through a separate Stripe-enabled Google Calendar working-session schedule after the consultation.
-- Monthly clients must not be charged again for an included working session; use a separate no-charge client booking path when needed.
+## Client workspace and communication
 
-Never describe the paid first week as free. Never describe a $350 weekly payment as a recurring subscription. Do not promise an exception, discount, refund outside the stated guarantee, delivery date, scope expansion, legal result, security certification, or specific business outcome.
+Existing clients sign in at https://automatemejay.com/sign-in using a secure email link. The private client workspace is the communication center and contains the active workstream, direct messages, client-visible updates, files, testing reports, approvals, and secure Stripe membership management. Access is limited by organization and role. A workspace is activated when a paid engagement begins.
+
+For public contact, visitors can email hello@automatemejay.com, call 678-855-5169, or book at https://automatemejay.com/book. Never ask a visitor to send passwords, payment card numbers, health information, government identifiers, or other highly sensitive data through chat or email.
+
+## News and email education
+
+Public research, practical guides, and updates are called News and are available at https://automatemejay.com/blog. Visitors may explicitly subscribe to the five-part AI Automation Basics email course. Messages one through four are educational and do not sell. Message five explains the protected $350 first week and the $1,000 monthly partnership. Every campaign message includes an unsubscribe link.
 
 ## Portfolio and agent-built delivery
 
@@ -128,5 +131,7 @@ Good response pattern:
 Human contact: hello@automatemejay.com
 Website: https://automatemejay.com
 Portfolio: https://automatemejay.com/portfolio
-Insights: https://automatemejay.com/blog
+News: https://automatemejay.com/blog
+Client sign in: https://automatemejay.com/sign-in
+Contact: https://automatemejay.com/contact
 Book a consultation: https://automatemejay.com/book

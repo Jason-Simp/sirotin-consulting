@@ -4,7 +4,6 @@ import {
   ArrowDownRight,
   ArrowRight,
   Blocks,
-  CalendarDays,
   CalendarRange,
   Check,
   FlaskConical,
@@ -20,7 +19,7 @@ import { HomePortfolioAccordion } from "@/components/home-portfolio-accordion";
 
 const mobileNavigation = [
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/blog", label: "Insights" },
+  { href: "/blog", label: "News" },
   { href: "/book", label: "Book a consultation" },
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#pricing", label: "Plans" },
@@ -61,7 +60,7 @@ const steps = [
 
 const plans = [
   {
-    name: "Guaranteed first week",
+    name: "Protected first week",
     price: "$350",
     cadence: "one-time payment",
     description: "A practical, paid introduction with the risk taken off your shoulders.",
@@ -78,24 +77,6 @@ const plans = [
     action: "Start with the guarantee",
     featured: true,
     Icon: ShieldCheck,
-  },
-  {
-    name: "Weekly partner",
-    price: "$350",
-    cadence: "one paid week",
-    description: "Simple one-week-at-a-time access when flexibility matters most.",
-    features: [
-      "Ongoing partner access",
-      "Approximately one hour of substantive work weekly",
-      "One primary directing stakeholder",
-      "One actively prioritized workstream",
-      "Service continues through the paid week",
-      "No automatic weekly renewal",
-    ],
-    href: "/checkout/weekly",
-    action: "Choose weekly",
-    featured: false,
-    Icon: CalendarDays,
   },
   {
     name: "Monthly partner",
@@ -118,30 +99,13 @@ const plans = [
     featured: false,
     Icon: CalendarRange,
   },
-  {
-    name: "One-off additions",
-    price: "Quoted",
-    cadence: "one-time",
-    description: "Clearly scoped additions, builds, audits, or fixes purchased only when needed.",
-    features: [
-      "A defined deliverable and price",
-      "No subscription required",
-      "Secure one-time Stripe checkout",
-      "Products can be added as needs arise",
-      "Separate approval before work begins",
-    ],
-    href: "/one-off",
-    action: "View one-off work",
-    featured: false,
-    Icon: Sparkles,
-  },
 ];
 
 const faqs = [
   ["How does the first-week guarantee work?", "You pay $350 for the seven-day introductory engagement. If it is not the right fit, request your full $350 service-fee refund before the guarantee period ends. Approved third-party expenses are separate and are not part of the refund."],
-  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to purchase another paid week, begin a monthly membership, or request your money back."],
+  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to begin the $1,000 monthly partnership, pause, or request your money back before the guarantee closes."],
   ["When does the seven-day period start?", "It begins when Jason confirms that your engagement is activated—not simply when you submit the intake form."],
-  ["Can I purchase an ongoing plan immediately?", "Yes, although the free consultation is the recommended first step so the scope and working model are clear. Weekly service is purchased one week at a time; monthly is a recurring 30-day membership."],
+  ["Can I purchase the monthly plan immediately?", "Yes, although the free consultation is the recommended first step so the scope and working model are clear. Monthly service renews every 30 days until canceled."],
   ["What does “approximately one hour” mean?", "The service is priced around approximately one hour of substantive work per week. Research, planning, building, debugging, documentation, and substantive consulting use the available working capacity."],
   ["Is chat included?", "Reasonable asynchronous communication related to the active workstream is included."],
   ["Does real-time chat mean an immediate response?", "No. Messages appear immediately in the workspace, but Jason responds asynchronously based on workload, complexity, priority, and availability."],
@@ -154,7 +118,7 @@ const faqs = [
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
-  ["Can I cancel?", "Yes. The monthly membership can be canceled through the client membership area at any time; service remains available through the current paid 30-day period and no future renewal is charged. Weekly service, the guaranteed first week, and one-off work do not renew automatically."],
+  ["Can I cancel?", "Yes. The monthly membership can be canceled through the client workspace at any time; service remains available through the current paid 30-day period and no future renewal is charged. The protected first week never renews automatically."],
 ];
 
 const jsonLd = {
@@ -208,7 +172,8 @@ export default function Home() {
         </Link>
         <nav aria-label="Primary navigation">
           <Link href="/portfolio">Portfolio</Link>
-          <Link href="/blog">Insights</Link>
+          <Link href="/blog">News</Link>
+          <Link href="/sign-in">Client workspace</Link>
           <a href="#how-it-works">How it works</a>
           <a href="#pricing">Plans</a>
           <a href="#faq">FAQ</a>
@@ -365,7 +330,7 @@ export default function Home() {
       <section className="pricing section-pad" id="pricing">
         <div className="section-intro centered">
           <SectionLabel>Pricing</SectionLabel>
-          <h2>Start protected. Continue only when the relationship is valuable.</h2>
+          <h2>Two clear choices. Start protected or work together monthly.</h2>
         </div>
         <div className="plans">
           {plans.map((plan) => (
@@ -434,7 +399,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/blog">Insights</Link><Link href="/book">Book a consultation</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
+        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/blog">News</Link><Link href="/book">Book a consultation</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client workspace</Link></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>

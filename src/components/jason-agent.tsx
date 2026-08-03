@@ -15,14 +15,16 @@ function AgentConversation() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const conversation = useConversation({
     onMessage: ({ role, message }) => setMessages((current) => [...current, { role, text: message }]),
-    onConnect: () => {
-      if (pendingMessage.current) {
-        conversation.sendUserMessage(pendingMessage.current);
-        pendingMessage.current = null;
-      }
-    },
     onError: (message) => setLocalError(message || "The assistant could not connect."),
   });
+  const { sendUserMessage, status } = conversation;
+
+  useEffect(() => {
+    if (status !== "connected" || !pendingMessage.current) return;
+    const message = pendingMessage.current;
+    pendingMessage.current = null;
+    sendUserMessage(message);
+  }, [sendUserMessage, status]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
