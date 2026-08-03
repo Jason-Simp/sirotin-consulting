@@ -22,6 +22,118 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-invoice-processing-with-ai",
+    title: "How to automate invoice processing with AI without losing control",
+    description: "A practical accounts-payable workflow for extracting invoice data, stopping duplicates, verifying vendor changes, routing approvals, and preserving an audit trail.",
+    category: "Finance operations",
+    published: "2026-08-03",
+    updated: "2026-08-03",
+    readTime: "13 min read",
+    image: "/portfolio/simplupload.jpg",
+    keywords: ["AI invoice processing", "automate accounts payable", "invoice automation workflow", "prevent duplicate invoice payments"],
+    intro: [
+      "Yes, AI can remove a large amount of manual invoice work. It can read documents, propose structured fields, detect missing information, and prepare an approval packet. It should not quietly decide that a vendor is legitimate or that money should move.",
+      "The safest design separates document understanding from financial authority. AI prepares the evidence. Deterministic controls check the transaction. Named people approve exceptions and payments.",
+    ],
+    sections: [
+      {
+        heading: "Define the job before choosing a parser",
+        paragraphs: [
+          "Map one invoice from arrival to payment. Record every system, handoff, decision, exception, and piece of evidence. Decide which system owns the vendor record, purchase order, receipt, approval, accounting entry, and payment confirmation. If two systems can independently change the same fact, fix that ownership problem before adding AI.",
+          "A useful first boundary is: when an invoice reaches the approved intake address or upload page, the workflow will preserve the original, extract proposed fields, run duplicate and policy checks, and prepare a review packet. It will not change vendor banking details, approve its own exception, or release payment.",
+        ],
+        bullets: [
+          "Trigger: one controlled inbox or upload route",
+          "Output: a reviewable invoice record with the original attached",
+          "System of record: one accounting or AP platform",
+          "Owner: one person accountable for the workflow",
+          "Excluded authority: vendor-master changes and payment release",
+        ],
+      },
+      {
+        heading: "Extract a typed record, not a paragraph",
+        paragraphs: [
+          "Invoice tools can extract header and line-item fields such as supplier name, invoice number, dates, totals, tax, purchase-order number, and line amounts. Ask the model or document processor for a defined schema, then validate every field by type, format, range, and business rule. Structured output makes downstream software easier to control; it does not prove the extracted value is true.",
+          "Keep the original file beside the proposed record. A reviewer should be able to select any important field and see the source page or region that produced it. Route unreadable documents, missing invoice numbers, conflicting totals, and unsupported currencies to an exception queue rather than guessing.",
+        ],
+        bullets: [
+          "Vendor identity and approved vendor ID",
+          "Invoice number, issue date, due date, and currency",
+          "Subtotal, tax, freight, credits, and total",
+          "Purchase-order and receiving references",
+          "Line description, quantity, unit price, and line total",
+          "Source location and validation status for every critical field",
+        ],
+      },
+      {
+        heading: "Stop duplicate invoices before approval",
+        paragraphs: [
+          "A retry, forwarded email, slightly renamed attachment, or second upload must not create a second payable item. Build a stable fingerprint from normalized vendor ID, invoice number, currency, and amount. Enforce a unique database rule for the exact key, not merely a warning in the interface.",
+          "Also look for near-duplicates: the same vendor and amount with a slightly different invoice number, the same document hash from another sender, or the same purchase-order balance billed twice. Near-duplicates belong in review. Exact duplicates should be rejected or linked to the existing record. Every external write should use a stable request key so a timeout and retry cannot create a second accounting entry or payment instruction.",
+        ],
+      },
+      {
+        heading: "Treat payment-detail changes as a separate security event",
+        paragraphs: [
+          "Never update a vendor's bank account, mailing address, or payment method merely because new instructions appear on an invoice or in the email carrying it. The FBI specifically warns that business-email-compromise schemes impersonate known vendors and alter invoice or payment instructions.",
+          "Freeze the invoice workflow when payment details differ from the approved vendor master. Verify the change through a known contact and a channel already on file—not a phone number or link supplied in the suspicious message. Require a second authorized person to approve the vendor-master change, then keep that approval separate from the invoice approval.",
+        ],
+        bullets: [
+          "Flag look-alike sender domains and reply-to mismatches",
+          "Never accept bank changes from invoice text alone",
+          "Call a previously verified number or use an established vendor portal",
+          "Require two people for vendor-master and payment-procedure changes",
+          "Escalate urgency, secrecy, and last-minute instruction changes",
+        ],
+      },
+      {
+        heading: "Use deterministic matching before human approval",
+        paragraphs: [
+          "Match the proposed invoice to approved business records. For purchase-order work, compare the purchase order, receiving evidence, and invoice. Exact rules should evaluate vendor, currency, quantities, unit prices, tax treatment, remaining PO balance, and configured tolerances. AI may explain a mismatch, but it should not invent a receipt or waive a policy.",
+          "Route clean matches through the normal approval chain and exceptions to the person who can resolve them. Approval limits should come from identity and role data, not from a model prompt. The person approving should see the original invoice, match results, prior invoices, vendor status, proposed accounting treatment, and exactly what the next action will do.",
+        ],
+      },
+      {
+        heading: "Preserve records and an audit trail",
+        paragraphs: [
+          "The IRS identifies invoices, paid bills, receipts, account statements, and canceled checks as supporting documents for business records. Your automation should make those records easier to retrieve, not replace them with an AI summary. Preserve the original document, the extracted version, validation results, approvals, overrides, accounting record ID, and payment confirmation according to your accountant's and legal counsel's retention requirements.",
+          "Log who changed what, when, and why. Store model and parser versions, but keep sensitive invoice contents out of ordinary application logs. The client should own the storage, accounting, and provider accounts whenever practical so access, billing, export, and retention remain under the client's control.",
+        ],
+        bullets: [
+          "Original immutable invoice and a document hash",
+          "Extracted fields with source locations",
+          "Duplicate, vendor, match, and policy check results",
+          "Every edit, approval, rejection, and override reason",
+          "Accounting and payment-provider record identifiers",
+          "Retention, export, backup, and deletion ownership",
+        ],
+      },
+      {
+        heading: "Launch in shadow mode and measure the exceptions",
+        paragraphs: [
+          "Run the workflow beside the current process before it can create accounting entries. Use representative invoices: normal purchases, credit memos, partial shipments, recurring bills, foreign currency, tax variations, missing purchase orders, duplicates, modified bank details, unreadable scans, and totals that do not reconcile.",
+          "Compare proposed fields and routing with the result approved by the AP team. Track field-level correction rate, duplicate catches, exception rate, false alarms, review time, cycle time, and any record created twice. Release one reversible write action at a time. Payment release should remain behind the business's existing banking controls and authorized people.",
+        ],
+        bullets: [
+          "Can every critical value be traced to the invoice?",
+          "Does an exact duplicate fail safely?",
+          "Does a near-duplicate reach a reviewer?",
+          "Does a vendor-bank change stop the workflow?",
+          "Does a retry reuse the existing record?",
+          "Can the team disable the automation without stopping AP work?",
+        ],
+      },
+    ],
+    takeaway: "Automate invoice intake, extraction, matching, and evidence preparation. Keep vendor changes, exception approval, and payment authority behind deterministic controls and named people.",
+    sources: [
+      { label: "FBI: Business Email Compromise", url: "https://www.fbi.gov/how-we-can-help-you/scams-and-safety/common-frauds-and-scams/business-email-compromise" },
+      { label: "IRS Publication 583: Starting a Business and Keeping Records", url: "https://www.irs.gov/publications/p583" },
+      { label: "Google Cloud Document AI: Invoice Parser fields", url: "https://docs.cloud.google.com/document-ai/docs/processors-list" },
+      { label: "NIST AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OpenAI API: strict JSON-schema structured outputs", url: "https://platform.openai.com/docs/api-reference/responses-streaming/response/output_item" },
+    ],
+  },
+  {
     slug: "how-to-automate-repetitive-business-tasks-with-ai",
     title: "How to automate repetitive business tasks with AI",
     description: "A practical method for choosing, designing, testing, and improving an AI-enabled business workflow without automating the wrong work.",
