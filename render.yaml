@@ -38,7 +38,9 @@ services:
       - key: JASON_NOTIFICATION_EMAIL
         value: hello@automatemejay.com
       - key: NEXT_PUBLIC_ELEVENLABS_AGENT_ID
-        sync: false
+        value: agent_0901kykq3r8kfexbwb5wnzshefcc
+      - key: ELEVENLABS_AGENT_ID
+        value: agent_0901kykq3r8kfexbwb5wnzshefcc
       - key: AGENT_TOOL_SECRET
         sync: false
       - key: SECURITY_RATE_LIMIT_SECRET
