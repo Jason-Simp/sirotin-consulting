@@ -13,6 +13,10 @@ function Conversation({ onClose }: { onClose: () => void }) {
   const pendingMessage = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const conversation = useConversation({
+    workletPaths: {
+      rawAudioProcessor: "/audio/raw-audio-processor.js",
+      audioConcatProcessor: "/audio/audio-concat-processor.js",
+    },
     onMessage: ({ role, message }) => setMessages((current) => [...current, { role, text: message }]),
     onError: (message) => setLocalError(message || "The assistant could not connect."),
   });
