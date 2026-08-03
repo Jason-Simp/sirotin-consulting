@@ -20,6 +20,13 @@ export const metadata: Metadata = {
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ unsubscribe?: string }> }) {
   const { unsubscribe } = await searchParams;
+  const unsubscribeMessage = unsubscribe === "success"
+    ? "You are unsubscribed. No more campaign emails will be sent."
+    : unsubscribe === "invalid"
+      ? "That unsubscribe link is invalid or has already been used."
+      : unsubscribe === "error"
+        ? "We could not update your email preference. Please try the link again or email hello@automatemejay.com."
+        : null;
   return (
     <main className="subpage blog-page">
       <SubpageHeader />
@@ -31,7 +38,7 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
       </section>
       <section className="newsletter-card" aria-labelledby="newsletter-title">
         <div className="newsletter-copy"><GraduationCap size={31} /><p className="section-label">/ Free five-part email course</p><h2 id="newsletter-title">Learn AI automation basics one useful step at a time.</h2><p>Five short lessons. One per day. No sales pitch until lesson five—first we help you understand the work, the risks, and what a responsible first project looks like.</p><div className="newsletter-sequence"><span>01 Map the process</span><span>02 Pick the right target</span><span>03 Keep human control</span><span>04 Test exceptions</span><span>05 Build the first version</span></div></div>
-        <div>{unsubscribe === "success" && <p className="newsletter-notice">You are unsubscribed. No more campaign emails will be sent.</p>}<NewsletterSignup /></div>
+        <div>{unsubscribeMessage && <p className="newsletter-notice" role="status">{unsubscribeMessage}</p>}{unsubscribe !== "success" && <NewsletterSignup />}</div>
       </section>
       <section className="blog-grid" aria-label="AI automation articles">
         {blogPosts.map((post, index) => (

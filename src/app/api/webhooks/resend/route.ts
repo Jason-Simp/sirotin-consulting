@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { cancelScheduledNewsletterDeliveries } from "@/lib/newsletter-cancellation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 
@@ -49,12 +50,7 @@ export async function POST(request: Request) {
       }
       if (delivery && (deliveryStatus === "bounced" || deliveryStatus === "complained")) {
         await supabase.from("newsletter_subscribers").update({ status: deliveryStatus }).eq("id", delivery.subscriber_id);
-        const { data: pending } = await supabase.from("newsletter_deliveries").select("id,resend_email_id").eq("subscriber_id", delivery.subscriber_id).eq("status", "scheduled");
-        for (const item of pending ?? []) {
-          if (!item.resend_email_id) continue;
-          const { error: cancelError } = await resend.emails.cancel(item.resend_email_id);
-          if (!cancelError) await supabase.from("newsletter_deliveries").update({ status: "canceled" }).eq("id", item.id);
-        }
+        await cancelScheduledNewsletterDeliveries({ subscriberId: delivery.subscriber_id, requestId });
       }
     }
     return Response.json({ ok: true, processed: 1 });

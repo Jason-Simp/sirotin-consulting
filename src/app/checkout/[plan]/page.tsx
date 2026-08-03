@@ -4,7 +4,14 @@ import { Check } from "lucide-react";
 import { SubpageHeader } from "@/components/subpage-header";
 import { CheckoutForm } from "./checkout-form";
 
-export const metadata: Metadata = { title: "Choose a Plan", robots: { index: false, follow: false } };
+export async function generateMetadata({ params }: { params: Promise<{ plan: string }> }): Promise<Metadata> {
+  const { plan } = await params;
+  return {
+    title: "Choose a Plan",
+    robots: { index: false, follow: false },
+    alternates: { canonical: `/checkout/${encodeURIComponent(plan)}` },
+  };
+}
 
 const planData = {
   "first-week": { name: "Guaranteed First Week", price: "$350", cadence: "one time", notice: "Full $350 service-fee money-back guarantee" },

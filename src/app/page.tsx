@@ -166,7 +166,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <header className="site-header">
-        <Link className="wordmark" href="/" aria-label="Jason Sirotin home">
+        <Link className="wordmark" href="/">
           <span>JS</span>
           <strong>Jason Sirotin</strong>
         </Link>
@@ -284,46 +284,6 @@ export default function Home() {
           <div><SectionLabel>Human control</SectionLabel><h2>Automation should support your judgment, not replace it.</h2></div>
           <p>You remain responsible for how the automation is used inside your business. Important outputs and changes should include the level of human review appropriate for the situation.</p>
           <div className="control-principles"><span>Test before production</span><span>Maintain backups</span><span>Review consequential outputs</span><span>Monitor results</span></div>
-        </div>
-      </section>
-
-      <section className="proof-showcase section-pad">
-        <div className="proof-showcase-header">
-          <div>
-            <SectionLabel>Live work</SectionLabel>
-            <h2>Working systems you can open right now.</h2>
-          </div>
-          <p>These are live, public examples—not concept art. Each one was shaped around a different audience, information model, and business goal.</p>
-        </div>
-
-        <div className="proof-projects">
-          <a href="https://www.simplsolutions.app/" target="_blank" rel="noreferrer" className="proof-project-card" aria-label="Open SimplSolutions in a new tab">
-            <div className="proof-project-media"><Image src="/portfolio/simplsolutions.jpg" alt="SimplSolutions connected product portfolio" fill sizes="(max-width: 800px) 100vw, 50vw" /></div>
-            <div className="proof-project-body">
-              <div className="proof-project-meta"><span>01</span><small>AI product ecosystem</small></div>
-              <h3>SimplSolutions</h3>
-              <p>A connected product portfolio that makes a broad AI platform understandable—from its shared Business Brain to content, email, voice, social, and training products.</p>
-              <div className="proof-project-tags"><span>Product architecture</span><span>Custom UX</span><span>Live system</span></div>
-              <div className="proof-project-open">Open live project <ArrowDownRight size={18} aria-hidden="true" /></div>
-            </div>
-          </a>
-
-          <a href="https://simplsite.app/cities/manchester-new-hampshire#ask" target="_blank" rel="noreferrer" className="proof-project-card" aria-label="Open SimplCity Manchester in a new tab">
-            <div className="proof-project-media"><Image src="/portfolio/simplcity.jpg" alt="SimplCity Manchester public information experience" fill sizes="(max-width: 800px) 100vw, 50vw" /></div>
-            <div className="proof-project-body">
-              <div className="proof-project-meta"><span>02</span><small>Public information system</small></div>
-              <h3>SimplCity Manchester</h3>
-              <p>A city-specific experience that organizes local services, records, meetings, and public questions into one accessible destination.</p>
-              <div className="proof-project-tags"><span>Information architecture</span><span>City data</span><span>Live system</span></div>
-              <div className="proof-project-open">Open live project <ArrowDownRight size={18} aria-hidden="true" /></div>
-            </div>
-          </a>
-        </div>
-
-        <div className="proof-build-strip" aria-label="How the work is produced">
-          <div><span>01</span><strong>Directed around a real problem</strong></div>
-          <div><span>02</span><strong>Agent-assisted research, content, and code</strong></div>
-          <div><span>03</span><strong>Human-reviewed before release</strong></div>
         </div>
       </section>
 

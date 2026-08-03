@@ -7,7 +7,7 @@ import { createStripeClient } from "@/lib/stripe";
 import { OneOffCheckoutForm } from "./one-off-checkout-form";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "One-Off Service Checkout", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "One-Off Service Checkout", robots: { index: false, follow: false }, alternates: { canonical: "/checkout/one-off" } };
 
 export default async function OneOffCheckoutPage({ searchParams }: { searchParams: Promise<{ price?: string }> }) {
   const { price: priceId } = await searchParams;

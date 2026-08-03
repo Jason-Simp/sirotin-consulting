@@ -30,7 +30,7 @@ import {
   uploadWorkspaceFile,
 } from "./actions";
 
-export const metadata: Metadata = { title: "Client Workspace", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Client Workspace", robots: { index: false, follow: false }, alternates: { canonical: "/portal" } };
 
 function formatDate(value: string | null | undefined) {
   if (!value) return "Not scheduled";
