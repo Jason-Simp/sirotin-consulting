@@ -44,19 +44,24 @@ export async function POST(request: Request) {
           }).eq("id", sowId).eq("status", "client_signed_checkout_pending").select("id").maybeSingle();
           if (sowUpdateError) throw sowUpdateError;
 
-          if (updatedSow && process.env.RESEND_API_KEY && process.env.JASON_NOTIFICATION_EMAIL) {
+          if (updatedSow && process.env.RESEND_API_KEY) {
             const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com";
             const signingUrl = `${siteUrl}/sow/${sowId}/countersign?token=${encodeURIComponent(signingToken)}`;
             const resend = new Resend(process.env.RESEND_API_KEY);
             try {
-              const { error: signingEmailError } = await resend.emails.send({
+              const { data: signingEmail, error: signingEmailError } = await resend.emails.send({
                 from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
-                to: process.env.JASON_NOTIFICATION_EMAIL,
+                to: process.env.JASON_NOTIFICATION_EMAIL ?? "jason@simplsolutions.app",
                 replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
                 subject: `Counter-sign ${sow.plan === "weekly" ? "Weekly" : "Monthly"} Partner SOW — ${sow.company_name}`,
                 text: `${sow.client_name} signed the ${sow.plan} SOW for ${sow.company_name}, and Stripe confirmed payment. Review and counter-sign the exact document here:\n\n${signingUrl}\n\nThis private signing link expires in 30 days.`,
               });
               if (signingEmailError) throw signingEmailError;
+              const { error: deliveryUpdateError } = await supabase.from("service_sows").update({
+                jason_signing_email_id: signingEmail?.id ?? null,
+                jason_signing_email_sent_at: new Date().toISOString(),
+              }).eq("id", sowId);
+              if (deliveryUpdateError) throw deliveryUpdateError;
             } catch (emailError) {
               safeLog("error", "sow.jason_signing_email_failed", { requestId, error: emailError });
             }

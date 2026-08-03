@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://automatemejay.com";
       const accessUrl = `${siteUrl}/sow/${sow.id}?token=${encodeURIComponent(clientToken)}`;
       const resend = new Resend(process.env.RESEND_API_KEY);
-      const { error: emailError } = await resend.emails.send({
+      const { data: clientCopyEmail, error: emailError } = await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
         to: sow.client_email,
         replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
@@ -56,6 +56,13 @@ export async function POST(request: Request) {
         text: `Your Statement of Work has now been signed by both parties. View, print, or save your executed copy using this private link:\n\n${accessUrl}\n\nFor your security, do not share this link publicly.`,
       });
       if (emailError) safeLog("error", "sow.client_copy_email_failed", { requestId, error: emailError });
+      else {
+        const { error: deliveryUpdateError } = await supabase.from("service_sows").update({
+          client_copy_email_id: clientCopyEmail?.id ?? null,
+          client_copy_email_sent_at: new Date().toISOString(),
+        }).eq("id", sow.id);
+        if (deliveryUpdateError) safeLog("error", "sow.client_copy_delivery_evidence_failed", { requestId, error: deliveryUpdateError });
+      }
     }
     return Response.json({ ok: true }, { headers: { "Cache-Control": "no-store", "x-request-id": requestId } });
   } catch (error) {
