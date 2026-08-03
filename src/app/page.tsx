@@ -325,10 +325,14 @@ export default function Home() {
 
       <section className="visual-proof section-pad">
         <div className="visual-proof-copy">
-          <SectionLabel>Inside the work</SectionLabel>
-          <h2>Built for the actual business—not a generic demo.</h2>
-          <p>Each system gets its own structure, visual language, workflows, and safeguards. The interface is only the visible layer; the real work is how everything connects behind it.</p>
-          <div className="jason-note"><div className="jason-note-avatar"><Image src="/jason-sirotin-headshot.png" alt="Jason Sirotin" fill sizes="64px" /></div><p><strong>Directed by Jason.</strong><br />Built with agents. Reviewed by people.</p></div>
+          <SectionLabel>What you receive</SectionLabel>
+          <h2>Your first working automation.</h2>
+          <p>Not a generic demo or strategy deck. We choose one painful process, build the first usable version around your actual tools, and put it in your hands to test. You can see what it does, where information moves, and what still needs human approval.</p>
+          <div className="proof-deliverables" aria-label="What the client receives">
+            <div><Blocks size={21} aria-hidden="true" /><span><strong>A working first version</strong><small>Built against one real process—not a generic demonstration.</small></span></div>
+            <div><SearchCheck size={21} aria-hidden="true" /><span><strong>A clear system map</strong><small>See what connects, where data moves, and where a person stays involved.</small></span></div>
+            <div><ShieldCheck size={21} aria-hidden="true" /><span><strong>Control of your assets</strong><small>Your accounts, access, documentation, and approval points remain visible.</small></span></div>
+          </div>
         </div>
         <div className="application-shots">
           <a href="https://www.simplsolutions.app/" target="_blank" rel="noreferrer" className="application-shot application-shot-large">
