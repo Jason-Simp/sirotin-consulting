@@ -205,7 +205,7 @@ export async function POST(request: Request) {
         const subscription = event.data.object as Stripe.Subscription;
         const plan = subscription.metadata.plan === "weekly" ? "weekly" : "monthly";
         const deleted = event.type === "customer.subscription.deleted";
-        const canceling = !deleted && subscription.cancel_at_period_end;
+        const canceling = !deleted && (subscription.cancel_at_period_end || typeof subscription.cancel_at === "number");
         const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
         const cancellationEffectiveAt = toIsoTimestamp(subscription.cancel_at) ?? (canceling ? currentPeriodEnd : null);
         const { error: subscriptionUpdateError } = await supabase.from("subscriptions").update({
