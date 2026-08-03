@@ -38,7 +38,7 @@ function Conversation({ onClose }: { onClose: () => void }) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((track) => track.stop());
-      conversation.startSession({ connectionType: "webrtc" });
+      conversation.startSession({ connectionType: "websocket" });
     } catch {
       setLocalError("Microphone access is needed for voice. You can still type below.");
     }
