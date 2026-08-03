@@ -7,6 +7,25 @@ import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from
 import { createAccessToken, hashAccessToken } from "@/lib/sow-security";
 import { provisionClientWorkspace } from "@/lib/provision-client-workspace";
 
+function toIsoTimestamp(timestamp: number | null | undefined) {
+  return typeof timestamp === "number" ? new Date(timestamp * 1000).toISOString() : null;
+}
+
+function getSubscriptionPeriod(subscription: Stripe.Subscription | null) {
+  if (!subscription) return { currentPeriodStart: null, currentPeriodEnd: null };
+  const items = subscription.items.data;
+  const starts = items.map((item) => item.current_period_start).filter(Number.isFinite);
+  const ends = items.map((item) => item.current_period_end).filter(Number.isFinite);
+
+  // Stripe's current API stores periods on subscription items. If a future
+  // subscription has mixed billing periods, use the latest start and earliest
+  // end so access is never represented as extending beyond a paid item.
+  return {
+    currentPeriodStart: starts.length ? toIsoTimestamp(Math.max(...starts)) : null,
+    currentPeriodEnd: ends.length ? toIsoTimestamp(Math.min(...ends)) : null,
+  };
+}
+
 export async function POST(request: Request) {
   const requestId = getRequestId(request);
   const signature = request.headers.get("stripe-signature");
@@ -26,6 +45,9 @@ export async function POST(request: Request) {
       if (event.type === "checkout.session.completed") {
         const session = event.data.object as Stripe.Checkout.Session;
         const customerEmail = session.customer_details?.email ?? session.customer_email;
+        const stripeSubscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription?.id;
+        const stripeSubscription = stripeSubscriptionId ? await stripe.subscriptions.retrieve(stripeSubscriptionId) : null;
+        const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(stripeSubscription);
         const sowId = session.metadata?.sow_id;
         if (sowId && (session.metadata?.plan === "weekly" || session.metadata?.plan === "monthly") && session.payment_status === "paid") {
           const { data: sow, error: sowLookupError } = await supabase.from("service_sows").select("*").eq("id", sowId).maybeSingle();
@@ -119,10 +141,12 @@ export async function POST(request: Request) {
           const plan = session.metadata?.plan;
           await supabase.from("subscriptions").update({
             stripe_customer_id: typeof session.customer === "string" ? session.customer : session.customer?.id,
-            stripe_subscription_id: typeof session.subscription === "string" ? session.subscription : session.subscription?.id,
+            stripe_subscription_id: stripeSubscriptionId,
             plan: plan === "weekly" ? "weekly" : "monthly",
             status: plan === "weekly" ? "weekly_active" : plan === "monthly" ? "monthly_active" : "payment_required",
             started_at: new Date().toISOString(),
+            current_period_start: currentPeriodStart,
+            current_period_end: currentPeriodEnd,
           }).eq("organization_id", organizationId);
           if (customerEmail && (plan === "weekly" || plan === "monthly")) await provisionClientWorkspace({
             supabase,
@@ -159,6 +183,8 @@ export async function POST(request: Request) {
               stripe_subscription_id: stripeSubscriptionId,
               status: plan === "weekly" ? "weekly_active" : "monthly_active",
               started_at: new Date().toISOString(),
+              current_period_start: currentPeriodStart,
+              current_period_end: currentPeriodEnd,
             });
             if (subscriptionError) {
               await supabase.from("organizations").delete().eq("id", organization.id);
@@ -175,18 +201,19 @@ export async function POST(request: Request) {
         }
       }
 
-      if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
+      if (event.type === "customer.subscription.created" || event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
         const subscription = event.data.object as Stripe.Subscription;
         const plan = subscription.metadata.plan === "weekly" ? "weekly" : "monthly";
         const deleted = event.type === "customer.subscription.deleted";
         const canceling = !deleted && subscription.cancel_at_period_end;
-        const cancellationEffectiveAt = subscription.cancel_at
-          ? new Date(subscription.cancel_at * 1000).toISOString()
-          : null;
+        const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
+        const cancellationEffectiveAt = toIsoTimestamp(subscription.cancel_at) ?? (canceling ? currentPeriodEnd : null);
         const { error: subscriptionUpdateError } = await supabase.from("subscriptions").update({
           plan,
           status: deleted ? "canceled" : canceling ? "cancellation_notice" : plan === "weekly" ? "weekly_active" : "monthly_active",
-          cancellation_requested_at: deleted || canceling ? new Date().toISOString() : null,
+          current_period_start: currentPeriodStart,
+          current_period_end: currentPeriodEnd,
+          cancellation_requested_at: deleted || canceling ? toIsoTimestamp(event.created) : null,
           cancellation_effective_at: deleted ? new Date().toISOString() : cancellationEffectiveAt,
         }).eq("stripe_subscription_id", subscription.id);
         if (subscriptionUpdateError) throw subscriptionUpdateError;
