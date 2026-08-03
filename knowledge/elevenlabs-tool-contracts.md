@@ -1,5 +1,7 @@
 # ElevenLabs scheduling tool contracts
 
+The public Google Calendar booking page at `https://automatemejay.com/book` is the preferred scheduling path and the public source of truth for live availability. The webhook tools below are a controlled fallback for a conversational booking flow; they must never override a Google Calendar conflict or claim a booking that Google has not confirmed.
+
 Configure these as server-side webhook tools on the AutomateMeJay ElevenLabs agent. Both tools must send the same secret value in the `x-agent-tool-secret` header. Store that value as an ElevenLabs workspace secret and as `AGENT_TOOL_SECRET` on Render; never expose it to the browser.
 
 ## `check_availability`

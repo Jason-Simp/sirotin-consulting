@@ -21,6 +21,8 @@ import { HomePortfolioAccordion } from "@/components/home-portfolio-accordion";
 
 const mobileNavigation = [
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/blog", label: "Insights" },
+  { href: "/book", label: "Book a consultation" },
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#pricing", label: "Plans" },
   { href: "/#faq", label: "FAQ" },
@@ -81,16 +83,15 @@ const plans = [
   {
     name: "Weekly partner",
     price: "$350",
-    cadence: "per week",
-    description: "Simple week-to-week access when flexibility matters most.",
+    cadence: "one paid week",
+    description: "Simple one-week-at-a-time access when flexibility matters most.",
     features: [
       "Ongoing partner access",
       "Approximately one hour of substantive work weekly",
       "One primary directing stakeholder",
       "One actively prioritized workstream",
-      "Cancel anytime in your membership",
       "Service continues through the paid week",
-      "No further weekly charge after cancellation",
+      "No automatic weekly renewal",
     ],
     href: "/checkout/weekly",
     action: "Choose weekly",
@@ -139,21 +140,22 @@ const plans = [
 
 const faqs = [
   ["How does the first-week guarantee work?", "You pay $350 for the seven-day introductory engagement. If it is not the right fit, request your full $350 service-fee refund before the guarantee period ends. Approved third-party expenses are separate and are not part of the refund."],
-  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to continue on a weekly or monthly membership or request your money back."],
+  ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to purchase another paid week, begin a monthly membership, or request your money back."],
   ["When does the seven-day period start?", "It begins when Jason confirms that your engagement is activated—not simply when you submit the intake form."],
-  ["Can I purchase an ongoing plan immediately?", "Yes. You may select the weekly or monthly plan directly if you are ready for an ongoing relationship."],
+  ["Can I purchase an ongoing plan immediately?", "Yes, although the free consultation is the recommended first step so the scope and working model are clear. Weekly service is purchased one week at a time; monthly is a recurring 30-day membership."],
   ["What does “approximately one hour” mean?", "The service is priced around approximately one hour of substantive work per week. Research, planning, building, debugging, documentation, and substantive consulting use the available working capacity."],
   ["Is chat included?", "Reasonable asynchronous communication related to the active workstream is included."],
   ["Does real-time chat mean an immediate response?", "No. Messages appear immediately in the workspace, but Jason responds asynchronously based on workload, complexity, priority, and availability."],
   ["Can multiple employees use the workspace?", "Other employees may test or provide information, but one primary person must direct priorities and approve work."],
   ["Can we work on multiple automations?", "Multiple ideas may be added to the queue. One automation workstream is actively prioritized under each standard subscription."],
-  ["Can I book an introduction meeting?", "Yes. The site assistant can check Jason’s connected calendars and schedule a 30-minute introduction when calendar booking is available. The guaranteed first week is still a paid service."],
+  ["Is the consultation free?", "Yes. The initial 30-minute consultation is free, requires no payment card, and is used to define one automation opportunity and the right next step. It is not a technical working session."],
+  ["Can I book an introduction meeting?", "Yes. Use the live Google Calendar booking page linked from the site. It checks Jason’s connected calendars, creates a Google Meet link, and sends confirmation and reminders by email."],
   ["Who pays for software, hosting, and AI usage?", "You approve and pay third-party providers directly whenever practical. We prefer to set up hosting, databases, domains, APIs, and other services together on a call so you can enter your payment details directly and keep ownership and administrative control of every account."],
   ["What if I want Jason to manage third-party services for me?", "That is available by prior agreement. You pay the actual approved provider costs plus a 25% convenience charge on the third-party costs Jason or AutomateMeJay purchases, pays, or administratively manages on your behalf. The charge does not apply when you own and pay the provider directly."],
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
-  ["Can I cancel?", "Yes. Monthly and weekly memberships can be canceled through the client membership area at any time. Service remains available through the current paid billing period, and no future renewal is charged. The guaranteed first week and one-off work do not renew automatically."],
+  ["Can I cancel?", "Yes. The monthly membership can be canceled through the client membership area at any time; service remains available through the current paid 30-day period and no future renewal is charged. Weekly service, the guaranteed first week, and one-off work do not renew automatically."],
 ];
 
 const jsonLd = {
@@ -207,13 +209,14 @@ export default function Home() {
         </Link>
         <nav aria-label="Primary navigation">
           <Link href="/portfolio">Portfolio</Link>
+          <Link href="/blog">Insights</Link>
           <a href="#how-it-works">How it works</a>
           <a href="#pricing">Plans</a>
           <a href="#faq">FAQ</a>
         </nav>
         <MobileNavigation items={mobileNavigation} />
-        <Link className="button button-small button-light" href="/start">
-          Get started <ArrowRight size={15} />
+        <Link className="button button-small button-light" href="/book">
+          Book a call <ArrowRight size={15} />
         </Link>
       </header>
 
@@ -225,10 +228,10 @@ export default function Home() {
             <p className="hero-lede">I work directly with business owners and operating teams to design, build, troubleshoot, and continuously improve practical AI automations.</p>
             <p className="hero-promise">Bring me one recurring problem. We will turn it into a working process.</p>
             <div className="button-row">
-              <Link className="button button-primary" href="/start">Start with the guarantee <ArrowRight size={18} /></Link>
+              <Link className="button button-primary" href="/book">Book a free consultation <ArrowRight size={18} /></Link>
               <a className="button button-ghost" href="#pricing">View plans <ArrowDownRight size={18} /></a>
             </div>
-            <p className="fine-print">$350 · Seven days after activation · Full service-fee money-back guarantee · No automatic conversion</p>
+            <p className="fine-print">Free 30-minute consultation · No card · Live availability · No obligation</p>
           </div>
 
           <div className="hero-visual" aria-label="A workflow moving from a business bottleneck to a tested automation">
@@ -403,15 +406,15 @@ export default function Home() {
       </section>
 
       <section className="final-cta section-pad">
-        <SectionLabel>Get started</SectionLabel>
+        <SectionLabel>Start with a conversation</SectionLabel>
         <h2>Bring me one<br /><em>business problem.</em></h2>
-        <p>Start with a paid first week, approximately one hour of focused automation work, and a full service-fee money-back guarantee.</p>
-        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start with the guarantee <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/sign-in">Client sign in</Link></div>
+        <p>Book a free 30-minute consultation. We will define the opportunity first; you decide whether to continue afterward.</p>
+        <div className="button-row centered-buttons"><Link className="button button-primary" href="/book">Book a free consultation <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/sign-in">Client sign in</Link></div>
       </section>
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
+        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/blog">Insights</Link><Link href="/book">Book a consultation</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link><a href="mailto:hello@automatemejay.com">Contact</a></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>

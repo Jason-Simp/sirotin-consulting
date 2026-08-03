@@ -60,9 +60,9 @@ function AgentConversation() {
         <div><strong>Jason’s AI assistant</strong><span>{conversation.status === "connected" ? conversation.isSpeaking ? "Speaking" : "Ready" : conversation.status === "connecting" ? "Connecting" : "Voice + text"}</span></div>
         <button type="button" aria-label="Close assistant" onClick={() => setOpen(false)}><X size={18} /></button>
       </header>
-      <div className="agent-disclosure">I’m an AI assistant inspired by Jason’s communication style—not Jason himself. I can explain the service and, once calendars are connected, schedule a 30-minute introduction.</div>
+      <div className="agent-disclosure">I’m an AI assistant inspired by Jason’s communication style—not Jason himself. I can explain the service and point you to Jason’s live consultation calendar.</div>
       <div className="agent-messages" ref={scrollRef} aria-live="polite">
-        {messages.length === 0 && <div className="agent-welcome"><strong>What would you like to know?</strong><p>Ask about Jason, the agent-built portfolio, the $350 guaranteed first week, or availability for an introduction.</p></div>}
+        {messages.length === 0 && <div className="agent-welcome"><strong>What would you like to know?</strong><p>Ask about Jason, the agent-built portfolio, engagement options, or the free consultation.</p><a className="agent-book-link" href="/book">See live consultation times</a></div>}
         {messages.map((message, index) => <p className={`agent-message ${message.role}`} key={`${message.role}-${index}`}><span>{message.role === "agent" ? "AI" : "You"}</span>{message.text}</p>)}
         {conversation.isSpeaking && <div className="agent-speaking"><i /><i /><i /><span>Jason’s AI is answering</span></div>}
       </div>
@@ -75,7 +75,7 @@ function AgentConversation() {
         <input id="agent-message" value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Type a question…" maxLength={1000} />
         <button type="submit" aria-label="Send message" disabled={!draft.trim() || conversation.status === "connecting"}><Send size={17} /></button>
       </form>
-      <footer>Powered by ElevenLabs · Actions are confirmed before booking</footer>
+      <footer>Powered by ElevenLabs · Live booking is handled by Google Calendar</footer>
     </section>}
     <button className="agent-launcher" type="button" aria-expanded={open} aria-label={open ? "Close Jason's AI assistant" : "Open Jason's AI assistant"} onClick={() => setOpen((current) => !current)}>{open ? <X size={22} /> : <><span><Mic size={19} /></span><b>Ask Jason’s AI</b></>}</button>
   </div>;
@@ -84,7 +84,7 @@ function AgentConversation() {
 function AgentUnavailable() {
   const [open, setOpen] = useState(false);
   return <div className="agent-shell">
-    {open && <section className="agent-panel agent-unavailable"><header><div className="agent-avatar"><Bot size={19} /></div><div><strong>Jason’s AI assistant</strong><span>Setup in progress</span></div><button type="button" aria-label="Close assistant" onClick={() => setOpen(false)}><X size={18} /></button></header><div className="agent-welcome"><strong>The assistant is being connected.</strong><p>In the meantime, email <a href="mailto:hello@automatemejay.com">hello@automatemejay.com</a> or start the guaranteed-first-week intake.</p><a className="button button-primary" href="/start">Get started</a></div></section>}
+    {open && <section className="agent-panel agent-unavailable"><header><div className="agent-avatar"><Bot size={19} /></div><div><strong>Jason’s AI assistant</strong><span>Setup in progress</span></div><button type="button" aria-label="Close assistant" onClick={() => setOpen(false)}><X size={18} /></button></header><div className="agent-welcome"><strong>The assistant is being connected.</strong><p>In the meantime, email <a href="mailto:hello@automatemejay.com">hello@automatemejay.com</a> or book a free consultation.</p><a className="button button-primary" href="/book">Book a consultation</a></div></section>}
     <button className="agent-launcher" type="button" aria-expanded={open} aria-label={open ? "Close Jason's AI assistant" : "Open Jason's AI assistant"} onClick={() => setOpen((current) => !current)}><span><Mic size={19} /></span><b>Ask Jason’s AI</b></button>
   </div>;
 }

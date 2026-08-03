@@ -8,6 +8,8 @@ const mobileNavigation = [
   { href: "/", label: "Home" },
   { href: "/portfolio#featured-work", label: "Featured work" },
   { href: "/portfolio#all-work", label: "All work" },
+  { href: "/blog", label: "Insights" },
+  { href: "/book", label: "Book a consultation" },
   { href: "/#pricing", label: "Plans" },
   { href: "/sign-in", label: "Client sign in" },
 ];
@@ -84,7 +86,7 @@ export default function PortfolioPage() {
         <Link className="wordmark" href="/" aria-label="Jason Sirotin home"><span>JS</span><strong>Jason Sirotin</strong></Link>
         <Link className="portfolio-back" href="/"><ArrowLeft size={15} /> Back to the site</Link>
         <MobileNavigation items={mobileNavigation} />
-        <Link className="button button-small button-light" href="/start">Get started <ArrowRight size={15} /></Link>
+        <Link className="button button-small button-light" href="/book">Book a call <ArrowRight size={15} /></Link>
       </header>
 
       <section className="portfolio-hero section-pad">
@@ -94,7 +96,7 @@ export default function PortfolioPage() {
           <p>This is a working portfolio of custom websites, AI products, internal platforms, and go-to-market systems—built through an agent-assisted process and directed by people who remain accountable for what ships.</p>
           <div className="button-row">
             <a className="button button-primary" href="#featured-work">Explore the work <ArrowRight size={17} /></a>
-            <Link className="button button-ghost" href="/start">Bring me a project</Link>
+            <Link className="button button-ghost" href="/book">Bring me a project</Link>
           </div>
         </div>
         <div className="agent-proof-card">
@@ -156,14 +158,14 @@ export default function PortfolioPage() {
       <section className="portfolio-cta section-pad">
         <p className="section-label">/ Your workflow could be next</p>
         <h2>Bring the problem.<br /><em>I’ll build the system.</em></h2>
-        <p>Start with one paid, guaranteed week and one focused automation opportunity.</p>
-        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start with the guarantee <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/#pricing">View plans</Link></div>
+        <p>Start with a free 30-minute consultation to define one focused automation opportunity.</p>
+        <div className="button-row centered-buttons"><Link className="button button-primary" href="/book">Book a free consultation <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/#pricing">View plans</Link></div>
         <div className="portfolio-cta-notes"><span><Check size={14} /> Full $350 service-fee guarantee</span><span><Check size={14} /> No automatic conversion</span><span><Check size={14} /> Human approval built in</span></div>
       </section>
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/">Home</Link><Link href="/portfolio">Portfolio</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link></div>
+        <div className="footer-links"><Link href="/">Home</Link><Link href="/portfolio">Portfolio</Link><Link href="/blog">Insights</Link><Link href="/book">Book a consultation</Link><Link href="/one-off">One-off work</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client sign in</Link></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>

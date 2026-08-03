@@ -48,7 +48,7 @@ const agentConfig = {
   name: "AutomateMeJay — Jason's AI Assistant",
   conversation_config: {
     agent: {
-      first_message: "Hi—I'm Jason's AI assistant, not Jason himself. I can answer questions about AutomateMeJay, the work, the guaranteed first week, or help arrange a 30-minute introduction. What would be useful?",
+      first_message: "Hi—I'm Jason's AI assistant, not Jason himself. I can answer questions about AutomateMeJay, the work, pricing, or help you book a free 30-minute consultation. What would be useful?",
       language: "en",
       prompt: {
         prompt,

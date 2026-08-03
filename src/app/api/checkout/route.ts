@@ -36,17 +36,16 @@ export async function POST(request: Request) {
       price_data: {
         currency: "usd",
         unit_amount: 35000,
-        recurring: { interval: "week" as const },
         product_data: {
-          name: "Weekly AI Automation Partner",
-          description: "Week-to-week AI automation consulting with one actively prioritized workstream.",
+          name: "One Week of AI Automation Partner Access",
+          description: "One paid seven-day service period with no automatic renewal.",
           metadata: { application: "sirotin-consulting", plan: "weekly" },
         },
       },
       quantity: 1,
     }] : [{ price: isGuaranteedWeek ? config.guaranteedFirstWeekPriceId : config.monthlyPriceId, quantity: 1 }];
     const session = await stripe.checkout.sessions.create({
-      mode: isGuaranteedWeek ? "payment" : "subscription",
+      mode: isGuaranteedWeek || isWeekly ? "payment" : "subscription",
       customer_email: parsed.data.email.toLowerCase(),
       line_items: lineItems,
       billing_address_collection: "auto",
@@ -59,7 +58,7 @@ export async function POST(request: Request) {
         company_name: parsed.data.companyName,
         policy_version: "2026-08-02-service-agreement",
       },
-      ...(isGuaranteedWeek ? {} : { subscription_data: {
+      ...(isGuaranteedWeek || isWeekly ? {} : { subscription_data: {
         metadata: {
           application: "sirotin-consulting",
           plan: parsed.data.plan,
