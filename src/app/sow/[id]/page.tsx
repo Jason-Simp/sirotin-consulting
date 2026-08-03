@@ -7,7 +7,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { tokensMatch } from "@/lib/sow-security";
 import type { SowDocument as SowDocumentData } from "@/lib/sow";
 
-export const metadata: Metadata = { title: "Executed Statement of Work", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Executed Statement of Work", robots: { index: false, follow: false }, alternates: { canonical: "/legal/sow/monthly" } };
 export const dynamic = "force-dynamic";
 
 export default async function ExecutedSowPage({ params, searchParams }: {

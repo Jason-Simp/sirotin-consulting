@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { createStripeClient } from "@/lib/stripe";
 import { SubpageHeader } from "@/components/subpage-header";
 
-export const metadata: Metadata = { title: "Payment Received", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Payment Received", robots: { index: false, follow: false }, alternates: { canonical: "/checkout/success" } };
 
 export default async function CheckoutSuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
   const { session_id: sessionId } = await searchParams;

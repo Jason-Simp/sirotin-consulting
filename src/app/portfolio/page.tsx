@@ -83,7 +83,7 @@ export default function PortfolioPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
 
       <header className="portfolio-header">
-        <Link className="wordmark" href="/" aria-label="Jason Sirotin home"><span>JS</span><strong>Jason Sirotin</strong></Link>
+        <Link className="wordmark" href="/"><span>JS</span><strong>Jason Sirotin</strong></Link>
         <Link className="portfolio-back" href="/"><ArrowLeft size={15} /> Back to the site</Link>
         <MobileNavigation items={mobileNavigation} />
         <Link className="button button-small button-light" href="/book">Book a call <ArrowRight size={15} /></Link>

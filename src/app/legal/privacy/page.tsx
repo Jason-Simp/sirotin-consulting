@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SubpageHeader } from "@/components/subpage-header";
 
-export const metadata: Metadata = { title: "Privacy Policy", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Privacy Policy", robots: { index: false, follow: false }, alternates: { canonical: "/legal/privacy" } };
 
 export default function PrivacyPage() {
   return <main className="subpage"><SubpageHeader /><div className="legal-page"><span className="legal-status">Draft pending professional review</span><h1>Privacy Policy</h1><p className="legal-meta">Working version · August 2, 2026</p><article>

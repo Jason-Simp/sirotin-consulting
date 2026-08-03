@@ -6,6 +6,7 @@ import { SubpageHeader } from "@/components/subpage-header";
 export const metadata: Metadata = {
   title: "Start Your Guaranteed First Week",
   description: "Bring one recurring business problem and begin a paid first week of focused AI automation work with a full service-fee money-back guarantee.",
+  alternates: { canonical: "/start" },
 };
 
 export default function StartPage() {

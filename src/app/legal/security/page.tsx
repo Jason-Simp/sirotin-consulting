@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SubpageHeader } from "@/components/subpage-header";
 
-export const metadata: Metadata = { title: "Data and Security Notice", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Data and Security Notice", robots: { index: false, follow: false }, alternates: { canonical: "/legal/security" } };
 
 export default function SecurityPage() {
   return <main className="subpage"><SubpageHeader /><div className="legal-page"><span className="legal-status">Draft pending professional review</span><h1>Data and Security Notice</h1><p className="legal-meta">Working version · August 2, 2026</p><article>

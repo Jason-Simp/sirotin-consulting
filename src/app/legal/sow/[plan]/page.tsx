@@ -8,6 +8,7 @@ import { isSowPlan, sowDocuments } from "@/lib/sow";
 export const metadata: Metadata = {
   title: "Plan Statement of Work",
   robots: { index: false, follow: false },
+  alternates: { canonical: "/legal/sow/monthly" },
 };
 
 export default async function PlanSowPage({ params }: { params: Promise<{ plan: string }> }) {

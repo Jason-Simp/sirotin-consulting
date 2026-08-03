@@ -4,7 +4,7 @@ import { Check } from "lucide-react";
 import { SubpageHeader } from "@/components/subpage-header";
 import { GuaranteeForm } from "./guarantee-form";
 
-export const metadata: Metadata = { title: "Your First-Week Choice", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Your First-Week Choice", robots: { index: false, follow: false }, alternates: { canonical: "/guarantee" } };
 
 export default async function GuaranteePage({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
   const { session_id: sessionId } = await searchParams;
