@@ -4,7 +4,8 @@ import { updateSession } from "@/lib/supabase/proxy";
 
 export async function proxy(request: NextRequest) {
   const requestId = request.headers.get("x-request-id") ?? crypto.randomUUID();
-  const host = request.headers.get("host")?.split(":")[0];
+  const forwardedHost = request.headers.get("x-forwarded-host")?.split(",")[0]?.trim().split(":")[0];
+  const host = forwardedHost ?? request.headers.get("host")?.split(":")[0];
   if (host === "aimejay.com" || host === "www.aimejay.com" || host === "www.automatemejay.com") {
     const destination = request.nextUrl.clone();
     destination.hostname = "automatemejay.com";
