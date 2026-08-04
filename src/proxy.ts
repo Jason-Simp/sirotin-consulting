@@ -14,7 +14,19 @@ export async function proxy(request: NextRequest) {
     response.headers.set("x-request-id", requestId);
     return response;
   }
-  return updateSession(request, requestId);
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-request-id", requestId);
+  const pathname = request.nextUrl.pathname;
+  const sessionSensitivePath = ["/api", "/auth", "/checkout", "/guarantee", "/legal/sow", "/portal", "/sign-in", "/sow"]
+    .some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+  const hasSupabaseSession = request.cookies.getAll().some(({ name }) => /^sb-.*-auth-token(?:\.\d+)?$/.test(name));
+
+  if (sessionSensitivePath || hasSupabaseSession) return updateSession(request, requestId);
+
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set("x-request-id", requestId);
+  return response;
 }
 
 export const config = {

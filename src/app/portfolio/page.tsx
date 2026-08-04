@@ -8,6 +8,7 @@ const mobileNavigation = [
   { href: "/", label: "Home" },
   { href: "/portfolio#featured-work", label: "Featured work" },
   { href: "/portfolio#all-work", label: "All work" },
+  { href: "/approach", label: "Method" },
   { href: "/blog", label: "News" },
   { href: "/book", label: "Book a consultation" },
   { href: "/#pricing", label: "Plans" },
@@ -165,7 +166,7 @@ export default function PortfolioPage() {
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/">Home</Link><Link href="/portfolio">Portfolio</Link><Link href="/blog">News</Link><Link href="/book">Book a consultation</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client workspace</Link></div>
+        <div className="footer-links"><Link href="/">Home</Link><Link href="/portfolio">Portfolio</Link><Link href="/approach">Method</Link><Link href="/blog">News</Link><Link href="/book">Book a consultation</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client workspace</Link></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>

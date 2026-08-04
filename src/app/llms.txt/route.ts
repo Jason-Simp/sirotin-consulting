@@ -11,7 +11,7 @@ const body = `# Jason Sirotin — AI Automation Partner
 Canonical URL: https://automatemejay.com
 Contact: hello@automatemejay.com
 Phone: +1-678-855-5169
-Last updated: ${blogPosts[0]?.updated ?? "2026-08-03"}
+Last updated: 2026-08-04
 
 ## Service
 
@@ -31,6 +31,8 @@ Jason Sirotin works directly with business owners and operating teams to design,
 
 The client tests deliveries, supplies access and accurate information, approves production use, and maintains appropriate human review. Results depend on systems, data, cooperation, third-party services, and technical feasibility.
 
+Jason's first-hand build method is documented at https://automatemejay.com/approach. Every engagement begins with a workflow map and authority map, then moves through a bounded first path, representative evaluation cases, and an explicit release and ownership record.
+
 ## Expertise
 
 - Business process and workflow automation
@@ -43,6 +45,7 @@ The client tests deliveries, supplies access and accurate information, approves 
 
 - Book a free consultation: https://automatemejay.com/book
 - Portfolio: https://automatemejay.com/portfolio
+- Jason's build and verification method: https://automatemejay.com/approach
 - AI automation news and researched guides: https://automatemejay.com/blog
 - Full public knowledge file: https://automatemejay.com/llms-full.txt
 
