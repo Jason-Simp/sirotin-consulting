@@ -13,6 +13,8 @@ export type BlogPost = {
   updated: string;
   readTime: string;
   image: string;
+  imageAlt: string;
+  imageCaption: string;
   keywords: string[];
   intro: string[];
   sections: BlogSection[];
@@ -30,6 +32,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "13 min read",
     image: "/portfolio/simplupload.jpg",
+    imageAlt: "SimplUpload document intake interface used in Jason Sirotin's agent-assisted systems",
+    imageCaption: "A controlled intake surface from the SimplSolutions product portfolio. The original document remains visible while structured work moves through review.",
     keywords: ["AI invoice processing", "automate accounts payable", "invoice automation workflow", "prevent duplicate invoice payments"],
     intro: [
       "Yes, AI can remove a large amount of manual invoice work. It can read documents, propose structured fields, detect missing information, and prepare an approval packet. It should not quietly decide that a vendor is legitimate or that money should move.",
@@ -142,6 +146,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "12 min read",
     image: "/automation-workflow-social.png",
+    imageAlt: "AI automation workflow moving from a recurring task through review and improvement",
+    imageCaption: "The working model Jason uses: define one bottleneck, build a narrow path, test it with real examples, and improve from evidence.",
     keywords: ["automate repetitive business tasks", "AI workflow automation", "business process automation"],
     intro: [
       "The best first AI automation is rarely the flashiest idea. It is usually a recurring task with clear inputs, an understandable decision path, and an output a person can review.",
@@ -187,6 +193,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "11 min read",
     image: "/portfolio/simplengine-product.jpg",
+    imageAlt: "SimplEngine command surface for planning and reviewing agent-assisted work",
+    imageCaption: "SimplEngine is an example of the operational layer behind an AI system—the planning, review, testing, and release work that sits beyond model usage fees.",
     keywords: ["AI automation cost", "small business automation pricing", "AI consultant cost"],
     intro: [
       "AI automation does not have one universal price. A workflow that summarizes a form is different from a customer-facing system connected to billing, identity, private data, and multiple business applications.",
@@ -231,6 +239,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "10 min read",
     image: "/jason-sirotin-headshot.png",
+    imageAlt: "Jason Sirotin, independent AI automation consultant",
+    imageCaption: "Jason Sirotin works directly with business owners and operating teams to define, build, test, and improve practical automations.",
     keywords: ["AI automation consultant", "automation software vs consultant", "hire AI consultant"],
     intro: [
       "A software subscription gives you a product. A consultant helps translate the way your business operates into a working system. Many businesses need both, but they should not pay for custom work when a standard feature already solves the problem.",
@@ -273,6 +283,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "11 min read",
     image: "/portfolio/simplcity.jpg",
+    imageAlt: "SimplCity Manchester public information experience",
+    imageCaption: "SimplCity Manchester shows how a broad information problem can be narrowed into clear user journeys, governed sources, and visible actions.",
     keywords: ["best processes to automate", "AI automation ideas", "business automation opportunities"],
     intro: ["The strongest first projects are valuable enough to matter and controlled enough to test. High frequency alone is not enough; the workflow also needs understandable inputs and a safe recovery path."],
     sections: [
@@ -314,6 +326,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "12 min read",
     image: "/portfolio/simplbridge.jpg",
+    imageAlt: "SimplBridge integration interface for connecting approved business systems",
+    imageCaption: "SimplBridge represents the connection layer: typed data, bounded actions, and visible handoffs between systems instead of free-form model output.",
     keywords: ["connect Gmail CRM AI", "email automation workflow", "spreadsheet CRM automation"],
     intro: ["Email, a CRM, and spreadsheets often contain overlapping versions of the same customer story. AI can help structure and summarize that information, but the workflow needs one declared system of record."],
     sections: [
@@ -355,6 +369,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "11 min read",
     image: "/portfolio/simplengine.jpg",
+    imageAlt: "SimplEngine review interface for agent-assisted implementation",
+    imageCaption: "A real implementation surface needs review, testing, and release controls—not only an impressive first response from a model.",
     keywords: ["AI automation mistakes", "small business AI risks", "automation implementation problems"],
     intro: ["Most automation failures are not caused by one bad prompt. They come from unclear ownership, inconsistent data, missing exception handling, and systems that act without enough review."],
     sections: [
@@ -393,6 +409,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "14 min read",
     image: "/portfolio/simplwiki-2.jpg",
+    imageAlt: "SimplWiki governed knowledge interface with source-aware information",
+    imageCaption: "SimplWiki illustrates a governed knowledge layer where approved context, access boundaries, and source visibility are part of the product.",
     keywords: ["secure AI automation", "AI customer data security", "AI workflow privacy"],
     intro: ["Security starts before a model receives data. The workflow needs to know who is asking, which records they may access, why the data is needed, and what actions are allowed afterward."],
     sections: [
@@ -435,6 +453,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "12 min read",
     image: "/portfolio/simplwiki-product.jpg",
+    imageAlt: "SimplWiki product interface for organized business knowledge",
+    imageCaption: "A business knowledge system is useful when people can see what is approved, where it came from, who owns it, and when it needs review.",
     keywords: ["AI knowledge base", "business knowledge management AI", "RAG knowledge base"],
     intro: ["An AI knowledge base is not a folder uploaded to a chatbot. It is a maintained collection of approved sources with clear ownership, access rules, and a way to show where an answer came from."],
     sections: [
@@ -475,6 +495,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "11 min read",
     image: "/portfolio/simplvoice.jpg",
+    imageAlt: "SimplVoice AI call-handling product interface",
+    imageCaption: "SimplVoice is an example of the difference between conversation and authority: routing, capture, escalation, and confirmed actions must be explicit.",
     keywords: ["AI agents vs chatbots", "AI agent for business", "business chatbot automation"],
     intro: ["A chatbot primarily exchanges messages. An agent may also retrieve private information, choose tools, and take actions. The practical difference is authority, not personality."],
     sections: [
@@ -516,6 +538,8 @@ export const blogPosts: BlogPost[] = [
     updated: "2026-08-03",
     readTime: "10 min read",
     image: "/portfolio/simplsolutions.jpg",
+    imageAlt: "SimplSolutions product portfolio showing connected AI automation systems",
+    imageCaption: "A production system is a connected portfolio of decisions, interfaces, safeguards, and operating responsibilities—not a single demo.",
     keywords: ["AI automation timeline", "how long AI implementation takes", "automation project plan"],
     intro: ["A first useful workflow can sometimes be demonstrated quickly, but production readiness depends on access, data quality, risk, integration behavior, and how fast the business can test decisions."],
     sections: [

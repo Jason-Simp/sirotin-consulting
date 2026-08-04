@@ -31,6 +31,7 @@ export const metadata: Metadata = {
   },
   description:
     "Work directly with AI automation consultant Jason Sirotin to design, build, secure, troubleshoot, and improve practical business workflows.",
+  category: "technology",
   applicationName: SITE_NAME,
   authors: [{ name: "Jason Sirotin", url: SITE_URL }],
   creator: "Jason Sirotin",
@@ -58,9 +59,10 @@ export const metadata: Metadata = {
     description: "Practical AI automation consulting for operating teams.",
     images: [SOCIAL_IMAGE.url],
   },
-  verification: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-    ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
-    : undefined,
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } } : {}),
+  },
 };
 
 export const viewport: Viewport = {

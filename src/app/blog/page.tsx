@@ -4,13 +4,44 @@ import { ArrowRight, BookOpenText, GraduationCap, Newspaper } from "lucide-react
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { SubpageHeader } from "@/components/subpage-header";
 import { blogPosts } from "@/lib/blog";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "AI Automation News & Practical Guides",
   description: "Practical guides for choosing, building, securing, and improving AI automation for real business operations.",
   path: "/blog",
 });
+
+const blogIndexJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${SITE_URL}/blog#collection`,
+      name: "AutomateMeJay AI automation news and practical guides",
+      url: `${SITE_URL}/blog`,
+      description: "Source-grounded field guides for choosing, building, securing, and improving AI automation.",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      mainEntity: { "@id": `${SITE_URL}/blog#posts` },
+    },
+    {
+      "@type": "Blog",
+      "@id": `${SITE_URL}/blog#posts`,
+      name: "AutomateMeJay field guide",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      blogPost: blogPosts.map((post) => ({
+        "@type": "BlogPosting",
+        "@id": `${SITE_URL}/blog/${post.slug}#article`,
+        headline: post.title,
+        url: `${SITE_URL}/blog/${post.slug}`,
+        datePublished: post.published,
+        dateModified: post.updated,
+        author: { "@id": `${SITE_URL}/#jason` },
+        image: `${SITE_URL}${post.image}`,
+      })),
+    },
+  ],
+};
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ unsubscribe?: string }> }) {
   const { unsubscribe } = await searchParams;
@@ -23,6 +54,7 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
         : null;
   return (
     <main className="subpage blog-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogIndexJsonLd) }} />
       <SubpageHeader />
       <section className="blog-hero">
         <Newspaper size={30} aria-hidden="true" />
@@ -34,11 +66,16 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
         <div className="newsletter-copy"><GraduationCap size={31} /><p className="section-label">/ Free five-part email course</p><h2 id="newsletter-title">Learn AI automation basics one useful step at a time.</h2><p>Five short lessons. One per day. No sales pitch until lesson five—first we help you understand the work, the risks, and what a responsible first project looks like.</p><div className="newsletter-sequence"><span>01 Map the process</span><span>02 Pick the right target</span><span>03 Keep human control</span><span>04 Test exceptions</span><span>05 Build the first version</span></div></div>
         <div>{unsubscribeMessage && <p className="newsletter-notice" role="status">{unsubscribeMessage}</p>}{unsubscribe !== "success" && <NewsletterSignup />}</div>
       </section>
+      <section className="editorial-standards" aria-labelledby="editorial-standards-title">
+        <div><p className="section-label">/ Why this is different</p><h2 id="editorial-standards-title">Experience first. Sources visible. No content-farm filler.</h2></div>
+        <p>These guides start with the decisions, failure modes, and operating controls that appear in real automation work. Primary references are linked, claims are bounded, and every article is written to help a person make or test a decision.</p>
+        <Link className="button button-secondary" href="/approach">See how Jason builds and verifies systems <ArrowRight size={17} /></Link>
+      </section>
       <section className="blog-grid" aria-label="AI automation articles">
         {blogPosts.map((post, index) => (
           <article className={`blog-card${index === 0 ? " blog-card-featured" : ""}`} key={post.slug}>
             <Link className="blog-card-image" href={`/blog/${post.slug}`} aria-label={`Read ${post.title}`}>
-              <Image src={post.image} alt="" fill sizes={index === 0 ? "(max-width: 900px) 100vw, 60vw" : "(max-width: 900px) 100vw, 33vw"} />
+              <Image src={post.image} alt={post.imageAlt} fill sizes={index === 0 ? "(max-width: 900px) 100vw, 60vw" : "(max-width: 900px) 100vw, 33vw"} />
             </Link>
             <div className="blog-card-body">
               <div className="blog-meta"><span>{post.category}</span><time dateTime={post.published}>{new Date(`${post.published}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}</time><span>{post.readTime}</span></div>

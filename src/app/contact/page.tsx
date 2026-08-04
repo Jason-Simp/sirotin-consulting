@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Mail, MessageSquareText, Phone } from "lucide-react";
 import { SubpageHeader } from "@/components/subpage-header";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Contact Jason Sirotin",
@@ -9,8 +9,32 @@ export const metadata = createPageMetadata({
   path: "/contact",
 });
 
+const contactJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": `${SITE_URL}/contact#page`,
+  name: "Contact Jason Sirotin",
+  url: `${SITE_URL}/contact`,
+  mainEntity: {
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: "AutomateMeJay",
+    email: "hello@automatemejay.com",
+    telephone: "+1-678-855-5169",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales and client support",
+      email: "hello@automatemejay.com",
+      telephone: "+1-678-855-5169",
+      availableLanguage: "English",
+      areaServed: "US",
+    },
+  },
+};
+
 export default function ContactPage() {
   return <main className="subpage contact-page">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd) }} />
     <SubpageHeader />
     <section className="contact-hero">
       <div><p className="section-label">/ Contact Jason</p><h1>Talk to a person about the work that is <em>slowing you down.</em></h1><p>Questions are welcome. Share one recurring task, broken handoff, or automation idea and we can decide the most useful next step.</p></div>

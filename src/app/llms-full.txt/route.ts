@@ -17,6 +17,12 @@ Canonical site: https://automatemejay.com
 Author: Jason Sirotin
 Contact: hello@automatemejay.com
 
+## Jason's build and verification method
+
+Canonical URL: https://automatemejay.com/approach
+
+Jason starts with the work rather than a model or software brand. The five required artifacts are a workflow map, an authority map, a safe first path, an evaluation packet, and a release and ownership record. Agents can handle parallel research, structured drafts, repetitive implementation, consistency checks, and test execution. People remain accountable for goals, permissions, policy, consequential claims, taste, risk acceptance, and final release. Provider evidence—not an agent's statement—must prove that an external action succeeded.
+
 ${articles}
 `;
 

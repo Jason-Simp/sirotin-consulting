@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, CalendarCheck, CalendarClock, Handshake, Mail, Phone, Video } from "lucide-react";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Book a Free AI Automation Consultation",
@@ -11,8 +11,24 @@ export const metadata = createPageMetadata({
 export default function BookPage() {
   const bookingUrl = process.env.NEXT_PUBLIC_CONSULTATION_BOOKING_URL
     ?? "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0lVz4Ms-gCu6Lih6OaMA48D_Uv9-CsRAjf-XUZqHExVVZX4KOabqb7dJl74DgQ-LSGfcEiLhyp";
+  const bookingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE_URL}/book#consultation`,
+    name: "Free 30-minute AI automation consultation",
+    description: "A direct conversation with Jason Sirotin to define one recurring process, a useful first outcome, and the right next step.",
+    provider: { "@id": `${SITE_URL}/#jason` },
+    areaServed: "US",
+    offers: { "@type": "Offer", price: 0, priceCurrency: "USD", availability: "https://schema.org/InStock", url: `${SITE_URL}/book` },
+    potentialAction: {
+      "@type": "ReserveAction",
+      name: "Book a consultation",
+      target: { "@type": "EntryPoint", urlTemplate: bookingUrl, actionPlatform: "https://schema.org/DesktopWebPlatform" },
+    },
+  };
   return (
     <main className="booking-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(bookingJsonLd) }} />
       <header className="subpage-header"><Link href="/"><ArrowLeft size={16} /> Back to the site</Link><span>Jason Sirotin / AI Automation Partner</span></header>
       <section className="booking-layout">
         <div>

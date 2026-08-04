@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: post.published,
       modifiedTime: post.updated,
       authors: ["Jason Sirotin"],
-      images: [{ url: post.image, alt: post.title }],
+      images: [{ url: post.image, alt: post.imageAlt }],
     },
     twitter: {
       card: "summary_large_image",
@@ -58,9 +58,24 @@ export default async function BlogPostPage({ params }: PageProps) {
         description: post.description,
         datePublished: post.published,
         dateModified: post.updated,
-        author: { "@id": `${SITE_URL}/#jason` },
+        author: {
+          "@type": "Person",
+          "@id": `${SITE_URL}/#jason`,
+          name: "Jason Sirotin",
+          url: `${SITE_URL}/approach`,
+          image: `${SITE_URL}/jason-sirotin-headshot.png`,
+          sameAs: [
+            "https://www.linkedin.com/in/jason-sirotin-455b265",
+            "https://www.jasonsirotin.com/",
+            "https://www.ecgprod.com/team/jason-sirotin/",
+          ],
+        },
         publisher: { "@id": `${SITE_URL}/#organization` },
-        image: `${SITE_URL}${post.image}`,
+        image: {
+          "@type": "ImageObject",
+          contentUrl: `${SITE_URL}${post.image}`,
+          caption: post.imageCaption,
+        },
         mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
         isPartOf: { "@id": `${SITE_URL}/#website` },
         articleSection: post.category,
@@ -94,8 +109,13 @@ export default async function BlogPostPage({ params }: PageProps) {
           <h1>{post.title}</h1>
           <p className="blog-article-deck">{post.description}</p>
           <div className="blog-author"><div className="blog-author-photo"><Image src="/jason-sirotin-headshot.png" alt="Jason Sirotin" fill sizes="52px" /></div><div><strong>Jason Sirotin</strong><span>AI Automation Partner</span></div></div>
+          <div className="blog-editorial-note" aria-label="Article standards">
+            <span>First-hand operating perspective</span>
+            <span>Primary references linked</span>
+            <span>Updated <time dateTime={post.updated}>{new Date(`${post.updated}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}</time></span>
+          </div>
         </header>
-        <div className="blog-article-visual"><Image src={post.image} alt={post.title} fill priority sizes="(max-width: 900px) 100vw, 1120px" /></div>
+        <figure className="blog-article-visual"><Image src={post.image} alt={post.imageAlt} fill priority sizes="(max-width: 900px) 100vw, 1120px" /><figcaption>{post.imageCaption}</figcaption></figure>
         <div className="blog-article-layout">
           <aside><p>In this guide</p><nav>{post.sections.map((section, index) => <a href={`#section-${index + 1}`} key={section.heading}>{String(index + 1).padStart(2, "0")} {section.heading}</a>)}</nav></aside>
           <div className="blog-article-body">
@@ -109,7 +129,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               </section>
             ))}
             <div className="blog-takeaway"><p className="section-label">/ Practical takeaway</p><p>{post.takeaway}</p></div>
-            {post.sources && <div className="blog-sources"><h2>Primary references</h2>{post.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.label} <ExternalLink size={14} /></a>)}</div>}
+            {post.sources && <div className="blog-sources"><h2>Primary references</h2><p>These sources support the factual and technical guidance in this article. Product decisions still require review against your own systems, policies, and risk.</p>{post.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.label} <ExternalLink size={14} /></a>)}</div>}
           </div>
         </div>
       </article>
