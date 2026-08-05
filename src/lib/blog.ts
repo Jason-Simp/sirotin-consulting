@@ -24,6 +24,163 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-customer-support-with-ai-safely",
+    title: "How to automate customer support with AI without frustrating customers",
+    description: "A practical AI customer-support workflow for approved answers, account lookups, safe actions, human escalation, privacy, testing, and continuous improvement.",
+    category: "Customer support",
+    published: "2026-08-05",
+    updated: "2026-08-05",
+    readTime: "14 min read",
+    image: "/portfolio/simplvoice.jpg",
+    imageAlt: "SimplVoice customer conversation interface showing structured routing, capture, and human escalation",
+    imageCaption: "A useful support assistant does more than talk. It identifies the request, retrieves approved context, records evidence, and hands control to a person when the issue exceeds its authority.",
+    keywords: ["AI customer support automation", "automate customer service with AI", "AI support agent", "customer service chatbot with human handoff"],
+    intro: [
+      "AI can remove repetitive work from customer support, but the goal is not to trap people inside a chatbot. The goal is to resolve the simple, well-defined requests faster and deliver a cleaner handoff when judgment, empathy, account authority, or an exception is required.",
+      "The safest first version answers from approved material, gathers the facts a human will need, and routes the conversation correctly. It does not invent policy, negotiate terms, approve unusual refunds, expose another customer's data, or claim success without evidence from the system of record. This guide is operational guidance, not legal advice; requirements involving recordings, regulated information, accessibility, or consumer rights should be reviewed for your specific business and jurisdiction.",
+    ],
+    sections: [
+      {
+        heading: "Start with one support job, not the whole inbox",
+        paragraphs: [
+          "‘Automate customer support’ is too broad to build or test. A password reset, order-status question, appointment change, billing dispute, cancellation request, technical failure, and angry complaint have different data, authority, and consequences. Choose one request family with enough volume to matter and clear enough rules to verify.",
+          "A strong starting job has an observable trigger, a known source of truth, a small number of acceptable outcomes, and a simple escape route to a person. Frequently asked policy questions and status lookups are usually easier to control than refunds, cancellations, financial changes, safety complaints, or anything requiring an exception.",
+        ],
+        bullets: [
+          "Request type: the specific question or task in scope",
+          "Approved sources: the policies and records the assistant may use",
+          "Permitted outcome: answer, collect information, create a draft, or take a narrow action",
+          "Stop conditions: ambiguity, missing identity, conflicting records, risk, or customer request for a person",
+          "Human owner: the queue or individual responsible after escalation",
+        ],
+      },
+      {
+        heading: "Define what the assistant may answer, recommend, and do",
+        paragraphs: [
+          "Conversation and authority are different things. An assistant may be excellent at explaining an approved return policy but still have no authority to issue a refund. Write an authority matrix before connecting tools so a confident sentence cannot quietly become a business decision.",
+          "Use three levels. Answer means the assistant can explain approved information and cite the source. Recommend means it can classify the issue or prepare a proposed response for review. Act means it can change a record, send a message, schedule something, or affect money or access. Each level needs stronger identity, validation, evidence, and recovery controls.",
+        ],
+        bullets: [
+          "Public answer: no customer authentication and no private account data",
+          "Private lookup: verified customer identity and field-level access",
+          "Reversible action: validated inputs, confirmation, provider result, and audit record",
+          "High-impact action: explicit human approval tied to the exact parameters",
+          "Prohibited action: a clear refusal plus a useful human route",
+        ],
+      },
+      {
+        heading: "Turn support policies into answerable routines",
+        paragraphs: [
+          "A folder full of help articles is not an operating policy. For each supported request, identify the current source, owner, effective date, required questions, allowed answer, exceptions, and escalation path. Retire contradictory versions instead of asking the model to choose which one sounds right.",
+          "OpenAI's practical guide recommends converting existing procedures and support scripts into smaller routines with explicit actions and branches. That matters because a customer rarely supplies every required detail in the first message. The routine should know what to ask next, when the available evidence is insufficient, and when it must stop.",
+        ],
+        bullets: [
+          "Show the source and version behind policy-dependent answers",
+          "Distinguish a published rule from a case-specific recommendation",
+          "Require the assistant to acknowledge missing or conflicting information",
+          "Assign an owner and review date to every customer-facing policy",
+          "Remove sensitive internal notes from the customer-answering knowledge set",
+        ],
+      },
+      {
+        heading: "Design the handoff before the chatbot",
+        paragraphs: [
+          "A handoff is not ‘someone will get back to you’ followed by a dead-end transcript. It should create a real ticket or conversation, preserve the customer's words, summarize only what is supported, attach the relevant account and policy context, set the correct priority, and tell the customer what happens next.",
+          "OpenAI's agent guidance calls for human intervention when retry limits are exceeded and when actions are sensitive, irreversible, or high stakes. Add customer-controlled escalation too. If someone asks for a person, do not make them fail the same automated loop three more times to earn one.",
+        ],
+        bullets: [
+          "Immediate handoff for threats, safety issues, discrimination claims, legal demands, suspected fraud, or account compromise",
+          "Approval before unusual refunds, cancellations with consequences, payments, or changes to access",
+          "Handoff after repeated misunderstanding, conflicting data, unsupported language, or missing policy",
+          "A visible queue owner, service expectation, ticket ID, and customer contact method",
+          "No fabricated promise about response time or resolution",
+        ],
+      },
+      {
+        heading: "Protect identity and customer data outside the prompt",
+        paragraphs: [
+          "The model should not decide whether a person is allowed to see an account. Authentication, organization boundaries, field permissions, and action authorization belong in deterministic application controls. A typed name, order number, or email address may help locate a record; it is not automatically proof of identity.",
+          "Give each tool the least access needed for its job. A status tool can return a small approved view instead of an entire customer record. A ticket tool can create a case without granting the assistant permission to browse every prior conversation. Minimize what enters the model context and what appears in logs, analytics, and handoff summaries.",
+        ],
+        bullets: [
+          "Verify identity before revealing private status or changing an account",
+          "Bind every query to the authenticated customer or organization on the server",
+          "Return allowlisted fields rather than raw database objects",
+          "Keep credentials, payment data, secrets, and private internal notes out of prompts",
+          "Document provider retention, training, deletion, and regional-processing settings before launch",
+        ],
+      },
+      {
+        heading: "Treat customer messages and attachments as untrusted input",
+        paragraphs: [
+          "Customers can paste text from other systems, attach documents, forward email, or quote a webpage. Any of that content can contain misleading instructions for the assistant. It is information to analyze, not permission to reveal data, change policy, call a privileged tool, or ignore the governing workflow.",
+          "OWASP recommends least-privilege tools, input validation, context isolation, structured outputs, human approval for high-impact actions, and adversarial testing. Put authorization checks around the tool itself so a prompt injection cannot turn a support conversation into access to an administrative operation.",
+        ],
+        bullets: [
+          "Scan and constrain attachments before extracting content",
+          "Separate system policy from retrieved customer-supplied text",
+          "Validate tool inputs against a schema and the authenticated session",
+          "Limit retries, tool chains, token use, and total session cost",
+          "Log denials and unusual tool requests without logging sensitive content unnecessarily",
+        ],
+      },
+      {
+        heading: "Make every action idempotent and provable",
+        paragraphs: [
+          "Support systems retry requests and deliver events more than once. If a timeout occurs after an appointment changed or a credit was issued, a blind retry can repeat the action. Use a stable operation key, reserve it before execution, and reconcile the provider result rather than trusting the model's memory of the conversation.",
+          "The assistant should say an action succeeded only after the authoritative system returns evidence such as a ticket ID, updated record version, appointment ID, or transaction reference. Store the requested parameters, authorization result, policy version, provider response, timestamp, and responsible identity. If proof is missing, report that the result is unconfirmed and route it for review.",
+        ],
+      },
+      {
+        heading: "Build an evaluation set from real support failures",
+        paragraphs: [
+          "A pleasant demo is not a release test. Create a de-identified evaluation set from the requests your team actually receives. Include ordinary questions, incomplete information, misspellings, conflicting policies, repeat contacts, angry customers, unsupported languages, attempted prompt injection, the wrong account, provider outages, and explicit requests for a human.",
+          "NIST's AI Risk Management Framework emphasizes defined scope, documented human roles, ongoing measurement, and feedback from affected people. Score the system by outcome, not fluency. An answer that sounds polished but cites the wrong policy is a failure. A safe refusal with a clean handoff can be a success.",
+        ],
+        bullets: [
+          "Correct resolution or correct escalation",
+          "Answer supported by the current approved source",
+          "No unauthorized data retrieved or exposed",
+          "Correct identity and organization boundary enforced",
+          "High-impact action blocked or approved correctly",
+          "Customer can reach a person without restarting",
+          "Ticket contains enough context for the person to continue",
+          "Duplicate actions, runaway retries, and false success claims prevented",
+        ],
+      },
+      {
+        heading: "Measure customer outcomes, not deflection alone",
+        paragraphs: [
+          "Containment rate can look impressive while customers become more frustrated. Track whether the issue was actually resolved, whether the customer had to repeat information, how often a human corrected the answer, whether reopened contacts increased, and whether escalation reached the right team with usable context.",
+          "Review a sample of resolved and escalated conversations every week during the initial release. Convert failures into policy fixes, retrieval fixes, tool constraints, interface changes, and new test cases. Do not quietly expand autonomy because the assistant handled a large number of conversations; expand only when a specific action has evidence that its controls work.",
+        ],
+        bullets: [
+          "Verified first-contact resolution",
+          "Repeat contact and reopened-ticket rate",
+          "Unsupported-answer and policy-correction rate",
+          "Human handoff completion and time to ownership",
+          "Customer effort and satisfaction by request type",
+          "Privacy, authorization, duplicate-action, and security incidents",
+        ],
+      },
+      {
+        heading: "Release in three controlled stages",
+        paragraphs: [
+          "Stage one is internal assist: summarize requests, retrieve approved sources, and draft responses for support staff. Stage two is customer-facing answers for a narrow set of low-risk questions with immediate human escape. Stage three adds one reversible account action after authentication, confirmation, monitoring, and rollback have passed representative tests.",
+          "Keep the support platform, knowledge sources, customer records, model account, logs, and billing under the client's ownership whenever practical. The implementation partner can configure and improve the workflow, but the business needs direct control of its customer history, permissions, provider relationships, and off switch.",
+        ],
+      },
+    ],
+    takeaway: "Automate the predictable support work, not the customer's right to be heard. Define narrow authority, ground answers in owned policies, protect identity outside the model, prove every action, and make human escalation a designed path rather than an apology after failure.",
+    sources: [
+      { label: "OpenAI: A practical guide to building agents", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+      { label: "NIST: AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "NIST: Generative AI Profile", url: "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf" },
+      { label: "OWASP: AI Agent Security Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+      { label: "OpenAI API: Data controls and retention", url: "https://developers.openai.com/api/docs/guides/your-data#default-usage-policies-by-endpoint" },
+    ],
+  },
+  {
     slug: "automate-email-follow-up-with-ai-safely",
     title: "How to automate email follow-up with AI without losing control",
     description: "A practical, draft-first system for AI email follow-up with clear sending authority, consent checks, duplicate prevention, deliverability controls, and human review.",
