@@ -24,6 +24,182 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "build-ai-receptionist-small-business",
+    title: "How to build an AI receptionist for a small business without losing calls—or trust",
+    description: "A practical AI receptionist plan for disclosure, call routing, scheduling, human transfer, privacy, secure tools, testing, and responsible outbound boundaries.",
+    category: "Voice automation",
+    published: "2026-08-06",
+    updated: "2026-08-06",
+    readTime: "14 min read",
+    image: "/automation-workflow-social.png",
+    imageAlt: "Multiple conversation paths converging into one controlled business workflow",
+    imageCaption: "A receptionist is a routing system before it is a voice. Different caller needs should converge into a small set of controlled outcomes with clear ownership.",
+    keywords: ["AI receptionist for small business", "build an AI receptionist", "AI phone answering service", "AI appointment scheduling", "voice agent for business"],
+    intro: [
+      "An AI receptionist can answer routine questions, collect the reason for a call, route urgent requests, and help schedule an appointment. The useful version does not pretend to be a person, improvise company policy, expose private records, or leave a caller stranded when the conversation becomes complicated.",
+      "Start by treating reception as an operating workflow rather than a voice demo. Define exactly what the assistant may say, what information it may collect, which systems it may read, which actions it may take, and how a caller reaches a person. This guide focuses on inbound reception. Outbound AI voice calls create a different compliance and consent problem and should be designed as a separate project with legal review.",
+    ],
+    sections: [
+      {
+        heading: "Map the calls you actually receive",
+        paragraphs: [
+          "Do not begin with a prompt that says, ‘Answer every question about our business.’ Pull a representative sample of call reasons from staff notes, voicemail, call logs, appointment records, and the people who currently answer the phone. Remove sensitive details before using those examples for design or testing.",
+          "Group the calls by the outcome the caller needs. A new inquiry may need qualification and an introduction slot. An existing client may need a named person or a message attached to the right account. A vendor may need a department. A safety issue may need immediate escalation. A wrong number needs a polite ending, not a lead record.",
+        ],
+        bullets: [
+          "Call reason and expected destination",
+          "Information needed before routing",
+          "Information the receptionist must never request",
+          "Normal outcome and acceptable alternative",
+          "Urgency rule and human owner",
+          "After-hours behavior",
+          "Evidence that proves the call was handled correctly",
+        ],
+      },
+      {
+        heading: "Give the receptionist a narrow first job",
+        paragraphs: [
+          "The first release should handle a small number of common paths well: explain public business information, identify the caller's reason, capture a callback request, route to a known destination, or book one clearly defined appointment type. Let everything else transfer or create a human follow-up task.",
+          "Voice makes uncertainty harder to inspect than a screen. The caller cannot easily compare a long answer with a source or reread a confirmation. Keep responses short, confirm important names, email addresses, dates, times, and numbers, and read back the final action before execution. Do not add payment, cancellation, account-access, or sensitive-data tools merely because the platform supports them.",
+        ],
+        bullets: [
+          "Answer only from approved public facts",
+          "Ask one necessary question at a time",
+          "Repeat high-impact details before acting",
+          "Offer a person when confidence is low",
+          "Never turn silence or ambiguity into consent",
+        ],
+      },
+      {
+        heading: "Disclose the AI before the conversation begins",
+        paragraphs: [
+          "The opening should plainly say that the caller is speaking with an AI assistant and identify the business it represents. If the call may be recorded, transcribed, reviewed, stored, or shared with service providers, disclose that before collecting the caller's information and provide an alternative path when required.",
+          "ElevenLabs' current agent requirements call for clear notice that the user is interacting with AI and that conversations are recorded and may be shared with ElevenLabs and third-party model providers. Its documentation says this notice must appear immediately before the interaction and offers a verbal disclosure pattern. That provider requirement is a starting point, not a substitute for reviewing federal, state, industry, and contractual obligations for your specific calls.",
+        ],
+        bullets: [
+          "Identify the assistant as AI in the first sentence",
+          "Name the business and the purpose of the call handling",
+          "Explain recording and data use in plain language",
+          "Link or route to the applicable privacy notice",
+          "Provide a human or non-recorded alternative when your policy requires one",
+        ],
+      },
+      {
+        heading: "Separate public answers from private account actions",
+        paragraphs: [
+          "Business hours, location, services, public pricing, directions, and the general appointment process can usually come from a public-approved knowledge source. Account status, prior conversations, invoices, order details, or changes to a client's schedule require identity and authorization controls outside the model.",
+          "A caller knowing a name, phone number, appointment time, or account number does not automatically prove identity. The application—not the model—should decide whether verification is sufficient, bind the lookup to the verified customer or organization, return only allowed fields, and deny access consistently. The voice assistant should not hear or receive data it does not need.",
+        ],
+        bullets: [
+          "Public tool: approved facts with no private lookup",
+          "Identity tool: deterministic verification with rate limits",
+          "Private read tool: minimal fields for the verified subject",
+          "Action tool: server-side authorization and exact input validation",
+          "Human-only queue: payments, disputes, exceptions, access changes, and regulated information unless separately approved",
+        ],
+      },
+      {
+        heading: "Book appointments from live availability—not a remembered schedule",
+        paragraphs: [
+          "Scheduling is useful only when the calendar is authoritative. The assistant should check the calendars that actually control availability, apply working hours, buffers, minimum notice, appointment length, time zone, and conflict rules, then offer a small number of real slots. A static list inside the prompt will eventually double-book someone.",
+          "Use a two-step action. First, read available slots. Second, ask the caller to choose and explicitly confirm the exact date, time, time zone, attendee name, and contact method. Create the event with an idempotency key, store the calendar event ID, and tell the caller it is booked only after the calendar provider confirms success. Send a normal confirmation through the business-owned calendar or email account.",
+        ],
+        bullets: [
+          "Recheck availability immediately before creating the event",
+          "Never expose private event names or attendee details while checking conflicts",
+          "Prevent duplicate bookings when the caller repeats themselves or the tool retries",
+          "Return a real event ID and confirmed start time",
+          "On failure, preserve the request and offer a human follow-up instead of inventing success",
+        ],
+      },
+      {
+        heading: "Design human transfer as a first-class outcome",
+        paragraphs: [
+          "A transfer button is not a handoff plan. Decide who receives each call type, what happens when that person is unavailable, what context follows the call, and what the caller should expect next. The AI should provide a short, source-grounded summary without replacing the original transcript or the caller's own words.",
+          "Transfer immediately when the caller asks for a person, the assistant repeatedly misunderstands, identity cannot be verified, sources conflict, the call involves a safety or legal concern, the caller is highly distressed, or the requested action exceeds policy. Avoid forcing people to repeat the entire conversation after transfer; pass the reason, verified identifiers, information already collected, and any promised next step.",
+        ],
+        bullets: [
+          "Live transfer with a defined fallback",
+          "Callback task with owner, priority, and due expectation",
+          "Original call or transcript reference where retention permits",
+          "A concise summary separated from verified facts",
+          "Visible failure alert when routing or task creation does not complete",
+        ],
+      },
+      {
+        heading: "Choose recording and retention deliberately",
+        paragraphs: [
+          "Do not keep every recording and transcript forever because the default setting makes it easy. Decide why each artifact exists, who can access it, where it is stored, how long it remains useful, how deletion works, and what happens when a caller exercises a privacy right. Keep raw audio only when the purpose justifies the additional exposure.",
+          "ElevenLabs provides separate controls for audio saving, transcript and recording retention, conversation-history redaction, and zero-retention configurations for eligible use cases. Review those settings rather than assuming the safest option is active. Also review whether account data may be used for model improvement and change that setting when it conflicts with the client's policy. The client should own the provider account and approve these choices.",
+        ],
+        bullets: [
+          "Document the purpose for audio, transcripts, summaries, and analytics separately",
+          "Use the shortest retention period that supports the approved purpose",
+          "Restrict staff access and log administrative retrieval",
+          "Keep secrets, payment credentials, health data, and unnecessary identifiers out of prompts and summaries",
+          "Test deletion and export instead of relying on a written policy alone",
+        ],
+      },
+      {
+        heading: "Secure tools and post-call webhooks",
+        paragraphs: [
+          "The receptionist's calendar, CRM, messaging, and routing tools should call a controlled server endpoint—not expose provider keys to a browser or prompt. Validate every parameter, authenticate the calling service, authorize the exact business and action, rate-limit requests, and return a small structured result that the assistant can explain accurately.",
+          "Post-call payloads may contain transcripts, phone metadata, summaries, and analysis. ElevenLabs documents HMAC signature validation for post-call webhooks and recommends validating the signature and timestamp before parsing the event; it also supports egress-IP allowlisting as an additional layer. Store webhook secrets outside source control, reject stale or invalid requests, use stable event IDs to prevent duplicate processing, and avoid logging the raw payload by default.",
+        ],
+        bullets: [
+          "Separate test and production agents, tools, secrets, and destinations",
+          "Allowlist tools and parameters instead of granting broad API access",
+          "Verify webhook signatures against the raw request body",
+          "Deduplicate events before updating the CRM or sending follow-up",
+          "Alert when tool or webhook failures cross a defined threshold",
+          "Maintain an immediate off switch for actions while keeping basic call routing available",
+        ],
+      },
+      {
+        heading: "Treat outbound AI calls as a separate compliance project",
+        paragraphs: [
+          "An inbound receptionist should not quietly become an outbound sales dialer. The FCC has ruled that AI-generated voices fall within the TCPA's restriction on artificial or prerecorded voices. The FTC's Telemarketing Sales Rule guidance also imposes consent, disclosure, calling-time, do-not-call, opt-out, and recordkeeping requirements on covered telemarketing activity, including specific rules for prerecorded messages.",
+          "The exact requirements depend on who is called, why, how the number was obtained, whether the call is promotional, the technology used, the recipient's jurisdiction, and other facts. Before enabling outbound calls, have qualified counsel review the campaign and consent evidence, build suppression and opt-out enforcement into the system, and test that a model or operator cannot bypass them. This article is not legal advice.",
+        ],
+      },
+      {
+        heading: "Test with calls that are designed to break it",
+        paragraphs: [
+          "Use a de-identified call test set and run it after every material change to the prompt, knowledge, voice, tools, model, routing, or provider configuration. Include background noise, accents, poor connections, silence, interruptions, spelling corrections, duplicate requests, ambiguous dates, time-zone changes, unavailable staff, calendar outages, wrong-account attempts, prompt injection, distressed callers, and a direct request for a human.",
+          "NIST's AI Risk Management Framework emphasizes defined scope, documented human roles, measurement, and ongoing monitoring. Score business outcomes rather than how natural the voice sounds. A polished conversation that books the wrong day or loses the callback is a failure. A brief admission of uncertainty followed by a successful handoff can be a strong result.",
+        ],
+        bullets: [
+          "Correct call classification and destination",
+          "Required disclosure delivered before information collection",
+          "Accurate answer supported by the approved source",
+          "No private information disclosed before verification",
+          "Calendar confirmation matches the event that was actually created",
+          "Human transfer or callback task completes with usable context",
+          "Webhook retry does not create duplicate records or messages",
+          "Caller can interrupt, correct details, reach a person, and end the call",
+        ],
+      },
+      {
+        heading: "Release in stages and measure missed work",
+        paragraphs: [
+          "Begin with staff-only testing, then route a limited share of low-risk inbound calls, then expand one call type at a time. Keep the old answering path available until the new one has survived real operating conditions. Review recordings or transcripts only under the approved policy and turn observed failures into updated routines and regression tests.",
+          "Measure correct resolution, successful routing, completed callbacks, booking accuracy, repeated information, transfer completion, caller abandonment, privacy incidents, unsupported answers, tool failures, and staff corrections. Do not optimize for calls contained by the AI if containment means a caller never reached the person or result they needed.",
+        ],
+      },
+    ],
+    takeaway: "A trustworthy AI receptionist is honest about what it is, narrow about what it can do, careful with caller data, connected to live systems, and excellent at handing control to a person. Build the routing and evidence first; the voice is the interface, not the operating model.",
+    sources: [
+      { label: "ElevenLabs: Agent disclosure requirements", url: "https://elevenlabs.io/docs/eleven-agents/legal/disclosure-requirement" },
+      { label: "ElevenLabs: Agent privacy controls", url: "https://elevenlabs.io/docs/eleven-agents/customization/privacy" },
+      { label: "ElevenLabs: Secure agent authentication", url: "https://elevenlabs.io/docs/eleven-agents/customization/authentication" },
+      { label: "ElevenLabs: Post-call webhook authentication", url: "https://elevenlabs.io/docs/eleven-agents/workflows/post-call-webhooks" },
+      { label: "FCC: AI-generated voices and the TCPA", url: "https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf" },
+      { label: "FTC: Complying with the Telemarketing Sales Rule", url: "https://www.ftc.gov/business-guidance/resources/complying-telemarketing-sales-rule" },
+      { label: "NIST: AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OWASP: AI Agent Security Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-customer-support-with-ai-safely",
     title: "How to automate customer support with AI without frustrating customers",
     description: "A practical AI customer-support workflow for approved answers, account lookups, safe actions, human escalation, privacy, testing, and continuous improvement.",
