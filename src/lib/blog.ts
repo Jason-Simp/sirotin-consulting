@@ -24,6 +24,184 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-lead-qualification-with-ai",
+    title: "How to automate lead qualification with AI without losing good prospects",
+    description: "A practical AI lead-qualification workflow for evidence-based scoring, CRM deduplication, consent controls, human review, routing, testing, and measurable sales follow-through.",
+    category: "Sales automation",
+    published: "2026-08-07",
+    updated: "2026-08-07",
+    readTime: "15 min read",
+    image: "/portfolio/simplengine.jpg",
+    imageAlt: "A governed AI workflow connecting business data, knowledge, permissions, guardrails, communications, and operational actions",
+    imageCaption: "Lead qualification is a controlled routing workflow: approved data enters, explicit rules and bounded AI organize it, and the next action is recorded with evidence and human ownership.",
+    keywords: ["AI lead qualification", "automate lead qualification with AI", "AI lead scoring", "sales lead automation", "AI CRM automation"],
+    intro: [
+      "AI can help a sales team read inquiries, extract the facts that matter, ask a useful follow-up question, and route each prospect to the right next step. The dangerous version guesses intent, treats a polished message as proof of fit, floods the CRM with duplicates, or quietly discards a good prospect because the model sounded confident.",
+      "A reliable system separates facts from inference and qualification from rejection. Start with explicit business rules, let AI organize messy language into a reviewable structure, preserve the source evidence, and keep a person responsible for ambiguous or valuable opportunities. This guide covers operational lead routing for ordinary business sales; it is not legal advice and should not be used as a substitute for requirements that apply to credit, housing, employment, insurance, healthcare, or another regulated decision.",
+    ],
+    sections: [
+      {
+        heading: "Define qualification as a routing decision",
+        paragraphs: [
+          "A lead does not need to be declared good or bad. It needs the next appropriate action. That might be immediate human outreach, a request for missing information, a booking link, a longer education path, a partner referral, or a respectful stop. Framing qualification as routing prevents an uncertain model score from becoming an invisible rejection.",
+          "Write the possible outcomes before choosing a model or integration. Every outcome needs an owner, a response expectation, and evidence that the handoff completed. If the business cannot explain what happens to a lead after each label, adding AI will only automate the confusion.",
+        ],
+        bullets: [
+          "Priority review: strong fit or time-sensitive need, routed to a named person",
+          "Standard follow-up: sufficient fit, but no urgent buying signal",
+          "Clarify: important facts are missing or contradictory",
+          "Nurture: relevant problem, but timing or readiness is not established",
+          "Refer or decline: clearly outside the approved service boundary",
+          "Manual review: uncertainty, unusual value, risk, or an explicit request for a person",
+        ],
+      },
+      {
+        heading: "Separate fit, interest, and readiness",
+        paragraphs: [
+          "Many lead scores mix three different questions. Fit asks whether the business can responsibly serve the prospect. Interest asks what the person has actually done. Readiness asks whether there is a defined problem, owner, timing, and next step. A high score in one category should not erase missing evidence in another.",
+          "Use fields that a salesperson can inspect instead of one mysterious number. Keep the original response beside each extracted field. If a prospect says, ‘We need this before our October launch,’ store that sentence as evidence for the timing field; do not let the system turn it into a fabricated budget, authority, or probability-to-close claim.",
+        ],
+        bullets: [
+          "Fit: approved geography, service need, organization type, and constraints",
+          "Interest: form submission, requested content, reply, booked meeting, or other observable action",
+          "Readiness: stated problem, operational impact, responsible person, timing, and agreed next step",
+          "Unknown: a valid state that creates a question—not a negative score",
+        ],
+      },
+      {
+        heading: "Build a qualification rubric from business evidence",
+        paragraphs: [
+          "Interview the people who currently qualify leads and review a de-identified sample of won, lost, referred, and stalled opportunities. Look for information that changed the next action, not personality traits that merely correlated with past outcomes. Past sales data can contain inconsistent follow-up and historical bias; it should inform the rubric, not silently become the rubric.",
+          "For each criterion, document the source, accepted values, weight or routing effect, what counts as missing, and whether the rule may stop automation. Prefer facts the prospect provided or that come from an approved business system. Avoid inferred demographics, protected characteristics, emotional judgments, or data purchased without a clear and approved purpose.",
+        ],
+        bullets: [
+          "Criterion: what business fact matters",
+          "Evidence: where the fact came from and when it was collected",
+          "Rule: the deterministic effect on routing",
+          "Confidence: whether the extraction is clear, ambiguous, or missing",
+          "Override: who may change the route and why",
+          "Review date: when the rule will be checked against real outcomes",
+        ],
+      },
+      {
+        heading: "Use AI for extraction and explanation before prediction",
+        paragraphs: [
+          "The first useful AI job is turning unstructured text into a small schema: problem, current process, desired result, systems involved, timing, location, and unanswered questions. Require the model to quote or reference the supporting input for every extracted claim. If the source does not support a field, the value should be unknown.",
+          "Run deterministic business rules after extraction. An approved service area, minimum project condition, existing-customer flag, or requested appointment type should be evaluated by normal code. AI can prepare a concise explanation for the salesperson, but it should not be the only authority for access, pricing, commitments, suppression, or irreversible CRM changes.",
+        ],
+        bullets: [
+          "Input: the prospect's own form, email, chat, or call transcript",
+          "Structured output: validated fields with evidence and an unknown state",
+          "Rules layer: versioned business logic outside the prompt",
+          "Route proposal: outcome, reason, missing information, and confidence",
+          "Approval layer: automatic only for narrow, low-risk paths",
+        ],
+      },
+      {
+        heading: "Make the CRM the system of record",
+        paragraphs: [
+          "Search before creating. A returning prospect may use a different form, reply from an alias, or submit twice while waiting. The workflow should resolve the approved unique identifier, update the existing record when appropriate, and attach the new source event instead of creating a new contact and launching a second sequence.",
+          "HubSpot's current contacts API documentation recommends email as the primary unique identifier to help avoid duplicates and provides upsert behavior for create-or-update operations. Whatever CRM you use, rely on its documented record IDs and unique fields rather than asking the model whether two people look like the same person. Keep each intake event separately traceable even when it belongs to an existing contact.",
+        ],
+        bullets: [
+          "Normalize and validate email and phone values before lookup",
+          "Use a CRM record ID or approved unique property for updates",
+          "Store the source channel, form or conversation ID, and timestamp",
+          "Use idempotency keys so retries do not create new records or tasks",
+          "Never merge contacts automatically on name or company similarity alone",
+        ],
+      },
+      {
+        heading: "Enforce consent and suppression before follow-up",
+        paragraphs: [
+          "A qualified lead is not permission to contact someone through every channel. Store the source and scope of any consent, the applicable notice version, channel preferences, unsubscribe status, and do-not-contact instructions as operational data. Check those controls immediately before every automated send or dial, not only when the contact first enters the CRM.",
+          "For U.S. commercial email, the FTC's CAN-SPAM guidance requires accurate sender information and subject lines, a valid postal address, a clear opt-out mechanism, and prompt honoring of opt-out requests; it also says a company cannot contract away responsibility when another vendor sends on its behalf. Other channels and jurisdictions have different rules. Have qualified counsel review the actual campaign, audience, and consent design.",
+        ],
+        bullets: [
+          "Keep qualification status separate from marketing permission",
+          "Apply suppression before content generation and again before sending",
+          "Stop sequences when a person replies, books, opts out, or becomes a customer",
+          "Prevent parallel tools from sending competing follow-ups",
+          "Log the policy decision without copying unnecessary personal data into logs",
+        ],
+      },
+      {
+        heading: "Route by confidence and consequence",
+        paragraphs: [
+          "Do not set one global confidence threshold. A system can automatically tag a likely topic with modest consequence, but it should require stronger evidence before changing an owner, promising a response time, excluding a prospect, or triggering high-volume outreach. Match the approval requirement to the cost of being wrong.",
+          "OpenAI's current agent-building guide recommends human intervention when failure thresholds are exceeded or an action is sensitive, irreversible, or high risk. For lead qualification, that means a human should see contradictory answers, high-value opportunities, regulated use cases, unusual requests, repeated model failures, and every proposed decline until the team has measured the workflow under real conditions.",
+        ],
+        bullets: [
+          "Low consequence: categorize, summarize, or request one missing fact",
+          "Medium consequence: assign a queue or create a draft task with review",
+          "High consequence: decline, change terms, make a commitment, or start sensitive outreach—human approval required",
+          "Failure threshold: stop retries and create a visible manual task",
+        ],
+      },
+      {
+        heading: "Give the agent less access than the salesperson",
+        paragraphs: [
+          "The qualification service usually needs to read a new inquiry, search a narrow set of contact fields, write approved qualification fields, and create a task. It does not need unrestricted CRM administration, bulk export, billing access, or the ability to send arbitrary messages. Put credentials on the server, scope them to the client-owned account and approved actions, and validate every tool input outside the model.",
+          "OWASP's AI Agent Security guidance recommends least-privilege tools, schema validation, human controls for high-impact actions, monitoring, and structured adversarial testing. Treat form text, email, websites, and attachments as untrusted content: a sentence inside a lead submission must never be able to change system instructions, request secrets, or expand tool permissions.",
+        ],
+        bullets: [
+          "Allowlist exact tools, fields, records, and destinations",
+          "Use read-only access wherever writing is not required",
+          "Separate test and production credentials and data",
+          "Redact secrets and unnecessary personal data from prompts and logs",
+          "Alert on unusual export volume, repeated failures, and permission errors",
+          "Maintain an immediate off switch for automated actions",
+        ],
+      },
+      {
+        heading: "Test the workflow against a labeled lead set",
+        paragraphs: [
+          "Create a de-identified test set with clear expected routes and reasons. Include obvious fits, obvious non-fits, incomplete submissions, contradictory answers, duplicate contacts, existing customers, typos, forwarded emails, quoted signatures, multiple languages, adversarial instructions, opt-outs, and the rare valuable opportunity that does not resemble past wins.",
+          "NIST's AI Risk Management Framework organizes work around govern, map, measure, and manage, including documented scope, human roles, testing, monitoring, appeal or override, and change management. Apply that discipline here. Run the same test set whenever the prompt, rules, model, form, CRM fields, or integration changes, and preserve the version that produced each result.",
+        ],
+        bullets: [
+          "Field accuracy: extracted facts match the source",
+          "Evidence coverage: every important claim has a traceable source",
+          "Routing accuracy: expected owner and next action are correct",
+          "False-negative review: good prospects are not silently buried",
+          "Duplicate rate: retries and repeat inquiries attach correctly",
+          "Suppression accuracy: prohibited outreach never enters the send queue",
+          "Handoff completion: the assigned person receives usable context on time",
+        ],
+      },
+      {
+        heading: "Measure sales follow-through, not model confidence",
+        paragraphs: [
+          "The model's confidence is not a business result. Measure time to first appropriate action, percentage of leads with sufficient evidence, human correction rate, duplicate rate, clarification completion, booked-meeting rate by route, missed service-level targets, opt-outs, complaints, and the number of qualified leads that received no follow-up.",
+          "Review false positives and false negatives separately. A false positive wastes sales time; a false negative may hide revenue and teach the system to repeat a blind spot. Sample leads from every route—including nurture and decline—and let salespeople correct the record with a reason code rather than overwriting the outcome without explanation.",
+        ],
+      },
+      {
+        heading: "A practical first-release plan",
+        paragraphs: [
+          "Begin in shadow mode. The system reads a lead, prepares structured fields and a proposed route, but a person makes the decision and performs the follow-up. Compare proposals with human outcomes for at least one normal business cycle, fix the rubric and data quality, then automate only the narrow routes that have enough evidence and a safe recovery path.",
+          "A strong first release can be small: one intake source, one CRM, one rubric version, one sales owner, and one clarification message held for approval. The point is to prove that the system reduces delay without losing context, permission, or accountability. Expansion should follow measured performance—not a desire to switch on every available feature.",
+        ],
+        bullets: [
+          "Week 1: map outcomes, evidence, owners, permissions, and stop conditions",
+          "Week 2: build extraction, CRM lookup, idempotent updates, and a review queue",
+          "Week 3: run shadow mode, label errors, and test consent and failure paths",
+          "Week 4: automate one low-risk route, monitor daily, and keep the rollback ready",
+        ],
+      },
+    ],
+    takeaway: "The best AI lead-qualification system does not replace sales judgment with a mysterious score. It turns messy inquiries into evidence, applies visible business rules, protects consent, prevents duplicate work, and gets the right prospect to the right person faster—with a record of why.",
+    sources: [
+      { label: "NIST: AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OWASP: AI Agent Security Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+      { label: "OpenAI: A practical guide to building agents", url: "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" },
+      { label: "HubSpot: CRM contacts API guide", url: "https://developers.hubspot.com/docs/api-reference/latest/crm/objects/contacts/guide" },
+      { label: "HubSpot: Understand the lead scoring tool", url: "https://knowledge.hubspot.com/scoring/understand-the-lead-scoring-tool" },
+      { label: "FTC: CAN-SPAM Act compliance guide", url: "https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business" },
+      { label: "FTC: Start with Security", url: "https://www.ftc.gov/business-guidance/resources/start-security-guide-business" },
+    ],
+  },
+  {
     slug: "build-ai-receptionist-small-business",
     title: "How to build an AI receptionist for a small business without losing calls—or trust",
     description: "A practical AI receptionist plan for disclosure, call routing, scheduling, human transfer, privacy, secure tools, testing, and responsible outbound boundaries.",
