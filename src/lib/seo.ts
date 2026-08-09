@@ -13,10 +13,12 @@ type PageMetadataInput = {
   title: string;
   description: string;
   path: string;
+  image?: { url: string; alt: string };
 };
 
-export function createPageMetadata({ title, description, path }: PageMetadataInput): Metadata {
+export function createPageMetadata({ title, description, path, image }: PageMetadataInput): Metadata {
   const canonical = new URL(path, SITE_URL).toString();
+  const socialImage = image ? { ...image, width: 1200, height: 630 } : SOCIAL_IMAGE;
   return {
     title,
     description,
@@ -28,13 +30,13 @@ export function createPageMetadata({ title, description, path }: PageMetadataInp
       title,
       description,
       url: canonical,
-      images: [SOCIAL_IMAGE],
+      images: [socialImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [SOCIAL_IMAGE.url],
+      images: [socialImage.url],
     },
   };
 }

@@ -11,7 +11,7 @@ const body = `# Jason Sirotin — AI Automation Partner
 Canonical URL: https://automatemejay.com
 Contact: hello@automatemejay.com
 Phone: +1-678-855-5169
-Last updated: 2026-08-04
+Last updated: 2026-08-09
 
 ## Service
 
@@ -41,11 +41,19 @@ Jason's first-hand build method is documented at https://automatemejay.com/appro
 - Email, CRM, document, database, and operations integrations
 - Troubleshooting and improving existing automations
 
+## Workflow automation services
+
+- Workflow automation hub: https://automatemejay.com/workflow-automation
+- n8n consulting: technical orchestration across APIs, databases, webhooks, AI steps, and custom logic at https://automatemejay.com/workflow-automation/n8n
+- monday.com consulting: team-facing boards, handoffs, approvals, permissions, automations, and operating visibility at https://automatemejay.com/workflow-automation/monday-com
+- Platform selection follows the operating need. Some engagements use one platform; some use both. Client accounts, data, credentials, billing, documentation, and recovery paths remain client-owned whenever practical.
+
 ## Useful links
 
 - Book a free consultation: https://automatemejay.com/book
 - Portfolio: https://automatemejay.com/portfolio
 - Jason's build and verification method: https://automatemejay.com/approach
+- Workflow automation consulting: https://automatemejay.com/workflow-automation
 - AI automation news and researched guides: https://automatemejay.com/blog
 - Full public knowledge file: https://automatemejay.com/llms-full.txt
 

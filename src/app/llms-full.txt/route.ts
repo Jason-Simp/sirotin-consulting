@@ -23,6 +23,15 @@ Canonical URL: https://automatemejay.com/approach
 
 Jason starts with the work rather than a model or software brand. The five required artifacts are a workflow map, an authority map, a safe first path, an evaluation packet, and a release and ownership record. Agents can handle parallel research, structured drafts, repetitive implementation, consistency checks, and test execution. People remain accountable for goals, permissions, policy, consequential claims, taste, risk acceptance, and final release. Provider evidence—not an agent's statement—must prove that an external action succeeded.
 
+## Workflow automation services
+
+Canonical hub: https://automatemejay.com/workflow-automation
+
+Jason designs, builds, repairs, and governs practical workflows. n8n is used when the work requires technical orchestration across APIs, databases, webhooks, AI steps, transformations, and backend systems. monday.com is used when teams need visible boards, accountable handoffs, approvals, permissions, ownership, and operating clarity. A combined system can keep human-facing work in monday.com while n8n coordinates deeper integrations. The client should own the accounts, billing, production credentials, data, documentation, and recovery path.
+
+- n8n consulting: https://automatemejay.com/workflow-automation/n8n
+- monday.com consulting: https://automatemejay.com/workflow-automation/monday-com
+
 ${articles}
 `;
 

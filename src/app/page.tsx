@@ -18,6 +18,7 @@ import { MobileNavigation } from "@/components/mobile-navigation";
 import { HomePortfolioAccordion } from "@/components/home-portfolio-accordion";
 
 const mobileNavigation = [
+  { href: "/workflow-automation", label: "Workflow automation" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/approach", label: "Method" },
   { href: "/blog", label: "News" },
@@ -214,6 +215,7 @@ export default function Home() {
           <strong>Jason Sirotin</strong>
         </Link>
         <nav aria-label="Primary navigation">
+          <Link href="/workflow-automation">Workflow automation</Link>
           <Link href="/portfolio">Portfolio</Link>
           <Link href="/approach">Method</Link>
           <Link href="/blog">News</Link>
@@ -404,7 +406,7 @@ export default function Home() {
 
       <footer>
         <div className="footer-brand"><span>JS</span><div><strong>Jason Sirotin</strong><p>AI Automation Partner</p></div></div>
-        <div className="footer-links"><Link href="/portfolio">Portfolio</Link><Link href="/approach">Method</Link><Link href="/blog">News</Link><Link href="/book">Book a consultation</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client workspace</Link></div>
+        <div className="footer-links"><Link href="/workflow-automation">Workflow automation</Link><Link href="/portfolio">Portfolio</Link><Link href="/approach">Method</Link><Link href="/blog">News</Link><Link href="/book">Book a consultation</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/security">Data &amp; Security</Link><Link href="/sign-in">Client workspace</Link></div>
         <div className="footer-bottom"><p>Independent AI automation consulting</p><p>© 2026 Jason Sirotin. All rights reserved.</p></div>
       </footer>
     </main>
