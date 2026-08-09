@@ -3,27 +3,28 @@ import { ArrowRight, Check, ExternalLink, GitBranch, KeyRound, ShieldCheck, Wren
 import { SubpageHeader } from "@/components/subpage-header";
 import type { WorkflowService } from "@/lib/workflow-services";
 import { workflowServiceSchema } from "@/lib/workflow-schema";
+import { MondayBoard, N8nCanvas } from "@/components/workflow-visuals";
 
 const icons = [GitBranch, Wrench, ShieldCheck, KeyRound];
 
 export function WorkflowPlatformPage({ service }: { service: WorkflowService }) {
   return (
-    <main className="subpage workflow-page">
+    <main className={`subpage workflow-page workflow-page-${service.slug}`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(workflowServiceSchema(service)) }} />
       <SubpageHeader />
       <article>
         <header className="workflow-hero">
           <div><p className="section-label">/ {service.platform} automation consulting</p><h1>{service.hero} <em>{service.heroAccent}</em></h1><p className="workflow-deck">{service.lede}</p><div className="button-row"><Link className="button button-primary" href="/book">Map one workflow <ArrowRight size={17} /></Link><Link className="button button-secondary" href="/workflow-automation">Compare approaches</Link></div></div>
-          <aside className="workflow-signal" aria-label={`${service.platform} workflow operating model`}><span>{service.platform}</span><div>{["Trigger", "Rules", "Review", "Evidence"].map((item, i) => <div key={item}><b>{String(i + 1).padStart(2, "0")}</b><strong>{item}</strong>{i < 3 && <i>→</i>}</div>)}</div><p>Built in client-owned accounts. Tested before consequential actions go live.</p></aside>
+          <aside className="workflow-product-visual">{service.slug === "n8n" ? <N8nCanvas /> : <MondayBoard />}<p><span>CLIENT-OWNED</span> Built with visible authority, tested exceptions, and evidence from the systems that act.</p></aside>
         </header>
 
         <section className="workflow-thesis"><p className="section-label">/ The right fit</p><div><h2>Use {service.platform} when it fits the work—not because it is fashionable.</h2><p>{service.proof}</p></div></section>
 
-        <section className="workflow-card-section"><div className="workflow-heading"><p className="section-label">/ Problems this can solve</p><h2>Start with the operating problem.</h2></div><div className="workflow-fit-grid">{service.fit.map((item, i) => <article key={item.title}><span>{String(i + 1).padStart(2, "0")}</span><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></section>
+        <section className="workflow-card-section"><div className="workflow-heading"><p className="section-label">/ Problems this can solve</p><h2>Start with the operating problem.</h2></div><div className="workflow-fit-grid">{service.fit.map((item, i) => <article key={item.title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.body}</p></div></article>)}</div></section>
 
         <section className="workflow-services"><div className="workflow-heading"><p className="section-label">/ What I can do</p><h2>Build, repair, govern, and hand it over.</h2></div><div>{service.services.map((item, i) => { const Icon = icons[i % icons.length]; return <article key={item.title}><Icon size={21} aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.body}</p></div></article>; })}</div></section>
 
-        <section className="workflow-examples"><div className="workflow-heading"><p className="section-label">/ Example workflows</p><h2>Concrete paths, with a useful result.</h2></div><div>{service.examples.map((item) => <article key={item.title}><h3>{item.title}</h3><code>{item.flow}</code><p>{item.result}</p></article>)}</div></section>
+        <section className="workflow-examples"><div className="workflow-heading"><p className="section-label">/ Example workflows</p><h2>See the work move from request to evidence.</h2></div><div>{service.examples.map((item, i) => <article key={item.title}><span>{String(i + 1).padStart(2, "0")}</span><h3>{item.title}</h3><code>{item.flow}</code><p>{item.result}</p></article>)}</div></section>
 
         <section className="workflow-method"><div className="workflow-heading"><p className="section-label">/ The working method</p><h2>No black box. No mystery handoff.</h2></div><ol>{service.steps.map((step, i) => <li key={step.title}><span>{String(i + 1).padStart(2, "0")}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}</ol></section>
 
