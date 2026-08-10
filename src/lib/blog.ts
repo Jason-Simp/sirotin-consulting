@@ -24,6 +24,248 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-employee-onboarding-offboarding-with-ai",
+    title: "How to automate employee onboarding and offboarding with AI without creating access risk",
+    description: "A practical joiner-mover-leaver workflow for employee onboarding, role changes, offboarding, access approvals, training, audit evidence, and human control.",
+    category: "Employee operations",
+    published: "2026-08-10",
+    updated: "2026-08-10",
+    readTime: "17 min read",
+    image: "/portfolio/simpltraining.jpg",
+    imageAlt: "SimplTraining system connecting course building, role-based learning, policies, certification, feedback, progress tracking, and reminders",
+    imageCaption: "Employee lifecycle automation should connect approved identity data, role-based access, accountable tasks, training, evidence, and timely removal. A welcome email is only one small step.",
+    keywords: ["automate employee onboarding", "AI employee onboarding", "employee offboarding automation", "onboarding workflow automation", "joiner mover leaver process"],
+    intro: [
+      "Employee onboarding often begins with a signed offer and immediately fragments into email, chat, tickets, spreadsheets, identity systems, application administrators, equipment requests, training portals, and a manager trying to remember what happens next. Offboarding can be worse: one delayed notice or forgotten application leaves customer data, financial systems, code, email, or shared files available longer than the business intended.",
+      "AI can help classify requests, draft role-specific plans, answer approved questions, summarize exceptions, and prepare communication. It should not decide who gets hired, invent a person's role, grant itself broad administrative access, or declare that access was removed without provider evidence. The useful design is a controlled joiner-mover-leaver workflow with an authoritative personnel event, explicit approvals, least-privilege access, auditable execution, and a person accountable for every exception. This is operational guidance, not employment, privacy, security, or legal advice; apply the requirements of the actual organization and jurisdiction.",
+    ],
+    sections: [
+      {
+        heading: "Treat onboarding, role changes, and departures as one lifecycle",
+        paragraphs: [
+          "Many businesses automate the welcome checklist but leave transfers and departures manual. That creates a one-way access system: permissions are added when someone starts, then accumulate as the person changes teams, takes on temporary projects, becomes a manager, returns from leave, switches from employee to contractor, or eventually leaves.",
+          "CISA and Microsoft describe this as a joiner-mover-leaver lifecycle. The mover phase matters because a new role can require both granting new access and removing access that no longer belongs. Design one lifecycle model with shared identities, owners, evidence, and exception handling instead of three disconnected checklists.",
+        ],
+        bullets: [
+          "Joiner: establish identity, approved role, start date, manager, access, equipment, and learning",
+          "Mover: update role, manager, location, employment status, groups, applications, and responsibilities",
+          "Leaver: suspend or revoke access, recover assets, transfer owned work, preserve required records, and document completion",
+          "Returner: determine whether the old identity may be reactivated or a clean identity must be issued",
+          "Contractor and temporary worker: enforce sponsor, purpose, expiration, and narrower default access",
+          "Leave of absence: distinguish temporary suspension from termination and preserve the approved return path",
+        ],
+      },
+      {
+        heading: "Choose an authoritative trigger before building the automation",
+        paragraphs: [
+          "A message saying ‘Taylor starts Monday’ is not enough authority to create accounts. The workflow needs an approved event from the system and person responsible for employment status—typically an HR or personnel system, with defined handling for organizations that do not have one. Required attributes should be complete before downstream tasks begin.",
+          "Use stable internal identifiers rather than names or email addresses as the primary key. Names change, are duplicated, and are entered inconsistently. Record the event type, effective time, employment type, department, role, manager, work location, sponsor where applicable, and the source record version. If required data is missing or contradictory, stop in a visible exception state rather than guessing.",
+        ],
+        bullets: [
+          "Named system of record and named people authorized to create or change lifecycle events",
+          "Stable personnel identifier separate from an email address or display name",
+          "Effective date and time with an explicit time zone",
+          "Approved role, department, manager, employment type, location, and sponsor",
+          "Event version so a later correction does not race an earlier workflow",
+          "A review queue for missing, conflicting, late, duplicate, or retroactive events",
+        ],
+      },
+      {
+        heading: "Map the real work by owner, deadline, dependency, and proof",
+        paragraphs: [
+          "Do not copy a generic onboarding checklist from the internet. Interview HR, the manager, IT, security, facilities, finance, payroll, legal or compliance where relevant, and the employee experience owner. A task is only automatable when the trigger, responsible party, required input, deadline, completion evidence, exception path, and downstream dependency are known.",
+          "Separate coordination tasks from access tasks. Ordering a standard laptop, preparing a welcome agenda, and assigning a training module have different risks from creating an administrator account or granting access to financial data. The workflow can move low-risk coordination quickly while keeping access and consequential decisions behind the appropriate approval.",
+        ],
+        bullets: [
+          "Task owner and backup owner",
+          "When the task becomes valid and when it is due",
+          "Information the task needs and where that information originates",
+          "Whether the action is reversible, consequential, or security-sensitive",
+          "The provider response or artifact that proves completion",
+          "What blocks later tasks and who resolves the exception",
+        ],
+      },
+      {
+        heading: "Build access from approved roles—not AI inference",
+        paragraphs: [
+          "Define a role-to-access catalog with the business and application owners. Each approved role should map to the minimum groups, applications, licenses, data scopes, and physical access needed for assigned work. NIST defines least privilege as restricting a user or process to the minimum access necessary for its task, and its controls call for periodic privilege review and logging of privileged functions.",
+          "AI may help compare a request with the catalog, explain differences, or prepare an access proposal. It should not infer privileges from a job title, résumé, manager email, or similarity to another employee and then grant them automatically. New or elevated access outside the catalog requires a named owner, business reason, expiration when temporary, and recorded approval.",
+        ],
+        bullets: [
+          "Default-deny for systems and data outside the approved role package",
+          "Separate standard, sensitive, and privileged access",
+          "Time-bound project and temporary permissions",
+          "Application owner approval for exceptions and elevated roles",
+          "No copying another employee's access as an unreviewed shortcut",
+          "Periodic recertification and removal when the business need ends",
+        ],
+      },
+      {
+        heading: "Keep AI away from hiring and employment decisions unless separately governed",
+        paragraphs: [
+          "Onboarding automation should begin only after the authorized employment event. Do not quietly reuse the same AI workflow to rank applicants, assess disability-related information, predict performance, recommend compensation, or decide who should be hired, disciplined, promoted, or terminated. Those are different, higher-impact uses with different legal, fairness, accessibility, documentation, and review obligations.",
+          "The EEOC specifically addresses the use of software, algorithms, and AI in employment decisions and the Americans with Disabilities Act. If a business is considering decision-support technology for applicants or employees, separate it from administrative onboarding, involve qualified legal and human-resources leadership, document the purpose and impacts, evaluate accessibility and accommodations, and preserve meaningful human responsibility.",
+        ],
+        bullets: [
+          "Do not expand an administrative workflow into employment scoring by convenience",
+          "Keep disability, medical, demographic, accommodation, and protected information out of general automation context",
+          "Give employees an understandable human route for corrections and accommodation requests",
+          "Document which decisions AI is prohibited from making or recommending",
+          "Review vendors, data use, retention, evaluation, and affected-person communication separately",
+          "Require qualified human review for consequential employment decisions",
+        ],
+      },
+      {
+        heading: "Use AI for language and exceptions—not as an identity administrator",
+        paragraphs: [
+          "AI is useful where the input is messy and the output remains reviewable. It can turn an approved role package into a manager checklist, draft a personalized first-week plan from approved templates, answer questions from a governed policy library, translate non-sensitive instructions, group unresolved tasks, or summarize why a lifecycle run stopped.",
+          "The model should not hold a broad directory administrator token. Server-side workflow components should validate every action against the current lifecycle event, approved catalog, requester authority, target user, destination, and allowed operation. The model proposes structured data; deterministic policy and provider APIs decide what may happen.",
+        ],
+        bullets: [
+          "Use a strict schema for suggestions, classifications, drafts, and exception summaries",
+          "Authorize actions outside the model using current business rules",
+          "Allowlist systems, groups, licenses, message destinations, and operations",
+          "Block instructions found in tickets, résumés, documents, or email from changing system authority",
+          "Require approval for privileged, financial, sensitive-data, and destructive actions",
+          "Store model and prompt versions with evaluations—not passwords or long-lived tokens",
+        ],
+      },
+      {
+        heading: "Sequence the first-day experience around dependencies",
+        paragraphs: [
+          "A welcome message is not useful if the employee cannot authenticate, the manager has not prepared work, or equipment is still in transit. Build the joiner workflow as a dependency graph. Identity proofing and the authoritative record come first. Account creation, authentication enrollment, device preparation, application assignment, training, and team introductions follow only when their prerequisites are satisfied.",
+          "Microsoft's lifecycle workflow documentation uses attributes such as hire date, department, and manager to scope and schedule tasks, and supports workflow history and audit logs. Whether the business uses Microsoft, Google, an HR platform, a service desk, n8n, monday.com, or another orchestrator, the same discipline applies: schedule from authoritative attributes, use provider-supported actions, and keep evidence for each task.",
+        ],
+        bullets: [
+          "Pre-start: validate record, assign manager tasks, prepare equipment, and stage approved access",
+          "Start day: enable identity at the approved time and complete secure authentication enrollment",
+          "First week: deliver role-specific learning, policies, introductions, and supervised access",
+          "First month: review adoption, unresolved exceptions, unused licenses, and access mismatches",
+          "Do not send secrets or temporary credentials through unapproved channels",
+          "Do not mark onboarding complete while blocking access or required training remains unresolved",
+        ],
+      },
+      {
+        heading: "Automate training from the approved role and measure completion honestly",
+        paragraphs: [
+          "Assign learning from the approved role, location, data access, equipment, and responsibilities—not from an AI guess about what a person should know. Separate universal policies from role-specific procedures and system-specific training. The employee and manager should be able to see what is required, why it applies, the due date, and who can answer questions.",
+          "A generated summary or completed video is not proof of understanding. Use appropriate acknowledgments, demonstrations, supervised practice, quizzes, or manager signoff for the actual risk. Preserve the assigned content version and completion evidence so a later policy change does not rewrite the historical record.",
+        ],
+        bullets: [
+          "Role and location determine the approved learning path",
+          "Content comes from a governed source with an owner and effective date",
+          "Accessibility and language needs are supported without exposing unrelated personal data",
+          "Completion, assessment, acknowledgment, and manager signoff remain distinct states",
+          "Failed or overdue requirements create an owned exception—not silent reminders forever",
+          "Material policy changes trigger targeted reassignment with a new version",
+        ],
+      },
+      {
+        heading: "Handle role changes as remove-then-add with continuity checks",
+        paragraphs: [
+          "A mover event is not simply another onboarding. Compare the person's current approved access with the new role package. Identify permissions to remove, retain, add, time-limit, or send for review. Removing obsolete access is as important as adding the new tools, because accumulated privileges increase the impact of account compromise and insider misuse.",
+          "Protect business continuity without keeping excessive access. Transfer open work, queues, calendars, automations, service ownership, and approval responsibilities to named people. If a temporary overlap is necessary, document the reason and expiration; do not leave old access in place indefinitely because the transfer was inconvenient.",
+        ],
+        bullets: [
+          "Diff current access against the new approved role package",
+          "Remove incompatible and obsolete access before or alongside new grants",
+          "Transfer records, queues, approvals, integrations, and operational ownership",
+          "Set and enforce expiration for temporary overlap",
+          "Notify application owners of exceptions that need manual action",
+          "Revalidate the result after the effective date using current provider state",
+        ],
+      },
+      {
+        heading: "Design offboarding backward from the risk window",
+        paragraphs: [
+          "The departure effective time determines the sequence. A planned retirement may allow gradual knowledge transfer and asset recovery. An involuntary termination may require tightly coordinated action at a specific moment. Do not publish sensitive departure details broadly or start disabling accounts based on an informal message.",
+          "Create a policy-approved runbook for each departure type. Disable interactive sign-in and active sessions as required, revoke tokens and application access, remove groups and licenses, rotate shared secrets, transfer owned resources, recover equipment, redirect essential work, and preserve records subject to approved retention or legal hold. Deleting the central account first can make evidence and owned resources harder to recover.",
+        ],
+        bullets: [
+          "Authorized departure event, effective time, and coordinator",
+          "Immediate controls for identity, sessions, privileged access, remote access, and physical access",
+          "Application-by-application revocation for systems not governed centrally",
+          "Transfer of files, mailboxes, calendars, automation ownership, repositories, domains, and service accounts",
+          "Rotation of shared passwords, API keys, recovery codes, and undocumented team secrets",
+          "Retention, deletion, device return, and legal-hold steps approved by responsible owners",
+        ],
+      },
+      {
+        heading: "Make every action safe to retry and independently verifiable",
+        paragraphs: [
+          "Personnel systems, queues, webhooks, and application APIs retry. Without idempotency, one hire event can create duplicate accounts or tasks; one corrected departure date can start conflicting offboarding runs. Use the personnel identifier, event type, effective time, and source version to create a stable event key, and record the result of every attempted action.",
+          "A request accepted by an API is not proof that the account, group, license, or session reached the required state. Read the provider state after the action, store the returned object and audit identifiers, and reconcile ambiguous timeouts before retrying. The final lifecycle record should show completed, failed, skipped, not-applicable, pending approval, and manually verified steps separately.",
+        ],
+        bullets: [
+          "Deduplicate events before creating tasks or external side effects",
+          "Version corrected and canceled lifecycle events explicitly",
+          "Use bounded retries with provider-aware backoff",
+          "Reconcile current state after timeouts and partial failures",
+          "Store provider object IDs, timestamps, audit references, and verified final state",
+          "Never report lifecycle completion while a required revocation is unresolved",
+        ],
+      },
+      {
+        heading: "Protect personnel data, credentials, and workflow logs",
+        paragraphs: [
+          "Employee lifecycle data can include home contact information, identity documents, compensation, medical or accommodation information, background checks, tax data, performance information, and departure details. Most workflow participants need only a narrow subset. Do not send the complete personnel record to an AI service, task board, chat channel, or general automation log because one field is useful.",
+          "Use client-owned systems, tenant-scoped service identities, purpose-limited data, encrypted transport and storage, approved retention, and field-level redaction. OWASP recommends fine-grained secret access, rotation, revocation, expiration, and auditability. Workflow logs should identify the event and outcome without reproducing passwords, temporary access credentials, tokens, identity documents, or unnecessary personal details.",
+        ],
+        bullets: [
+          "Minimize each integration payload to fields required for that step",
+          "Separate restricted HR records from general onboarding coordination",
+          "Keep API keys and administrative credentials in a managed secret store",
+          "Use separate production and test identities with least-privilege scopes",
+          "Mask sensitive fields in logs, alerts, screenshots, tickets, and model traces",
+          "Test access review, retention, export, deletion, incident response, and break-glass recovery",
+        ],
+      },
+      {
+        heading: "Test the lifecycle with people, edge cases, and evidence",
+        paragraphs: [
+          "Build a synthetic test roster that covers ordinary hires and the cases most likely to break the workflow: duplicate names, changed start dates, missing managers, remote workers, contractors, interns, rehires, transfers, leave, immediate departures, future-dated departures, canceled departures, multiple roles, international locations, and applications with no usable API.",
+          "Run the workflow in shadow mode before it controls production access. Compare the expected role package, tasks, messages, approvals, revocations, and provider evidence with what actually happened. NIST's AI RMF calls for documented test sets, metrics, human roles, deployment-relevant evaluation, and production monitoring. Re-run the evaluation after prompt, model, role-catalog, provider, identity, or policy changes.",
+        ],
+        bullets: [
+          "Correct event matching and no cross-employee data leakage",
+          "Required access granted by the agreed readiness time",
+          "Unauthorized and obsolete access never granted or promptly removed",
+          "Offboarding revocation completed within the approved risk window",
+          "Duplicate, late, canceled, and corrected events handled safely",
+          "Every required action supported by provider or qualified human evidence",
+          "Exception queue age, owner response, recovery time, and unresolved risk",
+        ],
+      },
+      {
+        heading: "Roll out by lifecycle path and keep a human-owned exception desk",
+        paragraphs: [
+          "Start with one employee type, one location, one role family, and a small set of well-supported systems. Run coordination in shadow mode, then automate low-risk task creation and communication, then approved standard access, and only later more complex application and departure paths. Do not use a broad autonomous switch to cover gaps in the role catalog or provider integrations.",
+          "The exception desk is part of the operating model, not evidence of failure. Someone must own late records, missing managers, provider outages, manual applications, disputed access, urgent departures, failed equipment recovery, and employee corrections. Publish escalation expectations and stop conditions. A workflow that cannot safely stop and return control to people is not ready to manage identity lifecycle events.",
+        ],
+        bullets: [
+          "Phase 1: mapped workflow, role catalog, owners, and shadow execution",
+          "Phase 2: task coordination, reminders, approved drafts, and evidence capture",
+          "Phase 3: standard least-privilege access with application-owner approval",
+          "Phase 4: mover and offboarding paths with tested revocation and transfer",
+          "Ongoing: access recertification, drift monitoring, role updates, provider reviews, and recovery exercises",
+          "Expansion only after the current path meets readiness, security, and exception targets",
+        ],
+      },
+    ],
+    takeaway: "Employee lifecycle automation should begin with an authoritative personnel event and end with verified provider state. Build joiner, mover, and leaver paths together; grant access from approved roles; keep AI in bounded drafting and exception work; separate employment decisions from administration; protect personnel data; and make every grant, transfer, and revocation client-owned, reviewable, safe to retry, and supported by evidence.",
+    sources: [
+      { label: "CISA: Identity and Access Management Recommended Best Practices for Administrators", url: "https://www.cisa.gov/sites/default/files/2023-12/ESF%20IDENTITY%20AND%20ACCESS%20MANAGEMENT%20RECOMMENDED%20BEST%20PRACTICES%20FOR%20ADMINISTRATORS%20PP-23-0248_508C.pdf" },
+      { label: "Microsoft Entra: What are lifecycle workflows?", url: "https://learn.microsoft.com/en-us/entra/id-governance/what-are-lifecycle-workflows" },
+      { label: "Microsoft Graph: Automate employee onboarding before the first day", url: "https://learn.microsoft.com/en-us/graph/tutorial-lifecycle-workflows-onboard-custom-workflow" },
+      { label: "NIST: Special Publication 800-53 Revision 5.1", url: "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final" },
+      { label: "NIST: Least privilege definition", url: "https://csrc.nist.gov/glossary/term/least_privilege" },
+      { label: "NIST: AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "EEOC: Artificial Intelligence and the ADA", url: "https://www.eeoc.gov/eeoc-disability-related-resources/artificial-intelligence-and-ada" },
+      { label: "OWASP: Secrets Management Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html" },
+      { label: "OWASP: Authorization Cheat Sheet", url: "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-document-processing-with-ai",
     title: "How to automate document processing with AI without losing the source—or control",
     description: "A practical workflow for AI document intake, extraction, validation, human review, secure storage, and reliable updates to business systems.",
