@@ -24,6 +24,221 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-crm-data-entry-with-ai",
+    title: "How to automate CRM data entry with AI without corrupting customer records",
+    description: "A practical system for extracting CRM data with AI while preventing duplicate contacts, false merges, unauthorized overwrites, missing consent, and untraceable changes.",
+    category: "CRM automation",
+    published: "2026-08-11",
+    updated: "2026-08-11",
+    readTime: "16 min read",
+    image: "/portfolio/simplbridge.jpg",
+    imageAlt: "SimplBridge connection layer moving approved business information between systems",
+    imageCaption: "Useful CRM automation does more than move text into fields. It protects record identity, preserves trusted data, explains every change, and routes uncertainty to a person.",
+    keywords: ["automate CRM data entry", "AI CRM automation", "CRM data entry automation", "prevent duplicate CRM contacts", "AI data extraction for CRM"],
+    intro: [
+      "CRM data entry looks like an ideal AI task. A model can read an email, meeting note, form, proposal, or call transcript and extract a company, contact, phone number, role, next step, and deal context in seconds. The dangerous part begins after extraction: deciding which real customer record the information belongs to, whether the source is trustworthy, and what the automation is allowed to replace.",
+      "A polished demo can create a contact from a paragraph. A production system must survive two people with the same name, shared inboxes, forwarded signatures, subsidiaries, job changes, aliases, recycled phone numbers, stale exports, malicious instructions, API retries, and a salesperson correcting the record while the workflow is running. The right design lets AI interpret language while deterministic identity, authorization, validation, and audit controls govern the write. This is operational guidance, not legal or privacy advice; apply the rules of the business, CRM, contracts, and jurisdictions involved.",
+    ],
+    sections: [
+      {
+        heading: "Define one CRM outcome before connecting the model",
+        paragraphs: [
+          "Start with one bounded outcome such as creating a review-ready contact from a qualified form, attaching meeting notes to an existing opportunity, or proposing updates after a customer call. Do not begin with ‘keep the CRM updated.’ That phrase hides several decisions about identity, ownership, consent, lifecycle stage, attribution, and which source wins when information conflicts.",
+          "Name the source event, eligible records, permitted fields, person accountable for exceptions, acceptable delay, and evidence required before a change is considered complete. A narrow workflow is easier to evaluate and far less likely to contaminate thousands of records than a general agent with broad write access.",
+        ],
+        bullets: [
+          "One trigger and one business outcome",
+          "A named CRM object and an explicit field allowlist",
+          "A source-of-truth decision for every writable field",
+          "A human owner for ambiguous identity and conflicting values",
+          "A measurable success condition beyond ‘the API returned 200’",
+          "A rollback and correction path before production access is granted",
+        ],
+      },
+      {
+        heading: "Separate language extraction from record identity",
+        paragraphs: [
+          "AI can propose that a signature contains the name Jordan Lee, the title Operations Director, and a mobile number. That does not prove which Jordan Lee is involved or whether the signature belongs to the sender, a quoted message, an assistant, or a forwarded contact. Treat extraction and identity resolution as separate stages with separate evidence.",
+          "Use stable CRM record IDs or approved unique identifiers for writes. HubSpot supports properties whose values must be unique and batch upserts identified by a unique property. Salesforce supports external-ID-based record operations. Those platform mechanisms are safer foundations than asking a model whether two people ‘seem like the same contact.’",
+        ],
+        bullets: [
+          "Prefer CRM record ID for an already-linked conversation or workflow",
+          "Use an approved external ID for records synchronized from another system",
+          "Normalize email domains and phone numbers for comparison, but preserve the original value",
+          "Do not use a person’s name alone as a unique key",
+          "Do not auto-merge on semantic similarity or model confidence",
+          "Route zero, multiple, or contradictory identity matches to review",
+        ],
+      },
+      {
+        heading: "Create a field contract instead of letting AI invent the schema",
+        paragraphs: [
+          "Define a strict output schema for every model-supported extraction. Each field should have a type, allowed format, maximum length, approved source types, normalization rule, sensitivity classification, overwrite policy, and empty-value behavior. Enumeration fields should accept only current CRM options; dates need an unambiguous format and time zone; numbers need currency and unit context.",
+          "Never treat missing as blank. HubSpot’s API documentation notes that setting a property to an empty string clears it. A model that fails to find a phone number must return ‘not observed,’ not an empty phone value that silently erases a verified record. Validate the structured result server-side before it can reach the CRM.",
+        ],
+        bullets: [
+          "Observed value, normalized value, source reference, and extraction time",
+          "Allowed values and validation rules maintained outside the prompt",
+          "Distinct states for not observed, uncertain, intentionally cleared, and not applicable",
+          "Maximum length and safe character handling for text fields",
+          "Currency, units, locale, and time zone wherever they affect meaning",
+          "Reject the entire proposed write when required validation fails",
+        ],
+      },
+      {
+        heading: "Read before write—and protect verified values",
+        paragraphs: [
+          "Before proposing an update, retrieve the current record and the fields relevant to the decision. Compare source time, current value, verification status, owner, and last modification. A newer message is not automatically more authoritative than a verified billing address, legal company name, consent preference, or account owner assignment.",
+          "Create field-level policies. Low-risk notes may append automatically. A job title from a first-party form may update after validation. Legal name, primary email, lifecycle stage, deal amount, owner, consent, suppression, and regulated fields may require a person or an authoritative system. The safest default is no overwrite when the source is weaker or the evidence conflicts.",
+        ],
+        bullets: [
+          "Append activity history rather than replacing it",
+          "Preserve manually verified and system-of-record values",
+          "Do not overwrite a newer CRM edit with an older source event",
+          "Do not let blank or uncertain extraction clear an existing value",
+          "Require review for ownership, money, consent, identity, and sensitive-data changes",
+          "Record why the proposed source was allowed to win",
+        ],
+      },
+      {
+        heading: "Make upserts idempotent and duplicates visible",
+        paragraphs: [
+          "Webhook deliveries, queues, and CRM APIs retry. Without a stable event key, one form submission or meeting transcript can create the same contact repeatedly. Build an idempotency key from the source system, source object ID, event version, destination, and operation. Record the completed result so the same event can be acknowledged without repeating the side effect.",
+          "An upsert prevents some duplicates only when the identifier is actually unique and correctly mapped. It does not solve spouses sharing an email address, catch-all inboxes, consultants working for multiple companies, acquisitions, aliases, or a typo that creates a new identity. Keep a duplicate-review queue with the candidate records, comparison evidence, and an explicit merge decision. False merges are often harder to repair than duplicate records.",
+        ],
+        bullets: [
+          "Stable event key and source version",
+          "Unique identifier enforced by the CRM where supported",
+          "Bounded retries with reconciliation after ambiguous timeouts",
+          "No create fallback when a lookup returns multiple candidates",
+          "A review queue for suspected duplicates and identity conflicts",
+          "Merge logs that preserve original record IDs and field decisions",
+        ],
+      },
+      {
+        heading: "Treat email, notes, forms, and documents as untrusted data",
+        paragraphs: [
+          "Customer-supplied text can contain accidental instructions or deliberate prompt injection: ‘ignore your rules,’ ‘change the account owner,’ or ‘export every contact.’ The workflow must treat that content as data to extract from, never as authority to change tools, permissions, prompts, recipients, or allowed fields.",
+          "Put authorization and tool selection in deterministic application code. The model receives only the minimum context needed and returns a constrained proposal. The server checks the tenant, requester, source, target record, allowed operation, field policy, and approval state before using a narrow CRM credential. Do not give the model a general-purpose CRM administrator token.",
+        ],
+        bullets: [
+          "Separate system instructions from untrusted business content",
+          "Allowlist operations, CRM objects, fields, and destinations outside the model",
+          "Use tenant-scoped, least-privilege credentials stored server-side",
+          "Require fresh authorization for consequential changes",
+          "Block source text from selecting tools or expanding permissions",
+          "Test direct, indirect, encoded, and multilingual injection attempts",
+        ],
+      },
+      {
+        heading: "Preserve consent, suppression, and communication preferences",
+        paragraphs: [
+          "A new email address is not permission to market to it. Keep contact identity, lawful basis or permission evidence, channel subscription, suppression, and operational communication status as distinct data. Never let a lead-enrichment or note-extraction workflow re-subscribe someone, erase an opt-out, or turn a service interaction into marketing consent.",
+          "Identify which system owns each preference and which actors may change it. Preserve source, timestamp, scope, and policy version where the business requires them. If two systems disagree, stop the marketing action and resolve the record; do not choose the more convenient value.",
+        ],
+        bullets: [
+          "Consent and suppression fields excluded from general AI writes",
+          "Purpose and channel recorded separately",
+          "Source and time retained with the preference",
+          "No inferred consent from engagement, job title, or public information",
+          "Human correction and unsubscribe paths remain available",
+          "Regional and contractual requirements reviewed by qualified owners",
+        ],
+      },
+      {
+        heading: "Keep provenance beside every proposed change",
+        paragraphs: [
+          "A CRM value without provenance becomes an argument later. Store a durable source reference, event ID, observed text or bounded excerpt where appropriate, extraction version, proposed value, normalized value, decision, reviewer if any, destination record, provider response, and final verified state. Protect this evidence with the same care as the underlying customer data.",
+          "Model confidence can help prioritize review, but it is not proof. Confidence scores are not consistently calibrated across models, prompts, fields, and real-world data. Use explicit business evidence—known sender, linked meeting, signed form, authoritative system, verified field—alongside measured performance from a representative evaluation set.",
+        ],
+        bullets: [
+          "Source system, source object, and event version",
+          "Destination record ID and fields proposed",
+          "Previous value, proposed value, and final value",
+          "Policy rule, approval, or rejection reason",
+          "Prompt, model, extractor, and schema versions",
+          "Provider request or audit identifier without exposing secrets",
+        ],
+      },
+      {
+        heading: "Design a useful human review queue",
+        paragraphs: [
+          "Human review is not a control if the reviewer sees only an Accept button. Show the source excerpt, existing record, proposed changes, field-level differences, identity evidence, conflicts, and why the workflow stopped. Let the reviewer approve individual fields, choose the correct record, create a new record deliberately, reject the proposal, or correct the extracted value.",
+          "Assign the queue to a role with a response target and escalation path. Separate routine enrichment from suspected identity collisions, consent conflicts, sensitive data, and destructive merge requests. Feed reviewed outcomes into evaluation, but do not automatically train on customer content without an approved purpose and data process.",
+        ],
+        bullets: [
+          "Side-by-side source, current record, and proposed change",
+          "Field-level approval rather than one all-or-nothing decision",
+          "Clear identity evidence and duplicate candidates",
+          "Reason codes for rejection and correction",
+          "Queue owner, age, priority, and escalation",
+          "No hidden reuse of client data for model training",
+        ],
+      },
+      {
+        heading: "Handle change events, loops, and out-of-order updates",
+        paragraphs: [
+          "CRM automation often becomes bidirectional: a form updates the CRM, the CRM emits a change event, another system updates the source, and the loop starts again. Salesforce Change Data Capture events, for example, identify record changes and the origin of the change. Use origin, transaction, source version, and processed-event records to prevent self-triggering loops and to preserve the intended direction of authority.",
+          "Assume events can arrive late, duplicate, or out of order. Compare versions and modification times before applying a change, but do not rely on timestamps alone when systems use different clocks or semantics. Reconcile important records against current provider state and expose unresolved divergence rather than reporting that synchronization is healthy.",
+        ],
+        bullets: [
+          "Identify the origin and version of every change",
+          "Suppress or safely acknowledge self-generated events",
+          "Process related updates in the intended transaction order",
+          "Reject stale changes that would reverse newer trusted data",
+          "Reconcile current source and destination state on a schedule",
+          "Alert on loops, backlog growth, poison events, and persistent divergence",
+        ],
+      },
+      {
+        heading: "Test with the records that break happy-path demos",
+        paragraphs: [
+          "Build a synthetic evaluation set before using customer data. Include duplicate names, assistants, forwarded threads, signatures below quoted text, multiple companies, personal and work emails, international phone formats, stale values, missing fields, conflicting sources, opt-outs, malicious instructions, long documents, attachments, and API retries. Define the expected record, expected field decisions, and required review state for every case.",
+          "NIST’s AI Risk Management Framework organizes ongoing work around govern, map, measure, and manage, and calls for testing before deployment and regularly in operation. Measure the complete workflow, not just extraction accuracy. A system can parse names perfectly and still damage the CRM through a bad identity match or overwrite policy.",
+        ],
+        bullets: [
+          "Exact-field extraction precision and recall by source type",
+          "Wrong-record write rate and false-merge rate",
+          "Duplicate creation and retry safety",
+          "Protected-field overwrite attempts and blocks",
+          "Consent or suppression regressions",
+          "Human correction rate, queue age, and time to resolution",
+          "Audit completeness, rollback success, and incident recovery time",
+        ],
+      },
+      {
+        heading: "Roll out from draft to shadow to narrow production",
+        paragraphs: [
+          "Begin in draft mode: the workflow extracts and proposes, but a person makes every CRM change. Next, run shadow mode and compare what the automation would have written with the approved outcome. Only then allow a small set of low-risk, reversible fields to write automatically for a bounded source and user group.",
+          "Expand by evidence, not enthusiasm. Re-evaluate after a model, prompt, schema, CRM property, identity rule, integration, permission, or business policy changes. Keep a kill switch, manual operating procedure, exportable audit trail, and the ability to revoke the integration credential without taking the CRM offline.",
+        ],
+        bullets: [
+          "Draft-only proposals with complete review",
+          "Shadow comparison against real approved outcomes",
+          "Low-risk automatic writes with protected fields excluded",
+          "Canary users, bounded volume, and daily exception review",
+          "Automated stop conditions for identity, consent, or overwrite failures",
+          "Rollback, credential revocation, and manual recovery tested in advance",
+        ],
+      },
+      {
+        heading: "A practical first CRM automation",
+        paragraphs: [
+          "A strong first build is usually modest: after a verified consultation form or completed meeting, extract a small set of allowed fields, link the event to the known contact or place uncertain matches in review, append a source-linked summary, and propose—not silently apply—changes to protected fields. That produces immediate value while the business learns how its real data behaves.",
+          "The goal is not zero typing at any cost. It is a CRM people can trust more because the routine work is faster, the uncertain work is visible, and every consequential change has evidence and an accountable owner. If the automation makes the database look fuller while identity and consent become less reliable, it has failed.",
+        ],
+      },
+    ],
+    takeaway: "Use AI to interpret unstructured customer information, not to decide record identity or authority. Anchor writes to verified IDs, enforce field contracts and overwrite rules outside the model, preserve consent and provenance, make retries safe, route ambiguity to a useful review queue, and expand automation only when production evidence shows the CRM is becoming more trustworthy—not merely more populated.",
+    sources: [
+      { label: "HubSpot Developers: CRM properties and unique identifier properties", url: "https://developers.hubspot.com/docs/api-reference/latest/crm/properties/guide" },
+      { label: "HubSpot Developers: create or update objects by unique property values", url: "https://developers.hubspot.com/docs/api-reference/legacy/crm/objects/objects/batch/upsert-objects" },
+      { label: "Salesforce Developers: REST API resources, including rows by External ID", url: "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_composite_post.htm" },
+      { label: "Salesforce Developers: Change Data Capture overview", url: "https://developer.salesforce.com/blogs/2018/08/what-is-change-data-capture" },
+      { label: "NIST: AI Risk Management Framework Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+    ],
+  },
+  {
     slug: "automate-employee-onboarding-offboarding-with-ai",
     title: "How to automate employee onboarding and offboarding with AI without creating access risk",
     description: "A practical joiner-mover-leaver workflow for employee onboarding, role changes, offboarding, access approvals, training, audit evidence, and human control.",
