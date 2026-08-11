@@ -34,7 +34,7 @@ export default function BookPage() {
         <div>
           <p className="section-label">/ Free 30-minute consultation</p>
           <h1>Start by getting the workflow <em>clear.</em></h1>
-          <p className="booking-lede">Meet directly with Jason to identify one recurring process, define a useful first outcome, and decide whether a protected first week, monthly partnership, or no follow-up is the right next step.</p>
+          <p className="booking-lede">Meet directly with Jason to identify one recurring process, define a useful first outcome, and decide whether a risk-free first week, monthly partnership, or no follow-up is the right next step.</p>
           <div className="booking-points"><span><Handshake size={18} /> No charge and no card required</span><span><CalendarClock size={18} /> Live availability from Jason’s connected calendars</span><span><Video size={18} /> Google Meet link created automatically</span><span><CalendarCheck size={18} /> No obligation to continue</span></div>
           <a className="button button-primary booking-button" href={bookingUrl} target="_blank" rel="noreferrer">See live times and book <ArrowRight size={18} /></a>
           <p className="fine-print">Availability and conflict checking are controlled by Google Calendar. Confirmation and reminders arrive by email.</p>

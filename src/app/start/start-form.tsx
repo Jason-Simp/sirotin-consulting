@@ -39,7 +39,7 @@ export function StartForm() {
       <div className="form-success" role="status">
         <CheckCircle2 size={38} />
         <h2>Your request is in.</h2>
-        <p>Your intake is ready. Complete the one-time $350 payment to reserve the guaranteed first week. The seven-day period does not begin until Jason confirms activation.</p>
+        <p>Your intake is ready. Review the short SOW and complete the one-time $350 payment to reserve your risk-free first week. The seven-day period does not begin until Jason confirms activation.</p>
         <Link className="button button-primary" href="/checkout/first-week">Continue to secure checkout <ArrowRight size={18} /></Link>
       </div>
     );
@@ -68,7 +68,7 @@ export function StartForm() {
       <label className="honeypot" aria-hidden="true">Leave this empty<input name="companyFax" tabIndex={-1} autoComplete="off" /></label>
       <label className="consent"><input type="checkbox" name="acceptedPolicies" value="yes" required /><span>I accept the <a href="/legal/terms" target="_blank">Terms and Consulting Agreement</a>, <a href="/legal/privacy" target="_blank">Privacy Policy</a>, and <a href="/legal/security" target="_blank">Data and Security Notice</a>.</span></label>
       {state === "error" && <p className="form-error" role="alert">{message} You can also email <a href="mailto:hello@automatemejay.com">hello@automatemejay.com</a>.</p>}
-      <button className="button button-primary submit-button" type="submit" disabled={state === "submitting"}>{state === "submitting" ? "Sending…" : "Continue to the guaranteed week"}<ArrowRight size={18} /></button>
+      <button className="button button-primary submit-button" type="submit" disabled={state === "submitting"}>{state === "submitting" ? "Sending…" : "Continue to the risk-free week"}<ArrowRight size={18} /></button>
       <p className="form-note">Payment details are collected securely by Stripe after this step. Do not include passwords, financial account numbers, health information, or other sensitive data in this form.</p>
     </form>
   );

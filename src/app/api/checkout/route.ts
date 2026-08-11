@@ -32,8 +32,7 @@ export async function POST(request: Request) {
   const parsed = schema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Complete every required field before continuing." }, { status: 400 });
 
-  const requiresSow = parsed.data.plan === "weekly" || parsed.data.plan === "monthly";
-  if (requiresSow && (
+  if (
     !parsed.data.signerTitle
     || parsed.data.signerTitle.length < 2
     || !parsed.data.clientSignature
@@ -41,7 +40,7 @@ export async function POST(request: Request) {
     || parsed.data.acceptedSow !== "yes"
     || parsed.data.authorityConsent !== "yes"
     || parsed.data.electronicSignatureConsent !== "yes"
-  )) return Response.json({ error: "Review and sign the Statement of Work before continuing." }, { status: 400 });
+  ) return Response.json({ error: "Review and sign the Statement of Work before continuing." }, { status: 400 });
 
   let sowId: string | null = null;
   try {
@@ -65,31 +64,27 @@ export async function POST(request: Request) {
       quantity: 1,
     }] : [{ price: isGuaranteedWeek ? config.guaranteedFirstWeekPriceId : config.monthlyPriceId, quantity: 1 }];
 
-    let sowVersion: string | undefined;
-    let sowHash: string | undefined;
-    if (requiresSow) {
-      const document = sowDocuments[parsed.data.plan as "weekly" | "monthly"];
-      sowVersion = document.version;
-      sowHash = hashSow(document);
-      const supabase = createAdminClient();
-      const { data: sow, error: sowError } = await supabase.from("service_sows").insert({
-        plan: parsed.data.plan,
-        sow_version: sowVersion,
-        document_hash: sowHash,
-        document_snapshot: document,
-        client_name: parsed.data.fullName,
-        client_email: parsed.data.email.toLowerCase(),
-        company_name: parsed.data.companyName,
-        signer_title: parsed.data.signerTitle,
-        client_signature: parsed.data.clientSignature,
-        client_authority_confirmed: true,
-        electronic_signature_consent: true,
-        client_request_key_hash: getRequestFingerprint(request, parsed.data.email),
-        client_user_agent: request.headers.get("user-agent")?.slice(0, 500) ?? null,
-      }).select("id").single();
-      if (sowError || !sow) throw sowError ?? new Error("SOW record was not created.");
-      sowId = sow.id;
-    }
+    const document = sowDocuments[parsed.data.plan];
+    const sowVersion = document.version;
+    const sowHash = hashSow(document);
+    const supabase = createAdminClient();
+    const { data: sow, error: sowError } = await supabase.from("service_sows").insert({
+      plan: parsed.data.plan,
+      sow_version: sowVersion,
+      document_hash: sowHash,
+      document_snapshot: document,
+      client_name: parsed.data.fullName,
+      client_email: parsed.data.email.toLowerCase(),
+      company_name: parsed.data.companyName,
+      signer_title: parsed.data.signerTitle,
+      client_signature: parsed.data.clientSignature,
+      client_authority_confirmed: true,
+      electronic_signature_consent: true,
+      client_request_key_hash: getRequestFingerprint(request, parsed.data.email),
+      client_user_agent: request.headers.get("user-agent")?.slice(0, 500) ?? null,
+    }).select("id").single();
+    if (sowError || !sow) throw sowError ?? new Error("SOW record was not created.");
+    sowId = sow.id;
     const session = await stripe.checkout.sessions.create({
       mode: isGuaranteedWeek || isWeekly ? "payment" : "subscription",
       customer_email: parsed.data.email.toLowerCase(),
@@ -102,7 +97,7 @@ export async function POST(request: Request) {
         plan: parsed.data.plan,
         client_name: parsed.data.fullName,
         company_name: parsed.data.companyName,
-        policy_version: "2026-08-03-service-agreement",
+        policy_version: "2026-08-11-service-agreement",
         ...(sowId && sowVersion && sowHash ? { sow_id: sowId, sow_version: sowVersion, sow_hash: sowHash } : {}),
       },
       ...(isGuaranteedWeek || isWeekly ? {} : { subscription_data: {

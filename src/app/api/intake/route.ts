@@ -82,7 +82,7 @@ export async function POST(request: Request) {
           to: process.env.JASON_NOTIFICATION_EMAIL,
           replyTo: parsed.data.email,
           subject: `Guaranteed-week intake from ${parsed.data.fullName}`,
-          text: `A new guaranteed-first-week intake was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
+          text: `A new risk-free first-week intake was submitted.\n\nName: ${parsed.data.fullName}\nCompany: ${parsed.data.companyName}\nEmail: ${parsed.data.email}\nSensitive data: ${parsed.data.sensitiveData}\n\nProcess:\n${parsed.data.process}`,
         });
 
         if (emailError) safeLog("error", "intake.notification_failed", { requestId, error: emailError });

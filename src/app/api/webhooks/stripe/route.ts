@@ -6,6 +6,7 @@ import { createStripeClient } from "@/lib/stripe";
 import { getRequestId, readLimitedText, RequestBodyTooLargeError, safeLog } from "@/lib/security";
 import { createAccessToken, hashAccessToken } from "@/lib/sow-security";
 import { provisionClientWorkspace } from "@/lib/provision-client-workspace";
+import { getSowPlanName, isSowPlan } from "@/lib/sow";
 
 function toIsoTimestamp(timestamp: number | null | undefined) {
   return typeof timestamp === "number" ? new Date(timestamp * 1000).toISOString() : null;
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
         const stripeSubscription = stripeSubscriptionId ? await stripe.subscriptions.retrieve(stripeSubscriptionId) : null;
         const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(stripeSubscription);
         const sowId = session.metadata?.sow_id;
-        if (sowId && (session.metadata?.plan === "weekly" || session.metadata?.plan === "monthly") && session.payment_status === "paid") {
+        if (sowId && session.metadata?.plan && isSowPlan(session.metadata.plan) && session.payment_status === "paid") {
           const { data: sow, error: sowLookupError } = await supabase.from("service_sows").select("*").eq("id", sowId).maybeSingle();
           if (sowLookupError || !sow) throw sowLookupError ?? new Error("Checkout references an unknown SOW.");
           if (sow.sow_version !== session.metadata.sow_version || sow.document_hash !== session.metadata.sow_hash || sow.plan !== session.metadata.plan) throw new Error("Checkout SOW metadata does not match the signed record.");
@@ -76,7 +77,7 @@ export async function POST(request: Request) {
                 from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
                 to: process.env.JASON_NOTIFICATION_EMAIL ?? "jason@simplsolutions.app",
                 replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
-                subject: `Counter-sign ${sow.plan === "weekly" ? "Weekly" : "Monthly"} Partner SOW — ${sow.company_name}`,
+                subject: `Counter-sign ${getSowPlanName(sow.plan)} SOW — ${sow.company_name}`,
                 text: `${sow.client_name} signed the ${sow.plan} SOW for ${sow.company_name}, and Stripe confirmed payment. Review and counter-sign the exact document here:\n\n${signingUrl}\n\nThis private signing link expires in 30 days.`,
               });
               if (signingEmailError) throw signingEmailError;
@@ -127,7 +128,7 @@ export async function POST(request: Request) {
                 from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
                 to: customerEmail,
                 replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
-                subject: "Your guaranteed first week with Jason",
+                subject: "Your risk-free first week with Jason",
                 text: `Your $350 payment is confirmed. Jason will review your intake and confirm when the seven-day working period is activated.\n\nThe first week does not renew automatically. Save this private link so you can continue monthly or request your full $350 service-fee refund before the guarantee period ends:\n${decisionUrl}\n\nApproved third-party expenses are separate from the service-fee guarantee.`,
               });
               if (confirmationEmailError) throw confirmationEmailError;

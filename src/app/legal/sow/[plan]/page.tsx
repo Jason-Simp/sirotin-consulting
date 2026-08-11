@@ -5,11 +5,14 @@ import { SowDocument } from "@/components/sow-document";
 import { PrintButton } from "@/components/print-button";
 import { isSowPlan, sowDocuments } from "@/lib/sow";
 
-export const metadata: Metadata = {
-  title: "Plan Statement of Work",
-  robots: { index: false, follow: false },
-  alternates: { canonical: "/legal/sow/monthly" },
-};
+export async function generateMetadata({ params }: { params: Promise<{ plan: string }> }): Promise<Metadata> {
+  const { plan } = await params;
+  return {
+    title: "Plan Statement of Work",
+    robots: { index: false, follow: false },
+    alternates: { canonical: isSowPlan(plan) ? `/legal/sow/${plan}` : "/legal/sow/monthly" },
+  };
+}
 
 export default async function PlanSowPage({ params }: { params: Promise<{ plan: string }> }) {
   const { plan } = await params;

@@ -75,7 +75,7 @@ export async function bookJasonIntroduction(input: {
       description: [
         "Introduction meeting scheduled by the AutomateMeJay AI assistant after checking Jason's connected calendars.",
         input.companyName ? `Company: ${input.companyName}` : null,
-        "The guaranteed first week is a paid $350 engagement and does not begin until Jason confirms activation.",
+        "The risk-free first week is a paid $350 one-week trial with a full service-fee money-back guarantee, no automatic conversion, and a short SOW reviewed before payment. The seven-day period does not begin until Jason confirms activation.",
       ].filter(Boolean).join("\n"),
       start: { dateTime: input.start, timeZone: input.timeZone },
       end: { dateTime: input.end, timeZone: input.timeZone },

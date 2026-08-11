@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createAccessToken, hashAccessToken, tokensMatch } from "@/lib/sow-security";
 import { enforceRateLimit, getRequestFingerprint, getRequestId, isSameOriginRequest, rateLimitResponse, readLimitedJson, RequestBodyTooLargeError, safeLog } from "@/lib/security";
+import { getSowPlanName } from "@/lib/sow";
 
 const schema = z.object({
   sowId: z.string().uuid(),
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
         from: process.env.RESEND_FROM_EMAIL ?? "Jason Sirotin <hello@automatemejay.com>",
         to: sow.client_email,
         replyTo: process.env.RESEND_REPLY_TO ?? "hello@automatemejay.com",
-        subject: `Your executed ${sow.plan === "weekly" ? "Weekly" : "Monthly"} Partner SOW`,
+        subject: `Your executed ${getSowPlanName(sow.plan)} SOW`,
         text: `Your Statement of Work has now been signed by both parties. View, print, or save your executed copy using this private link:\n\n${accessUrl}\n\nFor your security, do not share this link publicly.`,
       });
       if (emailError) safeLog("error", "sow.client_copy_email_failed", { requestId, error: emailError });

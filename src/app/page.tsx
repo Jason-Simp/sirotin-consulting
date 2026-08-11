@@ -62,21 +62,21 @@ const steps = [
 
 const plans = [
   {
-    name: "Protected first week",
+    name: "Risk-free first week",
     price: "$350",
     cadence: "one-time payment",
-    description: "A practical, paid introduction with the risk taken off your shoulders.",
+    description: "A paid one-week trial with the full $350 service fee protected.",
     features: [
       "Seven-day working period after activation",
-      "Approximately one hour of focused work",
       "One automation opportunity",
       "Private workspace access",
       "One initial recommendation, prototype, iteration, or improvement",
       "Full $350 service-fee money-back guarantee",
       "No automatic paid conversion",
+      "Simple SOW signed by both parties",
     ],
     href: "/start",
-    action: "Start with the guarantee",
+    action: "Start risk-free",
     featured: true,
     Icon: ShieldCheck,
   },
@@ -87,7 +87,6 @@ const plans = [
     description: "The best value for an ongoing working relationship.",
     features: [
       "Ongoing partner access",
-      "Approximately four hours of substantive work monthly",
       "Work generally delivered through a weekly cadence",
       "Reasonable asynchronous communication",
       "One primary directing stakeholder",
@@ -95,6 +94,7 @@ const plans = [
       "A 30-day billing period",
       "Cancel anytime in your membership",
       "No further monthly charge after the paid period",
+      "Simple SOW signed by both parties",
     ],
     href: "/checkout/monthly",
     action: "Choose monthly",
@@ -108,7 +108,7 @@ const faqs = [
   ["Does the first week automatically become a subscription?", "No. At the end of the guarantee period, you choose whether to begin the $1,000 monthly partnership, pause, or request your money back before the guarantee closes."],
   ["When does the seven-day period start?", "It begins when Jason confirms that your engagement is activated—not simply when you submit the intake form."],
   ["Can I purchase the monthly plan immediately?", "Yes, although the free consultation is the recommended first step so the scope and working model are clear. Monthly service renews every 30 days until canceled."],
-  ["What does “approximately one hour” mean?", "The service is priced around approximately one hour of substantive work per week. Research, planning, building, debugging, documentation, and substantive consulting use the available working capacity."],
+  ["What is included in the first week?", "We choose one automation opportunity and use the week to create a practical first result, such as a recommendation, workflow plan, prototype, configuration, fix, or initial iteration. The exact capacity and boundaries are stated plainly in the SOW you review before payment."],
   ["Is chat included?", "Reasonable asynchronous communication related to the active workstream is included."],
   ["Does real-time chat mean an immediate response?", "No. Messages appear immediately in the workspace, but Jason responds asynchronously based on workload, complexity, priority, and availability."],
   ["Can multiple employees use the workspace?", "Other employees may test or provide information, but one primary person must direct priorities and approve work."],
@@ -120,7 +120,7 @@ const faqs = [
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
-  ["Can I cancel?", "Yes. The monthly membership can be canceled through the client workspace at any time; service remains available through the current paid 30-day period and no future renewal is charged. The protected first week never renews automatically."],
+  ["Can I cancel?", "Yes. The monthly membership can be canceled through the client workspace at any time; service remains available through the current paid 30-day period and no future renewal is charged. The risk-free first week never renews automatically."],
 ];
 
 const jsonLd = {
@@ -233,15 +233,15 @@ export default function Home() {
       <section className="hero section-pad">
         <div className="hero-grid">
           <div className="hero-copy">
-            <div className="eyebrow"><span className="status-dot" /> Independent AI automation consulting</div>
-            <h1>Build better business automations with an ongoing <em>AI partner.</em></h1>
-            <p className="hero-lede">I work directly with business owners and operating teams to design, build, troubleshoot, and continuously improve practical AI automations.</p>
-            <p className="hero-promise">Bring me one recurring problem. We will turn it into a working process.</p>
+            <div className="eyebrow"><span className="status-dot" /> Risk-free one-week AI automation trial</div>
+            <h1>Bring me one broken workflow. Give me one week to <em>prove the value.</em></h1>
+            <p className="hero-lede">Pay $350 for a focused, seven-day engagement. We choose one recurring business problem and turn it into a practical first result.</p>
+            <p className="hero-promise">If the week is not valuable, request the full $350 service-fee refund. Continue only if you choose to.</p>
             <div className="button-row">
-              <Link className="button button-primary" href="/book">Book a free consultation <ArrowRight size={18} /></Link>
-              <a className="button button-ghost" href="#pricing">View plans <ArrowDownRight size={18} /></a>
+              <Link className="button button-primary" href="/start">Start risk-free <ArrowRight size={18} /></Link>
+              <Link className="button button-ghost" href="/book">Book a free consultation <ArrowDownRight size={18} /></Link>
             </div>
-            <p className="fine-print">Free 30-minute consultation · No card · Live availability · No obligation</p>
+            <p className="fine-print">Paid one-week trial · Full $350 service-fee guarantee · No automatic conversion</p>
           </div>
 
           <div className="hero-visual" aria-label="A workflow moving from a business bottleneck to a tested automation">
@@ -337,12 +337,12 @@ export default function Home() {
       <section className="pricing section-pad" id="pricing">
         <div className="section-intro centered">
           <SectionLabel>Pricing</SectionLabel>
-          <h2>Two clear choices. Start protected or work together monthly.</h2>
+          <h2>Start risk-free. Continue monthly only when the work earns it.</h2>
         </div>
         <div className="plans">
           {plans.map((plan) => (
             <article className={`plan ${plan.featured ? "featured" : ""}`} key={plan.name}>
-              {plan.featured && <div className="plan-badge"><Sparkles size={13} /> Money-back guarantee</div>}
+              {plan.featured && <div className="plan-badge"><Sparkles size={13} /> Risk-free one-week trial</div>}
               <div className="plan-icon"><plan.Icon size={22} aria-hidden="true" /></div>
               <p className="plan-name">{plan.name}</p>
               <div className="plan-price"><strong>{plan.price}</strong><span>{plan.cadence}</span></div>
@@ -398,10 +398,10 @@ export default function Home() {
       </section>
 
       <section className="final-cta section-pad">
-        <SectionLabel>Start with a conversation</SectionLabel>
+        <SectionLabel>Start risk-free</SectionLabel>
         <h2>Bring me one<br /><em>business problem.</em></h2>
-        <p>Book a free 30-minute consultation. We will define the opportunity first; you decide whether to continue afterward.</p>
-        <div className="button-row centered-buttons"><Link className="button button-primary" href="/book">Book a free consultation <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/sign-in">Client sign in</Link></div>
+        <p>Try one focused week with the full $350 service fee protected. If it is not valuable, request your money back before the guarantee closes.</p>
+        <div className="button-row centered-buttons"><Link className="button button-primary" href="/start">Start risk-free <ArrowRight size={18} /></Link><Link className="button button-ghost-light" href="/book">Book a consultation</Link></div>
       </section>
 
       <footer>
