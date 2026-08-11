@@ -92,8 +92,10 @@ const plans = [
       "One primary directing stakeholder",
       "One actively prioritized workstream",
       "A 30-day billing period",
-      "Cancel anytime in your membership",
-      "No further monthly charge after the paid period",
+      "Cancel anytime—even during the first week",
+      "Access continues through the paid 30 days",
+      "Cancellation stops the next renewal",
+      "Current paid period is not prorated or refunded",
       "Simple SOW signed by both parties",
     ],
     href: "/checkout/monthly",
@@ -120,7 +122,7 @@ const faqs = [
   ["Who owns the finished work?", "The client owns its data and paid client-specific deliverables. Jason retains ownership of preexisting technology, reusable components, templates, methods, prompts, frameworks, tools, and general know-how."],
   ["Can Jason build something similar for another company?", "Yes. The relationship is nonexclusive. Jason may provide similar services to others as long as client confidential information is protected."],
   ["Is the automation guaranteed to work perfectly?", "No. Automations require testing, monitoring, appropriate human review, and iteration. Outcomes depend on the client’s systems, data, cooperation, third-party services, and technical feasibility."],
-  ["Can I cancel?", "Yes. The monthly membership can be canceled through the client workspace at any time; service remains available through the current paid 30-day period and no future renewal is charged. The risk-free first week never renews automatically."],
+  ["Can I cancel?", "Yes. You may cancel the monthly membership through the client workspace at any time—even during the first week. Cancellation stops the next renewal, but it does not prorate or refund the current $1,000 payment. Service remains available through the end of the paid 30-day period. The separate risk-free first-week plan never renews automatically."],
 ];
 
 const jsonLd = {

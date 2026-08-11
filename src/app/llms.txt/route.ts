@@ -21,7 +21,7 @@ Jason Sirotin works directly with business owners and operating teams to design,
 
 - Free consultation: 30 minutes, no card, no obligation, live booking at https://automatemejay.com/book. It is discovery and scoping, not a technical working session.
 - Risk-free first week: $350 one-time for a seven-day trial period after activation, full $350 service-fee money-back guarantee, no automatic conversion. Exact included capacity is stated in the signed SOW.
-- Monthly Partner: $1,000 for each recurring 30-day billing period, approximately four substantive hours monthly, cancel anytime before the next renewal through the membership area.
+- Monthly Partner: $1,000 for each recurring 30-day billing period. The client may cancel anytime, including during the first week, to stop the next renewal. The current payment is not prorated or refunded, and service continues through the paid 30-day period. Exact included capacity is stated in the signed SOW.
 - The public offer intentionally presents only these two choices. One-off or legacy weekly work is available only through a private written scope from Jason.
 - Standard plans support one primary directing stakeholder and one actively prioritized workstream.
 - Hosting, databases, domains, APIs, and software should be established in client-owned accounts whenever practical. The client enters payment details directly with the provider and keeps ownership and administrative control.
