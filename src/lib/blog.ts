@@ -24,6 +24,222 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-sales-proposals-with-ai",
+    title: "How to automate sales proposals with AI without inventing scope, pricing, or promises",
+    description: "A practical proposal automation system for turning approved CRM, pricing, scope, and legal inputs into reviewable, versioned client documents without fabricated claims or unauthorized commitments.",
+    category: "Sales operations",
+    published: "2026-08-13",
+    updated: "2026-08-13",
+    readTime: "17 min read",
+    image: "/portfolio/simplcontent.jpg",
+    imageAlt: "SimplContent interface representing a governed workflow for assembling and reviewing business content",
+    imageCaption: "A reliable proposal workflow does not ask AI to make a polished guess. It assembles approved facts, prices, scope, and terms into a versioned draft, then requires the right people to approve the exact offer before it reaches a client.",
+    keywords: ["automate sales proposals", "AI proposal automation", "sales proposal workflow", "AI quote generation", "automated proposal software"],
+    intro: [
+      "Sales proposals look like documents, but the document is only the visible end of a much larger decision. A real proposal commits the business to a scope, price, schedule, set of assumptions, customer responsibilities, and often claims about what the work will accomplish. If AI is allowed to improvise any of those inputs, a faster proposal process can create expensive promises nobody approved.",
+      "The useful version of proposal automation is not a prompt that says, ‘Write a winning proposal.’ It is a governed assembly line. Approved CRM data, a controlled service catalog, current prices, reusable scope blocks, evidence-backed claims, and reviewed terms become structured inputs. AI helps interpret discovery notes and draft clear language inside those boundaries. Deterministic rules calculate money and dates. Named people approve exceptions and the final version. This is operational guidance, not legal, tax, accounting, or contracting advice; have qualified professionals review the terms and controls that apply to your business.",
+    ],
+    sections: [
+      {
+        heading: "Start with the decision, not the PDF",
+        paragraphs: [
+          "A proposal is ready when the business can answer six questions without hunting through email: Who is the customer? What are they buying? What is explicitly included and excluded? What will it cost and when will they pay? What must each party do? Who authorized this exact version? A beautiful PDF without those answers is not a finished proposal. It is marketing collateral with a price attached.",
+          "Choose a narrow finish line for the first automation. A good target is: create a complete draft from an approved opportunity, route exceptions to the right owners, capture approval against an immutable version, and deliver that version while preserving the evidence. Do not begin by asking the system to negotiate, set discounts, choose legal terms, and send contracts autonomously. Those are separate authorities that deserve separate controls.",
+        ],
+        bullets: [
+          "Trigger: the exact opportunity state that permits drafting",
+          "Required inputs: the fields and source records that must be complete",
+          "Output: a versioned proposal plus a machine-readable summary",
+          "Approval: the people and rules that authorize release",
+          "Evidence: who approved what, when, and from which source data",
+          "Exception path: how incomplete, unusual, or high-risk deals pause",
+        ],
+      },
+      {
+        heading: "Create one canonical proposal record",
+        paragraphs: [
+          "Do not make the generated document the database. Create a proposal record with a stable ID and explicit links to the company, contacts, opportunity, discovery material, catalog items, pricing version, scope version, approvals, and delivered file. The record owns the state of the process; the PDF or web page is one rendering of that state.",
+          "Use states that reflect real authority: draft requested, inputs incomplete, draft generated, commercial review, scope review, legal review, approved, delivered, viewed, accepted, rejected, expired, and superseded. Avoid one vague ‘proposal sent’ checkbox. A state transition should have a reason, actor, timestamp, and version so the team can reconstruct what happened after the excitement of the sale has passed.",
+        ],
+        bullets: [
+          "Proposal ID, customer, opportunity, owner, and current state",
+          "Source record IDs instead of names used as identifiers",
+          "Catalog, price, scope, and terms version references",
+          "Currency, tax treatment, billing cadence, and validity window",
+          "Approval policy, decisions, comments, and approved artifact hash",
+          "Delivery, view, acceptance, rejection, and expiration events",
+        ],
+      },
+      {
+        heading: "Separate facts, calculations, judgments, and prose",
+        paragraphs: [
+          "These four things should not be handled the same way. Customer name, legal entity, product ID, and approved price are facts retrieved from trusted systems. Totals, discounts, taxes, and payment dates are calculations performed by code or the billing platform. Whether a special concession is acceptable is a judgment owned by an authorized person. The executive summary and explanation of the approach are prose that AI can help draft.",
+          "When those layers are mixed in one prompt, nobody can tell whether a number came from the catalog, a salesperson's notes, or the model. Build the workflow so the model receives resolved facts and calculated values as read-only inputs. Ask it to explain them clearly, not to choose or recompute them. Validate its output against a schema before the proposal can move forward.",
+        ],
+        bullets: [
+          "Facts come from identified systems of record",
+          "Money and dates come from deterministic functions",
+          "Exceptions and concessions come from named approvers",
+          "AI drafts narrative only from the supplied, approved context",
+          "Every rendered value retains a link to its source or rule",
+        ],
+      },
+      {
+        heading: "Make pricing catalog-driven and immutable by version",
+        paragraphs: [
+          "The model should never invent a fee, silently pick an old rate, or calculate a discount from a conversation. Give every service and add-on a stable catalog ID. Give every price its own ID, currency, cadence, effective date, and approval status. The proposal references those IDs and stores a snapshot of the commercial terms used for that version.",
+          "Stripe's product and price model is a useful example: products represent what is sold, while prices represent how much and how often it is charged. Stripe also recommends creating a new price when the amount changes so historical transactions retain the price that applied at the time. Even if Stripe is not your catalog, the underlying discipline is sound: never overwrite history and expect an old proposal to remain explainable.",
+        ],
+        bullets: [
+          "Use approved product and price IDs for standard offers",
+          "Calculate quantity, subtotal, discount, tax, and total in code",
+          "Create a new price version instead of editing historical meaning",
+          "Require a reason and approver for every nonstandard discount",
+          "Show recurring and one-time charges separately",
+          "State third-party costs and ownership responsibility explicitly",
+        ],
+      },
+      {
+        heading: "Turn scope into reusable blocks with sharp edges",
+        paragraphs: [
+          "A service name is not a scope. Each approved scope block should state the outcome, included deliverables, exclusions, customer responsibilities, dependencies, acceptance evidence, and any timing conditions. Reusable blocks reduce inconsistency, but they should be assembled based on selected catalog items and approved discovery—not chosen because an embedding search found something that sounded similar.",
+          "AI can convert messy discovery notes into a proposed scope map. The output should identify which source statement supports each requirement and mark uncertainty instead of filling gaps. A person then selects or edits the approved block. Anything novel becomes an exception requiring deliberate review, not a chance for the model to sound helpful.",
+        ],
+        bullets: [
+          "Outcome the client should be able to observe",
+          "Included deliverables and the evidence for completion",
+          "Explicit exclusions and out-of-scope requests",
+          "Client inputs, access, approvals, and response obligations",
+          "Dependencies on vendors, data quality, or other teams",
+          "Change process for work discovered after approval",
+        ],
+      },
+      {
+        heading: "Control claims, guarantees, and proof",
+        paragraphs: [
+          "Proposal language becomes risky when it upgrades an aspiration into a promise. ‘Designed to reduce manual entry’ is different from ‘will cut costs by 40 percent.’ A case study from one client is not proof that another client will get the same result. A money-back guarantee needs the exact conditions approved by the business, not a confident paraphrase assembled from an old web page.",
+          "Maintain an approved claims library with the precise wording, evidence source, allowed context, owner, and review date. Block unsupported metrics, competitor comparisons, security certifications, compliance claims, and absolute performance promises. If the requested narrative needs a claim that is not in the library, route it to a person. The right behavior is to ask, not embellish.",
+        ],
+        bullets: [
+          "Approved wording and prohibited variations",
+          "Evidence link, client permission, and applicable audience",
+          "Expiration or revalidation date",
+          "Rules for testimonials, logos, and case-study metrics",
+          "Human review for guarantees and consequential claims",
+        ],
+      },
+      {
+        heading: "Treat terms as controlled content, not writing material",
+        paragraphs: [
+          "Payment terms, ownership, confidentiality, warranties, limitation language, cancellation rules, data handling, and dispute provisions should come from approved templates selected by explicit rules. Do not ask a general model to rewrite legal language to make it friendlier and then send the result. A tiny stylistic change can alter meaning, create inconsistency, or conflict with the governing agreement.",
+          "Store clause IDs and versions. Define which combinations are standard for each offer, region, and customer type. Redlines and customer paper go to the designated reviewer. AI may summarize a change for triage, but the original text and authoritative comparison must remain available, and a qualified person should make the decision.",
+        ],
+        bullets: [
+          "Approved template and clause version IDs",
+          "Selection rules based on real deal attributes",
+          "Locked text for provisions that must not be rewritten",
+          "A redline route with named legal or business authority",
+          "A record of deviations accepted for the final version",
+        ],
+      },
+      {
+        heading: "Bind approval to the exact version being sent",
+        paragraphs: [
+          "An approval is meaningless if the document changes afterward. Generate a version ID and integrity hash from the structured inputs and rendered artifact. The approval request should show the commercial summary, scope exceptions, claims, terms deviations, and a link to the exact document. If any protected field changes, invalidate the approval and create a new version.",
+          "Approval policy can be risk-based without becoming mysterious. Standard catalog price plus standard scope may need one owner. A discount above a threshold may require finance. New scope may require delivery. A nonstandard clause may require legal. Microsoft Power Automate's approval model demonstrates useful patterns such as first-to-respond, everyone-must-approve, custom responses, and sequential approvals. Choose the pattern that matches actual authority, then persist the decision outside the notification inbox.",
+        ],
+        bullets: [
+          "Approver identity and authority resolved before the request",
+          "Exact proposal version and hash included in the approval",
+          "Material changes automatically revoke prior approval",
+          "Rejection and revision comments return to the proposal record",
+          "Approval timeout and delegation rules are explicit",
+        ],
+      },
+      {
+        heading: "Design the AI step as a bounded drafting service",
+        paragraphs: [
+          "Give the model the least authority it needs. Its input should be a compact package of approved facts, selected scope blocks, discovery excerpts with source IDs, allowed claims, and presentation instructions. Its output should be structured: executive summary, problem statement, proposed approach, assumptions, open questions, and citations back to source IDs. Reject extra prices, dates, claims, or deliverables that do not map to the allowed inputs.",
+          "Treat discovery notes, uploaded documents, and CRM text as untrusted content. They can contain mistaken instructions, pasted prompts, confidential material, or statements from people without authority. OWASP's AI Agent Security guidance recommends separating instructions from untrusted data, validating model output, applying least privilege, requiring human approval for high-impact actions, and maintaining audit logs. A proposal workflow needs all of those controls because its output can create real commercial obligations.",
+        ],
+        bullets: [
+          "System instructions are separate from retrieved customer content",
+          "Allowed source records and fields are explicit",
+          "Output conforms to a strict schema and length limits",
+          "Unsupported statements fail validation or become open questions",
+          "The model cannot send, approve, discount, or change catalog data",
+          "Prompts, inputs, model version, output, and reviewer edits are logged",
+        ],
+      },
+      {
+        heading: "Handle missing information honestly",
+        paragraphs: [
+          "The fastest way to make proposal automation untrustworthy is to reward completeness at any cost. If the decision-maker is unknown, the integration list is incomplete, the timeline is aspirational, or the data volume was never measured, the proposal should say what is unknown. It can present an assumption for approval or ask a targeted question. It should not smooth the gap into a fact.",
+          "Create required-field rules based on the offer, not one universal form. A simple assessment may need a problem statement, owner, and access constraint. A production integration may also need systems, data classifications, expected volume, failure tolerance, environments, and acceptance criteria. When the required evidence is absent, hold the state at inputs incomplete and assign the question to a person.",
+        ],
+      },
+      {
+        heading: "Deliver, accept, and amend without losing the trail",
+        paragraphs: [
+          "After approval, render the proposal once from the approved snapshot and deliver it through a controlled channel. Record the delivery recipient, time, version, and provider response. Use idempotency so a retry does not send three copies or create duplicate signature requests. If delivery times out ambiguously, reconcile provider state before trying again.",
+          "Acceptance should point to the same immutable version. Once accepted, lock it and create a separate amendment or change request for later modifications. Never replace an accepted file at the same URL with new content. Expired proposals should not remain silently acceptable; require revalidation of price, availability, terms, and scope before creating a new version.",
+        ],
+        bullets: [
+          "Verified recipient and approved delivery channel",
+          "Stable operation key for delivery and signature creation",
+          "Acceptance evidence bound to proposal version and signer",
+          "Expiration enforced by the system, not fine print alone",
+          "Amendments linked to—but never overwriting—the original",
+        ],
+      },
+      {
+        heading: "Protect the client's systems, data, and ownership",
+        paragraphs: [
+          "Proposal automation often touches the most sensitive pre-sale material a company has: pricing strategy, customer lists, internal margins, competitive positioning, contracts, and security details. Restrict access by role and tenant, encrypt data in transit and at rest, limit what is sent to each model or vendor, define retention, and keep secrets out of prompts and logs. Test that one salesperson cannot retrieve another team's restricted deal merely by changing an ID.",
+          "The client should own the CRM, document repository, signature account, billing platform, domains, and production integrations created for their business whenever practical. Set those accounts up under the client's control and payment method. If a service provider operates something on the client's behalf, document the access, cost, exit process, and export path before the automation becomes business-critical.",
+        ],
+      },
+      {
+        heading: "Test the failures that a polished demo hides",
+        paragraphs: [
+          "Happy-path testing proves the system can generate a proposal. It does not prove the business can trust it. Build a test set from real deal patterns and deliberate failures. Compare every monetary field to the catalog and calculation engine, every claim to the approved library, every scope item to its source, and every approval to the final artifact.",
+          "Run the same test cases whenever prompts, models, templates, prices, rules, or integrations change. Keep humans in the evaluation: a mechanically valid proposal can still be confusing, misleading, off-brand, or commercially unwise. Production monitoring should measure both operational health and business quality, then route questionable output for review rather than silently learning from it.",
+        ],
+        bullets: [
+          "Missing decision-maker, budget, timeline, or required system data",
+          "Old price ID, wrong currency, invalid quantity, and discount threshold",
+          "Prompt injection or unauthorized instructions inside discovery notes",
+          "Unsupported ROI claim, guarantee, certification, or customer logo",
+          "Approval followed by a material change",
+          "Duplicate events, timeouts, partial writes, and out-of-order updates",
+          "Expired proposal, amended scope, and revoked signer authority",
+          "Cross-tenant and unauthorized-record access attempts",
+        ],
+      },
+      {
+        heading: "Measure whether the workflow improves decisions",
+        paragraphs: [
+          "Time to first draft matters, but it is not the goal by itself. Measure time from qualified opportunity to approved proposal, percentage returned for missing information, exception rate, revision count, pricing errors, scope changes after acceptance, approval latency, and the difference between proposed and delivered work. A faster process that increases margin leakage or delivery disputes is not an improvement.",
+          "Review a sample of won and lost proposals with sales and delivery. Ask whether the approved facts were correct, whether the proposal made the decision easier, and whether the work was deliverable as written. Use that evidence to improve forms, catalog entries, scope blocks, and approval policy. Do not let the system rewrite its own commercial guardrails from conversion data.",
+        ],
+      },
+      {
+        heading: "Build the first useful version in four passes",
+        paragraphs: [
+          "Pass one is observation: map how one proposal type moves from discovery to acceptance and collect the real exceptions. Pass two is structure: create the canonical record, required fields, catalog references, scope blocks, claims, and approval rules. Pass three is assisted drafting: let AI produce only the narrative sections, validate them, and keep a person responsible for the whole offer. Pass four is controlled delivery: bind approval to the artifact, send it idempotently, and preserve acceptance evidence.",
+          "Start with one offer and one sales team. Keep the old process available while the new workflow proves itself. When the system handles the normal path and makes exceptions visible, expand deliberately. The objective is not to remove thought from selling. It is to stop the team from retyping approved information while making every consequential promise easier to inspect before it leaves the business.",
+        ],
+      },
+    ],
+    takeaway: "The safe way to automate sales proposals is to keep authority outside the model: trusted systems supply facts, code calculates money and dates, approved libraries control scope and claims, named people authorize exceptions, and every approval stays bound to the exact version delivered. AI is valuable in the narrow middle—turning verified context into clear, client-ready language—because the surrounding workflow makes guessing unnecessary and visible.",
+    sources: [
+      { label: "Stripe: How products and prices work", url: "https://docs.stripe.com/products-prices/how-products-and-prices-work" },
+      { label: "Microsoft Power Automate: Get started with approvals", url: "https://learn.microsoft.com/en-us/power-automate/get-started-approvals" },
+      { label: "Microsoft Power Automate: Create and test an approval workflow", url: "https://learn.microsoft.com/en-us/power-automate/modern-approvals" },
+      { label: "OWASP Cheat Sheet Series: AI Agent Security", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-customer-onboarding-with-ai",
     title: "How to automate customer onboarding with AI without creating a mess after the sale",
     description: "A practical customer onboarding system for turning a signed deal into a verified account, clear kickoff, owned tasks, safe access, complete records, and a measurable first outcome.",
