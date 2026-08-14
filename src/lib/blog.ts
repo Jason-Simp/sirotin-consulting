@@ -24,6 +24,255 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-appointment-scheduling-with-ai",
+    title: "How to automate appointment scheduling with AI without double-booking people or exposing private calendars",
+    description: "A practical AI scheduling workflow for checking real availability, enforcing booking rules, creating one authorized event, protecting calendar privacy, and handling changes without losing control.",
+    category: "Scheduling automation",
+    published: "2026-08-14",
+    updated: "2026-08-14",
+    readTime: "17 min read",
+    image: "/portfolio/simplvoice.jpg",
+    imageAlt: "SimplVoice product interface representing an AI assistant that can route conversations into controlled business actions",
+    imageCaption: "A useful scheduling assistant does not read a calendar and make a confident guess. It applies approved booking rules to free/busy data, confirms the exact choice, writes one event, and keeps enough evidence to reverse or repair the action.",
+    keywords: ["automate appointment scheduling with AI", "AI scheduling assistant", "calendar automation", "AI appointment booking", "automated meeting scheduling"],
+    intro: [
+      "Appointment scheduling sounds like a small automation until the assistant can see two calendars, write to one of them, invite an outside person, create a video room, send reminders, and move the event later. At that point it is not merely finding time. It is operating a piece of the business, with access to private availability and the authority to make commitments in someone else's name.",
+      "The reliable pattern is simple in principle: a policy engine decides which times are eligible, calendar providers report whether those times are still free, the person chooses an exact option, and a tightly scoped write operation creates one event. AI can interpret a scheduling request, ask a useful follow-up question, and explain the result. It should not invent availability, reveal event details, bypass buffers, silently choose attendees, or treat a webhook as the source of truth. This is operational guidance, not legal, privacy, security, accessibility, employment, or regulatory advice; apply the requirements of your organization and the people whose calendars are connected.",
+    ],
+    sections: [
+      {
+        heading: "Define the booking outcome before choosing a tool",
+        paragraphs: [
+          "The finish line is not ‘the AI found a time.’ A booking is complete when the correct meeting type has the correct duration, host, attendees, time zone, location, consent, and calendar event; the attendees received a clear confirmation; the system can identify the exact event it created; and the business has an owned path for cancellation, rescheduling, conflicts, and failure.",
+          "Begin with one booking type and one explicit authority. A good first target is a 30-minute introduction meeting that an external visitor requests, using a defined set of host calendars and working hours. Do not begin with an assistant that can schedule any meeting, invite anyone, override holds, or move existing events. Broad flexibility feels impressive in a demo and becomes impossible to reason about in production.",
+        ],
+        bullets: [
+          "Trigger: the event that starts a legitimate scheduling request",
+          "Outcome: the exact evidence that proves the booking exists",
+          "Policy owner: the person allowed to define eligible times",
+          "Write authority: the calendar and event types the system may create",
+          "Exception owner: the person who resolves ambiguity or conflicts",
+          "Recovery: how the system cancels, repairs, or reconciles a partial action",
+        ],
+      },
+      {
+        heading: "Create one canonical booking record",
+        paragraphs: [
+          "Do not let an email thread or calendar event be the only record of the workflow. Create a booking record with a stable ID, meeting type, requester, host, selected slot, time zone, policy version, provider calendar ID, provider event ID, conference reference, current state, and timestamps. The record should link to the source request and the event rather than trying to rediscover them by matching titles later.",
+          "Use states that describe reality: request received, clarification needed, options generated, slot selected, committing, confirmed, reschedule requested, cancelled, expired, failed, and needs review. Every state transition should record the actor and reason. That gives the system a safe place to resume after a timeout and gives a person enough context to fix the booking without reading raw logs.",
+        ],
+        bullets: [
+          "Booking ID and meeting-type version",
+          "Requester, host, attendee, and resource identifiers",
+          "Original request text and structured interpretation",
+          "Proposed slots with generation and expiration times",
+          "Selected slot in UTC plus the displayed local time zone",
+          "Calendar, event, conference, and notification provider IDs",
+          "Consent, confirmation, cancellation, and reschedule history",
+        ],
+      },
+      {
+        heading: "Read availability—not people's private event details",
+        paragraphs: [
+          "Most scheduling decisions need to know whether a period is busy, not why. Google's Calendar sharing model includes a freeBusyReader role that exposes whether time is free or busy without exposing event details. Its freeBusy query returns busy ranges for requested calendars and intervals. Microsoft Graph's getSchedule endpoint likewise returns availability information and lists Calendars.ReadBasic as the least-privileged permission for supported work or school scenarios.",
+          "Use that separation deliberately. A scheduling assistant should not receive event titles, descriptions, attendee lists, locations, attachments, or meeting notes merely to calculate open time. If a business rule truly depends on a calendar category or working-location signal, retrieve that narrow field through a purpose-built service and document why. Do not send an entire calendar history to a model and ask it to infer what can move.",
+        ],
+        bullets: [
+          "Query only the calendars and time window needed for the request",
+          "Prefer free/busy or basic availability permissions",
+          "Keep private-event details out of prompts, traces, and analytics",
+          "Return generic unavailable blocks to external requesters",
+          "Treat an inaccessible calendar as unknown—not available",
+        ],
+      },
+      {
+        heading: "Put a deterministic policy engine in front of the model",
+        paragraphs: [
+          "Free time is not automatically bookable time. The system needs an explicit policy for meeting duration, working hours, minimum notice, maximum booking horizon, buffers, travel time, host rotation, daily limits, holidays, focus blocks, required resources, and whether back-to-back meetings are allowed. Those rules belong in code or validated configuration, not a conversational prompt.",
+          "Version the policy and store the version on each booking. If the host changes the minimum notice from two hours to one day, existing confirmed meetings should remain explainable while new options use the new rule. AI may translate a request like ‘sometime after lunch next week’ into a structured window, but the policy engine—not the model—decides which candidate slots survive.",
+        ],
+        bullets: [
+          "Meeting duration and allowed increments",
+          "Host working hours in a named time zone",
+          "Minimum notice and maximum scheduling horizon",
+          "Before-and-after buffers and daily booking limits",
+          "Required attendees, rooms, equipment, or specialist roles",
+          "Manual-approval conditions for unusual requests",
+        ],
+      },
+      {
+        heading: "Normalize time zones before comparing anything",
+        paragraphs: [
+          "Store instants in UTC and preserve the original time-zone identifier used to display them. A numeric offset alone is not enough for future dates because daylight-saving rules can change the offset. Ask for the requester's time zone when it cannot be determined safely, show the selected time in both the requester's and host's zones when helpful, and include the date—not just ‘Tuesday at 2.’",
+          "Reject nonexistent or ambiguous local times around daylight-saving transitions instead of guessing. Distinguish all-day events from timed events, define whether the end time is exclusive, and test bookings that cross midnight. Google Calendar's event API requires start and end values and supports explicit time-zone fields; use those fields rather than relying on a server's default zone.",
+        ],
+        bullets: [
+          "UTC instant for comparisons and persistence",
+          "IANA time-zone name for display and recurrence behavior",
+          "Explicit locale and date format in confirmations",
+          "Tests for daylight-saving gaps and repeated hours",
+          "No silent fallback to the server or developer's time zone",
+        ],
+      },
+      {
+        heading: "Generate options from a fresh availability snapshot",
+        paragraphs: [
+          "Query all required calendars for a bounded interval, merge their busy ranges, apply policy, and return a small number of useful choices. Do not expose a host's entire open calendar. Three to five options usually produce a clearer decision and reduce the time between availability check and selection.",
+          "Attach a short expiration time and an opaque option ID to every proposed slot. The ID should resolve to the exact host, calendars, start, end, time zone, meeting type, and policy version. Never accept a client-submitted start time as authoritative merely because it resembles an option that was shown earlier.",
+        ],
+      },
+      {
+        heading: "Recheck immediately before the write",
+        paragraphs: [
+          "Availability is a snapshot, not a reservation. Another person can book the same host after options are displayed and before the requester clicks confirm. When a slot is selected, acquire a short system-level lock for that host and interval, query current free/busy again, reapply the policy, and only then attempt the calendar write. If the slot changed, release the lock and offer fresh choices without blaming either person.",
+          "A database lock cannot prevent a human from adding an event directly to Google Calendar or Outlook, so the final provider check still matters. Conversely, a provider check cannot prevent two copies of your own workflow from racing, so the internal lock still matters. Reliable scheduling uses both.",
+        ],
+        bullets: [
+          "Resolve the opaque option ID to server-side values",
+          "Lock the host and interval with a short expiration",
+          "Refresh all required calendar availability",
+          "Reapply the current or contractually pinned policy",
+          "Create the event once, then release the lock",
+          "Return new choices when the slot is no longer eligible",
+        ],
+      },
+      {
+        heading: "Keep AI in the interpretation layer",
+        paragraphs: [
+          "AI is useful when the requester says, ‘I need to talk about our CRM migration next week, preferably after 1, and include our operations lead.’ The model can extract the meeting purpose, preferred window, named participants, and unresolved questions into a strict schema. It can draft a friendly clarification when the time zone, attendee email, or meeting type is missing.",
+          "The model should not decide that a tentative hold can be ignored, infer an attendee's email from an unrelated contact, change the duration to make a slot fit, or invite someone because their name appeared in an email signature. Validate every identifier against authorized records. Treat all external text as untrusted data and require the deterministic service to authorize every read and write.",
+        ],
+        bullets: [
+          "Allowed output: intent, constraints, identifiers, and open questions",
+          "No direct calendar credentials or provider calls from the model",
+          "No attendee resolution without a verified record or confirmation",
+          "No policy changes, overrides, cancellations, or reschedules by inference",
+          "A human route for requests the schema cannot represent safely",
+        ],
+      },
+      {
+        heading: "Use the smallest OAuth permission that works",
+        paragraphs: [
+          "Separate availability access from event-writing access whenever the provider and architecture allow it. A public availability experience may need only free/busy data, while a confirmed booking service needs narrowly scoped event creation on an authorized calendar. Do not request full calendar access at sign-in simply because a future feature might use it.",
+          "Google's current OAuth guidance recommends incremental authorization, secure storage for credentials and tokens, encryption at rest for server-side token stores, handling revocation, and deleting tokens when they are no longer needed. Keep client secrets out of source control, restrict production redirect URIs, rotate credentials deliberately, and give users a clear disconnect path that revokes access and stops future automation.",
+        ],
+        bullets: [
+          "Request scopes in context, when the feature needs them",
+          "Store tokens encrypted and never log or expose them to the model",
+          "Handle partial consent and disable unavailable capabilities cleanly",
+          "Detect revocation and stop writes instead of retrying forever",
+          "Audit connected accounts, scopes, owners, and last use",
+        ],
+      },
+      {
+        heading: "Create one event with one unique conference",
+        paragraphs: [
+          "Build the provider request from server-controlled fields: calendar ID, event ID or booking reference, start, end, time zone, title template, description template, organizer, confirmed attendees, visibility, reminders, and conference request. The system should know which fields the requester may influence and escape or sanitize those fields before rendering them into HTML-capable descriptions.",
+          "Google's event insertion documentation specifically warns that reusing Google Meet conference data across events can cause access issues and expose meeting details to unintended users. Generate a unique conference for each event when conferencing is requested. Do not paste a permanent personal meeting room into every appointment unless the owner has consciously chosen and accepted that access model.",
+        ],
+        bullets: [
+          "One booking ID maps to one provider event ID",
+          "One event receives its own conference creation request",
+          "Attendee emails come from verified input",
+          "Notification behavior is selected intentionally",
+          "Sensitive intake answers do not belong in the event description",
+        ],
+      },
+      {
+        heading: "Make creation idempotent and reconcile uncertainty",
+        paragraphs: [
+          "Network timeouts create a dangerous question: did the provider create the event even though your application did not receive the response? Use a stable operation key and, when supported, a client-controlled event ID tied to the booking. Before retrying an ambiguous write, query by the known identifier or reconcile the relevant event range. Never issue a blind second create because the first request timed out.",
+          "Persist the provider response before sending secondary confirmations. If the event exists but the email step fails, retry the email—not the event. If the event does not exist, keep the booking in a recoverable failed state. Each side effect needs its own status and operation key so the workflow can resume without duplicating earlier work.",
+        ],
+        bullets: [
+          "Stable booking and operation IDs",
+          "Processed-event ledger for inbound provider notifications",
+          "Separate statuses for event, conference, confirmation, and CRM update",
+          "Read-before-retry after ambiguous timeouts",
+          "Dead-letter or human-review path after bounded retries",
+        ],
+      },
+      {
+        heading: "Give cancellation and rescheduling their own authority",
+        paragraphs: [
+          "A reschedule is not an edit box attached to a public event ID. Require a signed, expiring management token or an authenticated user with permission to manage that booking. Confirm which attendee is requesting the change, enforce notice and cancellation policy, and show the exact event and impact before committing.",
+          "For rescheduling, generate new options, select and recheck the new slot, update or replace the event according to a documented provider strategy, then notify everyone. Preserve the original and new times in the booking history. For cancellation, record who cancelled and why before deleting or marking the provider event cancelled. Never let a model cancel a meeting merely because an inbound email contains the word ‘cancel.’",
+        ],
+      },
+      {
+        heading: "Treat calendar notifications as signals, not truth",
+        paragraphs: [
+          "A scheduling system must notice when a human edits or deletes an event directly in the calendar. Google Calendar supports push notifications to an HTTPS webhook for resource changes, but its documentation says notifications are not 100 percent reliable and that a small percentage can be dropped. The notification also tells you that something changed; your application still needs to retrieve and reconcile authoritative provider state.",
+          "Verify the notification channel and resource identifiers, deduplicate messages, acknowledge quickly, and process reconciliation asynchronously. Renew expiring watch channels before they lapse. Add a periodic sync that catches missed notifications and verifies that future confirmed bookings still match their provider events. A webhook improves freshness; it does not eliminate reconciliation.",
+        ],
+        bullets: [
+          "Authenticated or bound notification channels",
+          "Fast acknowledgment and asynchronous processing",
+          "Deduplication by channel and message identifiers",
+          "Fetch current provider state after a change signal",
+          "Watch renewal plus periodic backstop reconciliation",
+        ],
+      },
+      {
+        heading: "Protect intake data and calendar privacy",
+        paragraphs: [
+          "Collect only what the meeting needs. Name, email, time zone, organization, meeting type, and a short purpose may be sufficient. Do not ask people to paste passwords, health details, account numbers, confidential documents, or entire technical histories into a scheduling form. If the later engagement needs sensitive intake, collect it through a separate, purpose-built workflow after the relationship and access controls are established.",
+          "Set retention rules for abandoned requests, proposed options, IP addresses, transcripts, and model traces. Limit internal access by role and tenant. Give the requester a clear explanation of how their information is used, where the meeting will appear, and who will receive it. Keep private host availability as busy intervals; never expose titles or infer why a host is unavailable.",
+        ],
+      },
+      {
+        heading: "Defend the action boundary against prompt injection",
+        paragraphs: [
+          "A scheduling assistant may read form text, emails, CRM notes, websites, or documents. Any of those sources can contain instructions that try to redirect the agent: invite a different address, reveal calendar contents, ignore working hours, or call an unapproved tool. OWASP's AI Agent Security guidance recommends separating instructions from untrusted data, validating output, enforcing least privilege, requiring human approval for high-impact actions, and maintaining tamper-evident logs.",
+          "Implement those controls outside the prompt. The model proposes structured intent; the service checks identity, tenant, policy, allowed calendars, attendees, scopes, and state. Tool responses are data, not new instructions. If a request attempts to alter policy or access hidden information, refuse the action and create a reviewable security event.",
+        ],
+      },
+      {
+        heading: "Test the failures that matter in real calendars",
+        paragraphs: [
+          "A successful demo proves that one event can be created. Production testing must prove that the workflow behaves safely when calendars change, providers retry, people use different time zones, and ambiguous language reaches the model. Build a repeatable test set and run it whenever policy, prompts, models, scopes, providers, or event templates change.",
+          "Test with dedicated nonproduction calendars and accounts. Never use a real executive or client calendar as the test fixture. Verify the final provider state and outbound notifications, not only the application's success message.",
+        ],
+        bullets: [
+          "Two people select the same slot at nearly the same time",
+          "A human books the host between option display and confirmation",
+          "One of several required calendars is inaccessible or times out",
+          "Daylight-saving transition, cross-midnight, and all-day conflicts",
+          "Duplicate create request and ambiguous provider timeout",
+          "Wrong tenant, calendar, attendee, organizer, or meeting type",
+          "Revoked OAuth token and partially granted scopes",
+          "Direct provider edit, delete, decline, and proposed new time",
+          "Prompt injection inside the meeting purpose or email thread",
+          "Expired manage link and unauthorized cancellation attempt",
+        ],
+      },
+      {
+        heading: "Measure reliability—not just meetings booked",
+        paragraphs: [
+          "Useful metrics include completion rate, time from request to confirmed event, clarification rate, slot-conflict rate at final recheck, duplicate-event count, reconciliation drift, cancellation and reschedule rate, provider error rate, and the number of requests requiring human help. Track no-shows separately from technical failures; they have different causes and remedies.",
+          "Review a sample of confirmations and exceptions with the people whose calendars are affected. Ask whether the rules protect their working day, whether visitors understand the meeting, and whether recovery is easy when plans change. Do not let the system automatically loosen buffers or widen access merely to improve the booking conversion rate.",
+        ],
+      },
+      {
+        heading: "Build the first safe version in five passes",
+        paragraphs: [
+          "First, document one meeting type and its real policy. Second, connect read-only free/busy access and verify time-zone handling. Third, generate a few options and require an explicit selection without writing anything. Fourth, add the locked recheck and one idempotent event-creation path. Fifth, add cancellation, rescheduling, provider reconciliation, logs, monitoring, and a human exception queue.",
+          "Keep the native calendar booking page or manual scheduling process available while the automation proves itself. Expand to more hosts, meeting types, round-robin rules, payments, or voice only after the narrow path is reliable. The objective is not an assistant that can do anything with a calendar. It is a system that can make one legitimate scheduling commitment safely, explainably, and repeatedly.",
+        ],
+      },
+    ],
+    takeaway: "Reliable AI scheduling keeps authority outside the model: policy defines eligible time, free/busy APIs reveal only the availability needed, the requester confirms an exact option, the system locks and rechecks before one idempotent write, and provider changes are reconciled afterward. AI earns its place by interpreting natural language and making the experience easier—not by guessing availability or gaining broad calendar control.",
+    sources: [
+      { label: "Google Calendar API: Freebusy query", url: "https://developers.google.com/workspace/calendar/api/v3/reference/freebusy/query" },
+      { label: "Google Calendar API: Events insert", url: "https://developers.google.com/workspace/calendar/api/v3/reference/events/insert" },
+      { label: "Google Calendar API: Calendar sharing", url: "https://developers.google.com/workspace/calendar/api/concepts/sharing" },
+      { label: "Google Calendar API: Push notifications", url: "https://developers.google.com/workspace/calendar/api/guides/push" },
+      { label: "Google Identity: OAuth 2.0 best practices", url: "https://developers.google.com/identity/protocols/oauth2/resources/best-practices" },
+      { label: "Microsoft Graph: Get free/busy schedule", url: "https://learn.microsoft.com/en-us/graph/api/calendar-getschedule?view=graph-rest-1.0" },
+      { label: "OWASP Cheat Sheet Series: AI Agent Security", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-sales-proposals-with-ai",
     title: "How to automate sales proposals with AI without inventing scope, pricing, or promises",
     description: "A practical proposal automation system for turning approved CRM, pricing, scope, and legal inputs into reviewable, versioned client documents without fabricated claims or unauthorized commitments.",
