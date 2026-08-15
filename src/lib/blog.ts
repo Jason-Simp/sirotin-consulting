@@ -24,6 +24,247 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-social-media-posting-with-ai",
+    title: "How to automate social media posting with AI without publishing the wrong thing",
+    description: "A practical social publishing workflow for drafting with AI, controlling claims and disclosures, approving exact versions, posting through authorized accounts, and recovering when platforms or people change the plan.",
+    category: "Content operations",
+    published: "2026-08-15",
+    updated: "2026-08-15",
+    readTime: "17 min read",
+    image: "/portfolio/simplsocial.jpg",
+    imageAlt: "SimplSocial product interface representing a governed workflow for planning, reviewing, and publishing social content",
+    imageCaption: "Good social automation does not turn a prompt into an immediate post. It turns approved source material into channel-specific drafts, binds approval to the exact versions and assets, publishes through the correct account, and verifies what actually went live.",
+    keywords: ["automate social media posting with AI", "AI social media automation", "automated social media workflow", "AI content approval workflow", "social media publishing automation"],
+    intro: [
+      "Social media is tempting to automate because the visible action is so small: generate some copy, attach an image, and click publish. The actual business action is much larger. A post can make a product claim, quote a customer, disclose—or hide—a paid relationship, use copyrighted media, announce something before it is ready, speak from the wrong executive account, or start a conversation the team is not prepared to handle.",
+      "The safe design is a controlled publishing system, not an autonomous content machine. Approved source material and campaign rules become structured inputs. AI drafts within those boundaries. People review the exact copy, media, disclosures, links, account, and publish time. A deterministic service checks permissions and platform requirements, performs one authorized publish operation, and then verifies the remote result. This is operational guidance, not legal, advertising, intellectual-property, privacy, employment, or platform-policy advice; apply the rules that govern your organization, industry, audience, and accounts.",
+    ],
+    sections: [
+      {
+        heading: "Define the outcome as a verified post—not generated copy",
+        paragraphs: [
+          "A content draft is not a completed workflow. The process is complete when the approved message and approved media appear on the intended account, at the intended time, with the correct link and disclosure; the platform returns a durable identifier; the system preserves what was published; and someone owns monitoring, correction, and removal.",
+          "Start with one narrow content type. A practical first target might be turning an approved company article into one LinkedIn company-page post. Do not begin with a system that can browse the web, invent a campaign, create an image, publish to five networks, reply to comments, and optimize its own strategy. Each added authority creates another way to be confidently wrong in public.",
+        ],
+        bullets: [
+          "Trigger: the exact event that permits content drafting",
+          "Source: the approved material the post is allowed to use",
+          "Output: the platform-specific copy, media, link, and disclosure",
+          "Approver: the person authorized to release that exact version",
+          "Evidence: platform post ID, URL, response, and retrieved state",
+          "Recovery: how to pause, correct, unpublish, or escalate",
+        ],
+      },
+      {
+        heading: "Create one canonical content record",
+        paragraphs: [
+          "Do not make a spreadsheet row, chat message, or platform draft the only record of the work. Create a content record with a stable ID, campaign, objective, audience, source references, claim references, disclosure requirements, channel variants, asset versions, approval state, schedule, account, and platform delivery results.",
+          "Treat the campaign idea, master message, channel variant, media asset, and published post as related but distinct objects. The Instagram caption is not the LinkedIn post with fewer characters. An image crop is not interchangeable with the original. A published platform object should point back to the exact approved variant and assets that created it.",
+        ],
+        bullets: [
+          "Content ID, campaign, owner, audience, and lifecycle state",
+          "Approved source, claim, testimonial, offer, and link IDs",
+          "One versioned variant per account and platform",
+          "Asset IDs, rights status, alt text, crop, and checksum",
+          "Required disclosures and exact placement",
+          "Approval, schedule, delivery, edit, and removal history",
+        ],
+      },
+      {
+        heading: "Separate the content brief from the prompt",
+        paragraphs: [
+          "A prompt is implementation detail. The durable business input is a structured brief: objective, audience, approved message, call to action, evidence, prohibited claims, disclosure status, voice guidance, source links, campaign window, channels, and approvers. Store that brief outside the model so it can be reviewed, versioned, and reused.",
+          "The model should receive a bounded package built from that brief. It should not search every document the company owns or use yesterday's social feed as unquestioned truth. Retrieved material can be outdated, confidential, or written by someone without authority. Every substantive statement in the draft should trace to an allowed source or be clearly marked as creative framing rather than fact.",
+        ],
+        bullets: [
+          "Approved facts and evidence with source IDs",
+          "Allowed offer, price, dates, eligibility, and destination link",
+          "Voice and formatting guidance for the named account",
+          "Claims, topics, names, and phrases the model must not use",
+          "Disclosure and review requirements",
+          "An explicit route for missing or contradictory information",
+        ],
+      },
+      {
+        heading: "Use a claims library instead of asking AI to sound persuasive",
+        paragraphs: [
+          "The most expensive social error is often not a typo. It is an unsupported claim that sounds polished enough to pass casual review. Maintain a claims library with approved wording, evidence, allowed audience, product or service version, owner, review date, and prohibited variations. Metrics should include the measurement period and context that make them meaningful.",
+          "Block health, financial, safety, environmental, legal, security, compliance, and performance claims unless the business has defined the required evidence and reviewer. Do the same for guarantees, competitor comparisons, awards, customer results, and statements such as ‘always,’ ‘never,’ or ‘fully compliant.’ AI may simplify approved language; it should not upgrade possibility into certainty.",
+        ],
+        bullets: [
+          "Exact approved claim and supporting evidence",
+          "Where and for whom the claim may be used",
+          "Expiration or revalidation date",
+          "Required qualifier, link, or disclosure",
+          "Named owner and escalation path",
+        ],
+      },
+      {
+        heading: "Make disclosures part of the content—not a last-minute tag",
+        paragraphs: [
+          "A paid, gifted, employment, family, affiliate, or other material relationship may need a disclosure that people can actually see and understand. The FTC's social-media guidance says a material connection should be obvious, the disclosure should be hard to miss and placed with the endorsement, and vague shorthand can be inadequate. Its current endorsement guidance also warns that a platform's disclosure tool alone is not automatically sufficient.",
+          "Represent disclosure as a required content field with an approved phrase, language, placement, media treatment, and reviewer. If the image or video itself communicates the endorsement, putting a disclosure after ‘more’ in the caption may not solve the problem. If a video requires both visual and audio disclosure, the workflow should verify both assets before approval. Do not let the model decide that a disclosure is unnecessary because the relationship feels obvious.",
+        ],
+        bullets: [
+          "Relationship type and responsible advertiser or partner",
+          "Plain-language disclosure approved for the audience",
+          "Placement in text, image, video, audio, or live content",
+          "Language matching the endorsement",
+          "Platform tool setting plus the business's own disclosure",
+        ],
+      },
+      {
+        heading: "Verify testimonial, review, and customer-story rights",
+        paragraphs: [
+          "A customer quote is not safe to publish merely because it appears in an email or call transcript. Store the speaker's identity, exact approved quote, permission, approved channels, allowed edits, logo and likeness rights, disclosure requirements, expiration, and withdrawal process. Preserve the original source and the approved version.",
+          "Never synthesize a testimonial, turn internal feedback into a public endorsement, create a fake customer persona, or imply that an employee is an independent reviewer. The FTC's Consumer Reviews and Testimonials Rule guidance addresses deceptive reviews, undisclosed insider relationships, and fake indicators of social influence. A generation system should make provenance easier to inspect, not easier to erase.",
+        ],
+      },
+      {
+        heading: "Treat every media asset as a governed object",
+        paragraphs: [
+          "Store where an image, video, audio clip, font, logo, and music track came from; who owns it; what license or permission applies; where it may be used; whether it was materially edited or generated; and when the right expires. Link that record to the exact exported asset. A filename in a shared drive is not a rights system.",
+          "Validate aspect ratio, dimensions, duration, format, file size, captions, safe areas, alt text, thumbnail, audio, and text legibility for each target channel. Review the rendered asset, not only the source. Cropping can remove a disclosure, subtitles can cover important text, and automatic thumbnails can create a very different message from the approved frame.",
+        ],
+        bullets: [
+          "Origin, owner, license, permission, and expiration",
+          "People, locations, trademarks, and customer information shown",
+          "Generation or material-edit provenance where required",
+          "Channel-specific export, checksum, and preview",
+          "Accessibility text and captions approved with the asset",
+        ],
+      },
+      {
+        heading: "Generate channel variants from one approved message",
+        paragraphs: [
+          "Channel adaptation should preserve meaning while changing structure. LinkedIn may support a more developed business explanation, while a short-form video platform needs an opening hook, on-screen text, caption, and media plan. The call to action, claim, offer conditions, and disclosure must remain consistent even when the surface form changes.",
+          "Give the model a schema for each channel: body, headline or title where supported, hashtags, mentions, link, alt text, media references, disclosure, and unresolved questions. Enforce character and field limits deterministically. Reject variants that introduce names, claims, links, hashtags, or account mentions outside the approved record.",
+        ],
+      },
+      {
+        heading: "Bind approval to the exact post, media, account, and time",
+        paragraphs: [
+          "‘Looks good’ in a chat thread is not enough if the caption changes afterward or the publisher selects a different account. Create a version ID and integrity hash from the final text, media checksums, destination URLs, disclosure, account ID, platform, and schedule. The approval request should show a realistic preview and the fields that carry risk.",
+          "Any material change should invalidate approval. That includes new copy, a different crop, changed link, removed disclosure, different account, or a publish date that moves a time-sensitive claim outside its approved window. Record who approved, what authority they held, when they acted, and what exact version they saw.",
+        ],
+        bullets: [
+          "Copy and disclosure as they will appear",
+          "Final media preview, alt text, and rights status",
+          "Resolved destination URL and tracking parameters",
+          "Platform, account, audience, and publish time",
+          "Claim, offer, legal, customer, or executive exceptions",
+          "Version hash included in the approval evidence",
+        ],
+      },
+      {
+        heading: "Use the smallest publishing permission possible",
+        paragraphs: [
+          "Connect only the accounts the workflow is authorized to use and request only the scopes needed for the selected operation. LinkedIn's current Posts API distinguishes posting on behalf of an organization from posting on behalf of an authenticated member and restricts organization actions to appropriate page roles. The system should preserve that distinction rather than letting a friendly account name choose the publisher.",
+          "Store access tokens encrypted and outside prompts, browser storage, source control, and ordinary application logs. Track the owner, scopes, platform account ID, organization or person ID, expiration, and last use. Provide a disconnect path, detect revocation, and stop the queue when identity cannot be reverified. Never fall back from a company account to a founder's personal account because one token failed.",
+        ],
+      },
+      {
+        heading: "Separate draft upload from direct publishing",
+        paragraphs: [
+          "Not every workflow needs direct-post authority. A review-first route can deliver most of the efficiency while keeping final control inside the platform. TikTok's Content Posting API documentation includes an upload flow in which media is delivered to the user's inbox so the user can continue editing and complete the post in TikTok. That is a useful pattern for higher-risk formats, early deployments, and teams that want native preview before release.",
+          "Choose the mode per channel and risk. Low-risk, evergreen posts with exact-version approval may qualify for scheduled direct publishing. Executive, regulated, sponsored, crisis-related, or new content types may remain upload-for-review or manual. Make the choice visible in policy; do not let the model escalate itself from drafting to publishing because a deadline is close.",
+        ],
+      },
+      {
+        heading: "Build publishing as an idempotent state machine",
+        paragraphs: [
+          "A publish request can time out after the platform accepts it. Media can upload successfully while post creation fails. Processing can remain asynchronous after the API returns an identifier. Model these as separate states: approved, scheduled, media uploading, media processing, ready to publish, publishing, published, failed, needs review, corrected, and removed.",
+          "Use a stable operation key for every platform variant. Before retrying an ambiguous request, query the stored platform identifier or reconcile recent posts for the authorized account. Never create a second post just because the first response was lost. Persist the platform response before launching downstream analytics, CRM, or notification steps.",
+        ],
+        bullets: [
+          "One approved variant maps to one platform publication intent",
+          "Media upload, processing, post creation, and verification tracked separately",
+          "Bounded retries for clearly retryable failures",
+          "Read-before-retry after timeouts or unknown outcomes",
+          "Human queue for partial and contradictory states",
+        ],
+      },
+      {
+        heading: "Schedule with account time zones and campaign windows",
+        paragraphs: [
+          "Store the intended instant in UTC and the business time zone used to display and approve it. Resolve phrases such as ‘tomorrow morning’ before approval, show the full date and zone, and test daylight-saving transitions. Enforce campaign start and end dates, embargoes, offer validity, regional restrictions, and minimum review time.",
+          "At execution time, revalidate the approval, account connection, campaign window, URL, disclosure, media availability, and any time-sensitive claims. A post approved last week may no longer be valid after a price change, product delay, customer withdrawal, or public event. The scheduler should pause when required inputs become stale rather than publish because a timer fired.",
+        ],
+      },
+      {
+        heading: "Verify what actually went live",
+        paragraphs: [
+          "An API success response is useful evidence, but the workflow should retrieve the created object or status and compare critical fields to the approved version when the platform permits it. Store the platform post ID, canonical URL, author or account ID, creation time, visibility, text checksum, media references, and processing state.",
+          "Link previews, redirects, media processing, moderation, and platform transformations can change the public result. Maintain a human-visible verification step for new formats and important campaigns. If the live post differs materially, hide or remove it when policy and platform capability allow, preserve evidence, notify the owner, and prevent automatic retry until the cause is understood.",
+        ],
+      },
+      {
+        heading: "Keep engagement automation draft-first",
+        paragraphs: [
+          "Comments and direct responses bring new facts, identities, complaints, harassment, legal requests, and support issues into the workflow. Let AI classify and draft replies, but do not automatically argue, promise refunds, disclose customer information, give regulated advice, or speak for an executive. Define which categories may receive templated replies and which must go to a person.",
+          "A social post can also trigger more demand than the business expects. Name an owner for monitoring, define response windows, and prepare escalation routes before publishing. Content automation without an engagement plan creates a faster way to start conversations the company then ignores.",
+        ],
+      },
+      {
+        heading: "Defend the publishing boundary from untrusted instructions",
+        paragraphs: [
+          "The workflow may read websites, comments, briefs, uploaded files, CRM notes, and prior posts. Any of them can contain instructions that try to redirect the agent, change a link, mention an attacker-controlled account, expose private context, or bypass approval. Treat retrieved content as data, never as policy.",
+          "OWASP's AI Agent Security guidance recommends separating trusted instructions from untrusted data, validating model output, enforcing least privilege, requiring approval for high-impact actions, and keeping audit evidence. Apply those controls outside the prompt. The publishing service—not the model—must verify tenant, account, state, approval hash, allowed URLs, media, disclosures, and tool parameters before any external write.",
+        ],
+      },
+      {
+        heading: "Add a real pause and kill switch",
+        paragraphs: [
+          "The business needs a fast way to stop all scheduled posts, one campaign, one account, or one content type. A pause should prevent new external writes while preserving the queue and evidence. It should be available to named people without requiring a developer or access to production secrets.",
+          "Define triggers for automatic pause: repeated authentication failures, wrong-account detection, duplicate posts, a broken destination, platform policy rejection, a recalled claim, a crisis declaration, or a mismatch between approved and retrieved content. Resume should require a deliberate review of queued items because time-sensitive content may have become inappropriate while the system was stopped.",
+        ],
+      },
+      {
+        heading: "Test the failures a content demo never shows",
+        paragraphs: [
+          "A successful test post proves only that credentials and one happy path work. Build a repeatable test set using sandbox, draft, private, or dedicated nonproduction accounts where each platform allows it. Verify the remote account and content, not only the local success screen.",
+          "Run the suite whenever prompts, models, templates, claim rules, approval logic, platform versions, scopes, or media processing changes. Keep real reviewers in the loop: a structurally valid post can still be tone-deaf, confusing, repetitive, or inappropriate for the moment.",
+        ],
+        bullets: [
+          "Wrong organization, member, region, or connected account",
+          "Unsupported claim, fake quote, expired offer, or missing disclosure",
+          "Changed copy or media after approval",
+          "Broken, redirected, unsafe, or unapproved destination link",
+          "Duplicate execution and ambiguous platform timeout",
+          "Media upload succeeds but processing or post creation fails",
+          "Revoked token, missing scope, expired permission, or changed page role",
+          "Prompt injection inside a brief, webpage, document, or comment",
+          "Emergency pause while multiple posts are due",
+          "Delete, edit, or correction after publication",
+        ],
+      },
+      {
+        heading: "Measure quality and control—not content volume",
+        paragraphs: [
+          "Track approval turnaround, revision rate, source-completeness failures, disclosure exceptions, wrong-account incidents, duplicate attempts, publish failures, live mismatches, corrections, removals, and human escalations. Engagement and traffic matter, but they do not prove that the workflow is accurate, safe, or valuable.",
+          "Review a sample of published and rejected drafts with marketing, sales, customer support, and whoever owns the underlying claims. Ask whether the posts were useful, recognizable as the brand, supported by evidence, appropriate for the channel, and followed by good engagement handling. Do not let the system weaken review or make more extreme claims merely because those posts received more clicks.",
+        ],
+      },
+      {
+        heading: "Build the first safe version in five passes",
+        paragraphs: [
+          "First, choose one approved source and one social account. Second, create the structured brief, claims, disclosure, asset, and channel-variant records. Third, let AI draft but keep copy-and-paste publishing manual while reviewers improve the rules. Fourth, add exact-version approval and a review-first platform upload or one idempotent direct-publish path. Fifth, add verification, monitoring, pause controls, correction, and a human exception queue.",
+          "Keep the native platform and manual process available while the automation proves itself. Expand to additional networks, formats, accounts, campaigns, and engagement only when each new authority has a clear owner and recovery path. The goal is not maximum output. It is a dependable system that helps a small team publish better work without surrendering the brand's judgment or the client's ownership of their accounts and assets.",
+        ],
+      },
+    ],
+    takeaway: "Safe AI social publishing keeps the consequential decisions outside the model: approved sources control facts, a claims and disclosure system controls what may be said, people approve the exact channel variant and assets, narrowly authorized services publish once, and the workflow verifies the result. AI is most valuable in the middle—drafting and adapting clear content—because the surrounding system prevents fluent text from becoming an unauthorized public commitment.",
+    sources: [
+      { label: "LinkedIn Marketing API: Posts API", url: "https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api?view=li-lms-2026-04" },
+      { label: "TikTok for Developers: Content Posting API upload flow", url: "https://developers.tiktok.com/doc/content-posting-api-get-started-upload-content/" },
+      { label: "Meta for Developers: Instagram content publishing", url: "https://developers.facebook.com/documentation/instagram-platform/content-publishing" },
+      { label: "Federal Trade Commission: Disclosures 101 for Social Media Influencers", url: "https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers" },
+      { label: "Federal Trade Commission: Endorsement Guides—What People Are Asking", url: "https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking" },
+      { label: "Federal Trade Commission: Consumer Reviews and Testimonials Rule Q&A", url: "https://www.ftc.gov/business-guidance/resources/consumer-reviews-testimonials-rule-questions-answers" },
+      { label: "OWASP Cheat Sheet Series: AI Agent Security", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-appointment-scheduling-with-ai",
     title: "How to automate appointment scheduling with AI without double-booking people or exposing private calendars",
     description: "A practical AI scheduling workflow for checking real availability, enforcing booking rules, creating one authorized event, protecting calendar privacy, and handling changes without losing control.",
