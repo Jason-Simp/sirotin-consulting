@@ -24,6 +24,256 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-project-status-reports-with-ai",
+    title: "How to automate project status reports with AI without inventing progress or hiding delays",
+    description: "A practical AI status-reporting workflow for collecting verified project data, separating activity from outcomes, surfacing missing evidence and risk, approving the narrative, and delivering one traceable snapshot.",
+    category: "Project operations",
+    published: "2026-08-16",
+    updated: "2026-08-16",
+    readTime: "17 min read",
+    image: "/portfolio/simplengine.jpg",
+    imageAlt: "SimplEngine interface representing a governed workspace for reviewing operational data and agent-produced work",
+    imageCaption: "A trustworthy status report is not a polished summary of recent activity. It is a versioned snapshot that distinguishes completed outcomes from updates, names missing evidence, preserves owners and dates, and lets every important statement trace back to the project system.",
+    keywords: ["automate project status reports with AI", "AI project status reporting", "automated project reporting", "project management AI automation", "AI status update workflow"],
+    intro: [
+      "Project status reporting is a perfect example of work that feels repetitive but carries real consequences. A report can cause a client to approve the next phase, an executive to move money, a team to delay a launch, or a manager to assume a risk is under control. If AI turns scattered activity into a confident green status without understanding what was actually delivered, the automation saves writing time by creating decision risk.",
+      "The reliable design is an evidence-backed reporting pipeline. Approved project systems provide a bounded snapshot. Deterministic rules calculate dates, counts, changes, and exceptions. AI organizes the verified facts into plain language, identifies contradictions, and drafts questions where evidence is missing. Owners confirm the claims and risks before the report reaches its audience. This is operational guidance, not accounting, legal, employment, regulatory, or professional project-management advice; adapt the workflow to your contracts, governance, systems, and decision rights.",
+    ],
+    sections: [
+      {
+        heading: "Define the report as a decision product",
+        paragraphs: [
+          "A status report is useful only if the reader knows what changed, what was completed, what remains uncertain, what is blocked, what decision is needed, and who owns the next move. ‘The team made great progress’ is not status. ‘The import completed for 8 of 10 approved data sources; two remain blocked by client credentials due August 19’ is status a person can act on.",
+          "Start with one report, one audience, and one cadence. A weekly internal delivery report has different evidence and language from a client steering update or executive portfolio summary. Do not begin with an assistant that reads every workspace and writes to every stakeholder. Define the decisions the first report should support and the evidence required to support them.",
+        ],
+        bullets: [
+          "Audience and decisions the report is meant to support",
+          "Reporting period, cutoff, and comparison baseline",
+          "Required outcome, schedule, risk, budget, and decision sections",
+          "Named owner for every project-level assertion",
+          "Approval and delivery authority",
+          "Correction path when the report is incomplete or wrong",
+        ],
+      },
+      {
+        heading: "Create one canonical reporting run",
+        paragraphs: [
+          "Treat every report as a versioned record, not an email generated from live data that will look different tomorrow. Give the run a stable ID and store the project set, source systems, query filters, reporting cutoff, time zone, field dictionary version, source snapshot IDs, calculations, draft, reviewer decisions, final artifact, recipients, and delivery evidence.",
+          "Use states that describe real authority: requested, collecting, source incomplete, snapshot frozen, drafting, owner review, approved, delivered, corrected, and superseded. A rerun after late data should create a new version linked to the first; it should not silently replace the report people already used to make a decision.",
+        ],
+        bullets: [
+          "Report ID, template, audience, period, and cutoff",
+          "Included projects, boards, spaces, filters, and source IDs",
+          "Immutable normalized snapshot and calculation version",
+          "Draft, citations, open questions, and confidence flags",
+          "Approval record bound to the exact final version",
+          "Delivery, correction, and supersession history",
+        ],
+      },
+      {
+        heading: "Define what every project field actually means",
+        paragraphs: [
+          "Before connecting AI, write a field dictionary. What does Done mean? Does a due date represent a contractual deadline, a team's current forecast, or a placeholder? Does 80 percent complete come from completed subtasks, elapsed time, a person's judgment, or a formula? Is Blocked a status, a label, or a missing dependency recorded somewhere else?",
+          "Store stable source field IDs, not only the labels people see. Boards and workflows are frequently renamed, and the same word can mean different things across teams. Map each source value into a normalized reporting concept, define who owns the mapping, and version it when the workflow changes. If a field has no reliable meaning, do not turn it into a report metric merely because it is available through the API.",
+        ],
+        bullets: [
+          "Source system, workspace, board or project, and field ID",
+          "Human-readable meaning and accepted values",
+          "Required owner and update cadence",
+          "Transformation into normalized report fields",
+          "Known limitations and conditions that make the value stale",
+        ],
+      },
+      {
+        heading: "Separate outcomes, activity, state, and opinion",
+        paragraphs: [
+          "These are not interchangeable. An outcome is a verifiable result: a release deployed, a document approved, a test passed, or a customer decision received. Activity is work that happened: meetings, comments, commits, messages, and hours. State is what the project system currently says. Opinion is a person's assessment or forecast. A credible report labels each one.",
+          "AI often overweights activity because activity creates lots of text. Ten comments on a blocked task can sound like momentum while the required decision remains unresolved. Build the normalized snapshot so completed outcomes require explicit evidence and source state. Let activity explain the story, but never let volume of activity substitute for completion.",
+        ],
+        bullets: [
+          "Completed outcome plus acceptance or verification evidence",
+          "Current state and the exact source field that represents it",
+          "Activity summarized separately from progress",
+          "Forecast attributed to a named owner and timestamp",
+          "Opinion or interpretation labeled rather than presented as fact",
+        ],
+      },
+      {
+        heading: "Query only the projects and fields the report needs",
+        paragraphs: [
+          "Use an allowlisted project set and bounded filters. The reporting service should not search every board, private task, client workspace, or employee comment merely because its token can. Retrieve the stable IDs and fields needed for the report, preserve tenant boundaries, and exclude private or restricted work before any content reaches the model.",
+          "monday.com's current API documentation recommends its items_page object for filtered board queries and cursor-based pagination rather than trying to retrieve every item from a large board. That is the right general pattern: filter at the source, page deterministically, record the cursor or completion state, and treat an incomplete page set as a failed snapshot—not a smaller project.",
+        ],
+        bullets: [
+          "Allowlisted tenant, workspace, project, board, and group IDs",
+          "Fields selected by stable ID and business purpose",
+          "Bounded period and explicit inclusion rules",
+          "Cursor-based pagination until the expected set is complete",
+          "Counts and retrieval errors recorded before drafting",
+        ],
+      },
+      {
+        heading: "Use webhooks for freshness and reconciliation for truth",
+        paragraphs: [
+          "Webhooks are useful for marking a project dirty when a task, status, date, or update changes. They should not be the only ledger. monday.com's webhook documentation describes URL verification, supported event types, optional JWT authentication for some requests, and a retry policy. Asana states that its webhooks use at-most-once delivery, may miss events in exceptional circumstances, cannot replay delivered webhooks, and recommends fallback polling when missing a change is unacceptable.",
+          "Verify every inbound request using the provider's supported mechanism, acknowledge quickly, deduplicate, and enqueue reconciliation. On the reporting cutoff, retrieve authoritative current state for the full allowlisted set even if no webhook indicated a change. The webhook improves freshness; the frozen source snapshot proves what the report actually used.",
+        ],
+        bullets: [
+          "Verified webhook endpoint and bound subscription identity",
+          "Fast acknowledgment with asynchronous processing",
+          "Deduplication by provider event or stable content key",
+          "Dirty-project marker rather than immediate narrative generation",
+          "Scheduled full reconciliation before every important report",
+        ],
+      },
+      {
+        heading: "Freeze a normalized snapshot before asking AI to write",
+        paragraphs: [
+          "Live project data changes while a report is being drafted and reviewed. Resolve the included records at the reporting cutoff, normalize them, calculate deterministic values, and store an immutable snapshot. The draft, citations, approval, and delivered artifact should all point to that snapshot ID.",
+          "Include source record IDs, URLs, update timestamps, owners, current and previous values, dependencies, and evidence links. Store retrieval failures and missing fields inside the snapshot rather than dropping those records. A project that could not be read is unknown, not healthy.",
+        ],
+      },
+      {
+        heading: "Calculate dates, counts, and deltas outside the model",
+        paragraphs: [
+          "Use code for overdue days, completed-item counts, schedule variance, changes since the previous cutoff, unassigned work, stale updates, dependency gaps, and other reproducible calculations. Define business calendars, time zones, inclusive or exclusive date rules, and the treatment of cancelled or deferred work. Store the formula version with the result.",
+          "Do not ask the model to count tasks from a long prompt, compare timestamps informally, or estimate percentage complete from prose. The model should receive resolved metrics and explain what they mean. If a metric depends on a judgment—such as probability of hitting a milestone—label it as a forecast and keep the owner attached.",
+        ],
+        bullets: [
+          "Current value, prior value, and deterministic delta",
+          "Formula, cutoff, time zone, and source population",
+          "Excluded or inaccessible records",
+          "Threshold that creates an exception or review requirement",
+          "Owner for judgment-based forecasts",
+        ],
+      },
+      {
+        heading: "Make missing and stale evidence visible",
+        paragraphs: [
+          "A reporting automation should be rewarded for surfacing uncertainty, not for filling every section. Define freshness rules for status, dates, risks, decisions, and outcomes. If the owner has not updated a project by the cutoff, say that the status is unconfirmed and show the last verified timestamp. Do not carry last week's green status forward as if it were new evidence.",
+          "Generate a pre-report exception queue for missing owners, overdue updates, conflicting dates, completed tasks without evidence, blocked work without a dependency owner, and milestones whose forecasts moved without explanation. Give the responsible people a simple correction window before the snapshot freezes.",
+        ],
+        bullets: [
+          "Missing required field or owner",
+          "Source value older than its freshness policy",
+          "Contradictory status, date, dependency, or completion evidence",
+          "Forecast changed without an attributable update",
+          "Inaccessible record or incomplete pagination",
+        ],
+      },
+      {
+        heading: "Constrain AI to evidence-backed narrative",
+        paragraphs: [
+          "Give the model the normalized snapshot, report template, audience guidance, and explicit section schema. Require every project-level sentence to cite source record IDs or a deterministic metric. Allow four output types: verified fact, attributed forecast, identified risk, and open question. Reject unsupported numbers, dates, owners, completion claims, and explanations.",
+          "The model can make the report easier to read, group related risks, explain a change, and draft a concise executive summary. It should not decide that a risk is low, convert silence into ‘on track,’ infer that a person owns a task because they commented, or blame a team for a delay. When the evidence does not support a conclusion, the useful output is a precise question.",
+        ],
+        bullets: [
+          "Strict section and statement schema",
+          "Source IDs attached to every substantive assertion",
+          "No new people, dates, amounts, percentages, or commitments",
+          "Unknowns preserved as questions or missing-evidence flags",
+          "Audience tone applied without changing factual meaning",
+        ],
+      },
+      {
+        heading: "Keep risks and decisions separate from task summaries",
+        paragraphs: [
+          "A red task is not automatically a project risk, and a project risk is not useful without an impact, likelihood or condition, owner, response, and next review date. Likewise, a decision is not a comment that sounds decisive. Represent risks, issues, assumptions, dependencies, and decisions as distinct records with stable IDs and owners.",
+          "The report should show new, changed, escalated, accepted, and closed risks—not dump the entire register every week. It should show decisions required from the audience with a decision owner and due date. AI may summarize the evidence, but a person should own the rating and response.",
+        ],
+      },
+      {
+        heading: "Generate audience-specific views without changing the facts",
+        paragraphs: [
+          "An internal team may need implementation details and named blockers. A client may need delivery outcomes, responsibilities, decisions, and approved risks. An executive may need exceptions across several projects. Build these as views over the same approved snapshot, not separate AI retellings with no shared source.",
+          "Define field-level visibility, tenant boundaries, confidential workstreams, personnel information, security details, commercial data, and customer data before retrieval. Redact deterministically. Never ask the model to decide what is sensitive from context alone, and never include hidden source data in the prompt while instructing the model not to mention it.",
+        ],
+        bullets: [
+          "Audience and authorized recipient group",
+          "Allowed projects, sections, fields, and detail level",
+          "Deterministic redaction before model access",
+          "Shared facts with audience-appropriate explanation",
+          "Separate approval when an external view changes materially",
+        ],
+      },
+      {
+        heading: "Bind approval to the snapshot and final artifact",
+        paragraphs: [
+          "An owner should review the report with citations visible and confirm the outcomes, forecast, risks, decisions, and client-facing language they own. Create a version hash from the source snapshot, calculations, narrative, audience, recipients, and attachments. Approval applies to that exact version.",
+          "If a date, owner, status, metric, risk, or recipient changes, invalidate approval and create a new version. Store who approved, what role they held, when they acted, comments, and exceptions. A green check beside an editable document is not approval evidence.",
+        ],
+      },
+      {
+        heading: "Do not write back inferred status",
+        paragraphs: [
+          "A reporting system should be read-first. If it detects that a due date is stale or a task appears complete, it can open a correction request or draft a proposed update for the owner. It should not change the source system to match its own narrative. That creates a feedback loop in which the next report cites an AI-generated status as evidence.",
+          "When write-back is introduced, use explicit field-level authority, owner approval, preconditions on the current source version, an idempotent operation key, and an audit trail. Jira automation distinguishes triggers, conditions, branches, and actions and documents the permissions required for actions such as assignment. Preserve the same separation: detection is not permission to mutate.",
+        ],
+      },
+      {
+        heading: "Deliver once and preserve corrections",
+        paragraphs: [
+          "Publishing a report to email, chat, a client portal, or a project update is another external action. Use a stable delivery key, resolve recipients from an approved group, and persist the provider response before attempting secondary channels. Do not resend the whole report after a transient notification failure if the first copy was already delivered.",
+          "If a material error is discovered, create a correction linked to the original report, notify the same audience, and state what changed. Do not silently edit a shared page and erase the version used in an earlier decision. Preserve both artifacts, timestamps, and the reason for correction.",
+        ],
+      },
+      {
+        heading: "Protect project data and credentials",
+        paragraphs: [
+          "Project systems can expose client names, contract details, employee performance information, private comments, credentials, incident data, and unreleased plans. Use least-privileged scopes, tenant-aware access controls, encrypted token storage, bounded retention, and field-level redaction. Keep secrets and full raw payloads out of prompts and routine logs.",
+          "The client should own the project workspace, API application, service accounts, report archive, and production integrations whenever practical. If a provider operates the automation on the client's behalf, document access, cost, offboarding, credential rotation, data export, and the process for disabling the integration without losing project history.",
+        ],
+      },
+      {
+        heading: "Defend the reporting boundary from prompt injection",
+        paragraphs: [
+          "Task names, comments, updates, attachments, and linked pages are untrusted input. A malicious or accidental instruction can tell the model to ignore the reporting policy, hide a delay, reveal another client's work, change a recipient, or call an external tool. Treat all retrieved content as data, never as new operating instructions.",
+          "OWASP's AI Agent Security guidance recommends separating trusted instructions from untrusted data, validating outputs, enforcing least privilege, requiring approval for high-impact actions, and maintaining audit evidence. Implement those controls in the services around the model. The model proposes narrative; the system authorizes sources, fields, recipients, approvals, and writes.",
+        ],
+      },
+      {
+        heading: "Test the failures a polished summary hides",
+        paragraphs: [
+          "Build a fixed evaluation set from real reporting patterns and deliberate failures. Verify the normalized snapshot, calculations, citations, redactions, approval behavior, and delivered artifact. Re-run the set whenever source mappings, workflows, prompts, models, thresholds, templates, permissions, or delivery channels change.",
+          "A mechanically accurate report can still be confusing or unhelpful, so include project owners and intended readers in evaluation. Ask whether the report makes the important decision easier and whether every confident statement deserves that confidence.",
+        ],
+        bullets: [
+          "Missing page of results, inaccessible project, and webhook gap",
+          "Renamed field, changed workflow, and reused status label",
+          "Activity-heavy task with no completed outcome",
+          "Stale green status, conflicting dates, and ownerless blocker",
+          "Unsupported percentage, forecast, explanation, or blame",
+          "Cross-client record or confidential field in an external view",
+          "Prompt injection inside a task, comment, update, or attachment",
+          "Source data changes during review or after approval",
+          "Duplicate delivery, partial channel failure, and correction",
+        ],
+      },
+      {
+        heading: "Measure reporting quality—not how much text AI produced",
+        paragraphs: [
+          "Track source completeness, stale-field rate, contradiction rate, unsupported-claim failures, owner correction rate, approval turnaround, report delivery success, corrections after delivery, and decisions resolved. Track time saved only alongside these quality measures. Faster reporting that creates false confidence is a net loss.",
+          "Review a sample of reports with the people doing and receiving the work. Identify which fields are chronically stale, which sections do not support a decision, and which questions repeatedly require manual investigation. Improve the project workflow and source discipline before adding more elaborate summaries.",
+        ],
+      },
+      {
+        heading: "Build the first safe version in five passes",
+        paragraphs: [
+          "First, define one report, audience, field dictionary, and cutoff. Second, collect a complete read-only snapshot and calculate deterministic exceptions. Third, let AI draft with citations but keep final assembly and delivery manual. Fourth, add owner review and exact-version approval. Fifth, automate one idempotent delivery path, corrections, monitoring, and a human exception queue.",
+          "Keep the existing manual report available while the new workflow proves itself. Expand to more projects, tools, audiences, write-back, and interactive assistants only after the evidence model and ownership are reliable. The goal is not a status report that sounds executive-ready. It is a reporting system that makes reality easier to see before the business acts on it.",
+        ],
+      },
+    ],
+    takeaway: "Reliable AI project reporting keeps authority and measurement outside the model: source systems provide a complete frozen snapshot, code calculates dates and changes, owners confirm forecasts and risks, every statement carries evidence, and approval stays bound to the delivered version. AI earns its place by turning verified project reality into clear language—not by converting activity, silence, or stale fields into invented progress.",
+    sources: [
+      { label: "monday.com Platform API: Items page and cursor pagination", url: "https://developer.monday.com/api-reference/reference/items-page" },
+      { label: "monday.com Platform API: Webhooks", url: "https://developer.monday.com/api-reference/reference/webhooks" },
+      { label: "Asana Developers: Webhooks guide", url: "https://developers.asana.com/docs/webhooks-guide" },
+      { label: "Atlassian Support: Jira automation actions", url: "https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/" },
+      { label: "OWASP Cheat Sheet Series: AI Agent Security", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-social-media-posting-with-ai",
     title: "How to automate social media posting with AI without publishing the wrong thing",
     description: "A practical social publishing workflow for drafting with AI, controlling claims and disclosures, approving exact versions, posting through authorized accounts, and recovering when platforms or people change the plan.",
