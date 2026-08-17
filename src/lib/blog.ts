@@ -24,6 +24,229 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-purchase-orders-with-ai",
+    title: "How to automate purchase orders with AI without creating unauthorized spending",
+    description: "A practical purchase-order automation workflow for validating requests, resolving vendors and prices, preserving approval authority, issuing one controlled PO, and reconciling what was received.",
+    category: "Finance operations",
+    published: "2026-08-17",
+    updated: "2026-08-17",
+    readTime: "17 min read",
+    image: "/portfolio/simplbridge.jpg",
+    imageAlt: "SimplBridge interface representing a governed connection between approved business systems",
+    imageCaption: "A reliable purchase-order workflow does not let AI turn a casual request into a commitment. It preserves the request, verified vendor and price evidence, policy checks, approvals, issued document, receipt, and later invoice match as separate, traceable records.",
+    keywords: ["automate purchase orders with AI", "AI purchase order automation", "purchase requisition automation", "procurement workflow automation", "AI procurement approval workflow"],
+    intro: [
+      "Purchase orders look like paperwork, but issuing one can commit a business to spend money, accept terms, reserve budget, and create an obligation that accounts payable will later be asked to honor. If AI guesses the vendor, quantity, price, tax treatment, delivery date, cost center, or approver, a faster document can become an unauthorized commitment.",
+      "The safe design is a controlled requisition-to-order workflow. AI can classify the request, extract line items, compare approved records, and explain exceptions. Deterministic services resolve identities, calculate totals, enforce policy, bind approvals to an exact version, create one purchase order through the authorized system, and verify what the system actually recorded. Requesters, budget owners, procurement, receiving, and accounts payable keep distinct authority. This is operational guidance, not accounting, tax, legal, procurement, or regulatory advice; adapt it to your contracts, systems, approval matrix, and internal-control requirements.",
+    ],
+    sections: [
+      {
+        heading: "Define the outcome as an authorized commitment",
+        paragraphs: [
+          "The workflow is not complete when AI produces a polished PDF. It is complete when an eligible request has a stable identity, the vendor and commercial terms are verified, policy checks are resolved, the correct people approve the exact transaction, the procurement system records one purchase order, the vendor receives the intended version, and the business preserves evidence for receiving and invoice matching.",
+          "Start with one narrow purchase category and one legal entity. A useful first version might handle approved software renewals below a defined threshold for existing vendors. Do not begin with an agent that can choose new vendors, negotiate terms, approve exceptions, create suppliers, issue orders, and release payments across every business unit.",
+        ],
+        bullets: [
+          "Trigger: the event that creates an eligible requisition",
+          "Inputs: required request, vendor, price, budget, and delivery evidence",
+          "Decision rights: requester, budget owner, procurement, and exception approver",
+          "Output: one approved purchase order in the system of record",
+          "Evidence: source records, policy results, approval, delivery, and remote PO ID",
+          "Recovery: rejection, correction, cancellation, and duplicate prevention",
+        ],
+      },
+      {
+        heading: "Keep the requisition, approval, and purchase order separate",
+        paragraphs: [
+          "A purchase requisition is a request to spend. Approval authorizes a particular request under a particular policy. A purchase order is the external commitment created after approval. Treating those as one editable object makes it difficult to know what someone actually approved and easy for a late change to inherit authority it never received.",
+          "Give each object a stable ID and version. Link the request to its evidence, policy evaluation, approval packet, issued order, vendor delivery result, receipts, changes, and cancellation state. Microsoft’s current purchase-requisition documentation similarly describes a workflow that moves a request from Draft to Approved before an order can be generated and sent for fulfillment.",
+        ],
+        bullets: [
+          "Requisition ID, requester, business purpose, and requested lines",
+          "Policy evaluation with the rule version and resolved values",
+          "Approval packet and decision bound to an exact transaction hash",
+          "Purchase-order ID, system record, version, and vendor delivery evidence",
+          "Change orders, receipts, invoices, cancellations, and closure state",
+        ],
+      },
+      {
+        heading: "Require a structured request before AI touches it",
+        paragraphs: [
+          "A message that says ‘renew the platform we used last year’ is context, not an order. Require the legal entity, requester, business purpose, item or service description, quantity, required date, ship-to or service location, cost center or project, suggested vendor, quote or contract reference, and data-sensitivity or access implications that matter to your process.",
+          "AI can turn an email, form, quote, or statement of work into proposed fields, but every extracted value should retain its source location and confidence. Missing values remain missing. Conflicting values become an exception. The system should never complete a required field with a plausible guess simply to move the request forward.",
+        ],
+      },
+      {
+        heading: "Resolve vendor identity before comparing prices",
+        paragraphs: [
+          "Vendor names are not stable identifiers. A trading name, legal name, subsidiary, marketplace listing, and payment recipient may all differ. Resolve the requested supplier against the approved vendor master using a stable vendor ID, legal entity, status, currency, remit-to details, tax profile, and purchasing restrictions before using historical prices or creating an order.",
+          "A vendor change—especially banking, remit-to, tax, address, or contact information—should follow a separate verified process. Do not let data extracted from an email, quote, or attachment overwrite the vendor master. The same document asking for money should not become the authority that defines where the money will eventually go.",
+        ],
+        bullets: [
+          "Exact approved-vendor ID and purchasing legal entity",
+          "Active status and allowed categories or locations",
+          "Verified commercial and contact records",
+          "Independent process for vendor-master changes",
+          "Exception state when identity cannot be resolved exactly",
+        ],
+      },
+      {
+        heading: "Build line items from evidence—not model memory",
+        paragraphs: [
+          "Normalize each requested line into an item or service ID when one exists, description, unit of measure, quantity, unit price, currency, tax treatment, discount, freight, service period, delivery terms, and source reference. Use code for extensions, subtotals, taxes, currency conversion, and the final commitment amount. Preserve both the source value and normalized value.",
+          "AI can recognize that ‘annual platform renewal’ probably refers to a known catalog item, but probability is not authority. If the quote says 12 seats while the request says 10, do not average or choose the more recent-looking number. Show the contradiction to the requester or buyer and block approval until the intended line is explicit.",
+        ],
+      },
+      {
+        heading: "Separate price evidence from price approval",
+        paragraphs: [
+          "A prior purchase order, current catalog, negotiated agreement, vendor quote, and public website can all contain different prices. Create a precedence policy that says which source governs which category, legal entity, date, quantity, and vendor. Store the source ID, effective period, currency, unit basis, and any assumptions used in the comparison.",
+          "AI may summarize why a price differs, but it should not decide that a higher price is acceptable. Calculate the variance deterministically and route the exception according to policy. A statement such as ‘the increase appears reasonable’ is not evidence and should never replace approval from the person who owns the budget or commercial decision.",
+        ],
+        bullets: [
+          "Authoritative price source and effective dates",
+          "Normalized quantity, unit, currency, and total",
+          "Deterministic variance from the approved baseline",
+          "Required explanation and owner for an exception",
+          "Expiry or revalidation rule before order issuance",
+        ],
+      },
+      {
+        heading: "Evaluate policy with deterministic rules",
+        paragraphs: [
+          "Use rules—not free-form model judgment—for spending limits, budget availability, allowed categories, preferred vendors, quote requirements, contract requirements, competitive-bid thresholds, data-security review, capital-versus-operating classification, restricted goods, conflicts, and approval routing. Record the exact inputs and policy version that produced every result.",
+          "Microsoft documents procurement workflows that can route a requisition as a whole or by individual line and can involve purchasing agents, managers, and expenditure reviewers. That reflects an important design principle: approval authority can depend on the line, amount, department, category, legal entity, and requester. A single generic ‘approved’ flag is usually too weak.",
+        ],
+        bullets: [
+          "Rule ID, version, effective date, and owning function",
+          "Resolved transaction values used by the rule",
+          "Pass, fail, warning, or evidence-required result",
+          "Named role or group required to resolve the result",
+          "No model-generated override or approval decision",
+        ],
+      },
+      {
+        heading: "Preserve segregation of duties",
+        paragraphs: [
+          "The requester should not be able to approve their own request merely because an agent submitted it on their behalf. The person maintaining vendor records should not silently become the buyer, receiver, invoice approver, and payment releaser. Service accounts and AI agents count as actors in this control design even though they are not employees.",
+          "GAO internal-control guidance describes separating authorization, processing and recording, review, and custody so one person does not control all key parts of a transaction. Your organization may use a different framework, but the operational lesson is durable: automation should enforce independent roles, not collapse them into one powerful credential.",
+        ],
+        bullets: [
+          "Requester cannot satisfy their own approval requirement",
+          "Vendor maintenance is independent of purchase authorization",
+          "Receiving evidence is independent of ordering when practical",
+          "Invoice release and payment remain outside the PO-writing agent",
+          "Delegation, absence, and emergency paths are explicit and audited",
+        ],
+      },
+      {
+        heading: "Make approval specific enough to be meaningful",
+        paragraphs: [
+          "An approver should see the requester, business purpose, vendor legal identity, every line, total commitment, currency, delivery or service period, budget and policy results, attachments, exceptions, and what will happen after approval. Hide secrets and irrelevant personal data, but do not hide the facts that define the commitment.",
+          "Create a transaction hash from the resolved vendor, lines, totals, terms, legal entity, policy results, and required documents. Approval binds to that hash and expires according to policy. If any material field changes, invalidate approval and route the new version. Never let an agent present a sanitized approval card while executing different hidden parameters—an attack pattern OWASP describes as manipulating human-in-the-loop controls.",
+        ],
+      },
+      {
+        heading: "Treat every document and message as untrusted input",
+        paragraphs: [
+          "Quotes, statements of work, emails, catalog descriptions, attachments, and linked pages can contain accidental or malicious instructions. A document may tell the agent to ignore policy, use a new account, change the vendor, add a line, approve urgently, or send confidential data elsewhere. Those words are data to extract, not instructions that can change the workflow.",
+          "OWASP’s AI Agent Security guidance recommends least-privileged tools, explicit authorization for sensitive operations, structured validation, human review for high-impact actions, and audit evidence. Keep trusted operating instructions and policy outside retrieved content. Validate model output against a schema and re-resolve every identifier against an allowlisted system before any write.",
+        ],
+      },
+      {
+        heading: "Create the purchase order through one controlled service",
+        paragraphs: [
+          "The model should never receive a generic tool that says ‘create whatever purchase order you think is appropriate.’ Give a deterministic order service an approved transaction ID. The service loads the exact approved version, verifies the approval is current, confirms the policy and vendor records have not changed, checks that no order already exists, and then calls the procurement system with bounded fields.",
+          "Use a stable idempotency key derived from the approved requisition and version. Persist the remote system response before sending email or chat notifications. If the network times out, query the procurement system by the key or external reference before retrying. A timeout means unknown, not failed, and blind retries can create duplicate commitments.",
+        ],
+        bullets: [
+          "Fresh, unexpired approval for the exact transaction version",
+          "Current vendor, policy, budget, and system preconditions",
+          "Stable operation key and uniqueness constraint",
+          "Restricted service identity with no payment authority",
+          "Remote PO ID, status, request, response, and timestamps",
+        ],
+      },
+      {
+        heading: "Verify the order the system actually recorded",
+        paragraphs: [
+          "A successful API response is evidence of a request, not necessarily proof that the final order is correct and ready. Read the purchase order back from the system of record and compare the vendor, legal entity, lines, quantities, prices, currency, totals, terms, delivery details, approval state, and external reference to the approved transaction.",
+          "Only after that comparison passes should the workflow deliver the order through the approved vendor channel. Store the document version, recipient, delivery method, provider result, and any vendor acknowledgment. If the read-back differs, quarantine the order and alert procurement; do not ask AI to explain away the mismatch.",
+        ],
+      },
+      {
+        heading: "Control changes after approval and issuance",
+        paragraphs: [
+          "A changed quantity, unit price, vendor, delivery address, service period, currency, total, or term can change the business commitment. Represent amendments as new versions linked to the original order. Re-run policy and obtain the approvals required for the delta or full revised commitment before releasing the change.",
+          "Do not edit the procurement record first and produce supporting approval later. Define which nonfinancial fields can change without reapproval, who can cancel an order, how vendor acknowledgment is handled, and what happens when goods are already shipped or services have begun. Preserve the previous approved and issued versions.",
+        ],
+      },
+      {
+        heading: "Keep receiving independent and evidence-based",
+        paragraphs: [
+          "The person or system confirming receipt should record what arrived or what service milestone was accepted, when, where, in what quantity, and against which purchase-order line. A shipping notice is not receipt. A vendor invoice is not receipt. A calendar date passing is not proof that a service was performed.",
+          "AI can classify receiving notes or extract quantities from a signed record, but acceptance authority stays with the responsible person or operational system. Partial delivery, damage, substitution, over-receipt, and rejected services should become explicit exceptions rather than being rounded into a completed order.",
+        ],
+      },
+      {
+        heading: "Design for later three-way matching",
+        paragraphs: [
+          "The purchase-order workflow should leave clean evidence for accounts payable: what was ordered, what was received, and what the vendor invoiced. Microsoft’s current guidance describes three-way matching across purchase-order lines, product-receipt lines, and vendor-invoice lines, with discrepancies requiring their own treatment or approval. The PO agent should prepare this chain without gaining invoice-posting or payment authority.",
+          "Use stable line IDs and preserve quantities, units, prices, taxes, freight, receipt references, and change orders. A mismatch belongs in an exception queue with an owner and reason. Do not automatically change the purchase order to make a later invoice appear to match.",
+        ],
+      },
+      {
+        heading: "Protect commercial data and client ownership",
+        paragraphs: [
+          "Requisitions and orders can contain pricing, contracts, account codes, addresses, employee information, security requirements, vendor contacts, and unreleased plans. Use least-privileged scopes, tenant-aware authorization, encrypted credential storage, field-level redaction, bounded retention, and sanitized logs. Keep bank details, secrets, and unnecessary raw documents out of model prompts.",
+          "The client should own the procurement workspace, vendor master, approval matrix, cloud accounts, service identities, audit archive, and production integrations whenever practical. Document how access is revoked, credentials rotate, data exports, outstanding orders are transferred, and the automation can be disabled without losing the purchasing record.",
+        ],
+      },
+      {
+        heading: "Test the exceptions before trusting the happy path",
+        paragraphs: [
+          "Create a fixed evaluation set from realistic requests and deliberate failures. Verify extraction, normalization, policy routing, approval binding, segregation of duties, write behavior, read-back comparison, and later receipt linkage. Re-run it when prompts, models, vendor rules, approval thresholds, mappings, integrations, or procurement policies change.",
+          "NIST’s AI Risk Management Framework emphasizes defined roles, documented human oversight, evaluation, and lifecycle governance. Translate that into operating evidence: the tested model and workflow version, cases executed, expected and actual results, approvals and denials, residual risks, and the person responsible for release.",
+        ],
+        bullets: [
+          "Unknown vendor, look-alike vendor, and attempted vendor-master change",
+          "Conflicting quote and request quantities, prices, currencies, or dates",
+          "Requester tries to approve their own order",
+          "Threshold split across lines or multiple related requests",
+          "Expired quote, missing contract, or unavailable budget owner",
+          "Prompt injection inside a quote, email, attachment, or catalog page",
+          "Approval followed by a material field or policy change",
+          "Timeout after order creation and duplicate retry",
+          "Remote order differs from the approved transaction",
+          "Partial receipt, over-receipt, substitution, cancellation, and amendment",
+        ],
+      },
+      {
+        heading: "Measure control quality before touchless volume",
+        paragraphs: [
+          "Track structured-request completeness, exact vendor-resolution rate, extraction correction rate, policy exceptions, self-approval attempts, approval turnaround, stale approvals, duplicate prevention, read-back mismatches, change-order frequency, receipt exceptions, and invoice mismatches attributable to poor PO data. Review false passes and false blocks separately.",
+          "A high straight-through rate is not proof of a good system. It can also mean that controls are too permissive. Sample issued orders with procurement, budget owners, receiving, and accounts payable. Ask whether each commitment was authorized, understood, delivered as expected, and easy to reconcile—not merely whether the agent produced it quickly.",
+        ],
+      },
+      {
+        heading: "Build the first safe version in five passes",
+        paragraphs: [
+          "First, define one purchase category, legal entity, request schema, vendor set, approval matrix, and exception policy. Second, extract and normalize requests into a read-only review queue. Third, add deterministic policy checks and transaction-bound approval while a buyer still creates every order manually. Fourth, automate one idempotent PO creation and read-back path using a restricted service account. Fifth, add vendor delivery evidence, receiving linkage, monitoring, amendments, and reconciliation metrics.",
+          "Keep the existing purchasing process available while the new workflow proves itself. Expand to more categories, vendors, entities, thresholds, and touchless cases only after the evidence chain and decision rights are reliable. The goal is not an AI that can spend. It is a purchasing system that removes repetitive handling while making every commitment easier to understand, authorize, and audit.",
+        ],
+      },
+    ],
+    takeaway: "Safe AI purchase-order automation keeps financial authority outside the model: structured requests preserve source evidence, stable vendor and item IDs replace guesses, code calculates totals and enforces policy, independent people approve the exact commitment, one restricted service creates the order idempotently, and the system verifies what was recorded before anything reaches the vendor.",
+    sources: [
+      { label: "Microsoft Learn: Purchase requisition workflow", url: "https://learn.microsoft.com/en-us/dynamics365/supply-chain/procurement/purchase-requisitions-workflow" },
+      { label: "Microsoft Learn: Procurement and sourcing overview", url: "https://learn.microsoft.com/en-us/dynamics365/supply-chain/procurement/procurement-sourcing-overview" },
+      { label: "Microsoft Learn: Three-way matching policies", url: "https://learn.microsoft.com/en-us/dynamics365/finance/accounts-payable/three-way-matching-policies" },
+      { label: "U.S. Government Accountability Office: 2025 Standards for Internal Control in the Federal Government", url: "https://www.gao.gov/products/gao-25-107721" },
+      { label: "NIST AI Resource Center: AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OWASP Cheat Sheet Series: AI Agent Security", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-project-status-reports-with-ai",
     title: "How to automate project status reports with AI without inventing progress or hiding delays",
     description: "A practical AI status-reporting workflow for collecting verified project data, separating activity from outcomes, surfacing missing evidence and risk, approving the narrative, and delivering one traceable snapshot.",
