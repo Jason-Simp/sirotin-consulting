@@ -24,6 +24,251 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "automate-inventory-replenishment-with-ai",
+    title: "How to automate inventory replenishment with AI without creating stockouts or excess inventory",
+    description: "A practical inventory-replenishment workflow for reconciling item-location state, calculating demand and lead-time exposure, proposing supply, approving exceptions, and writing changes without corrupting counts.",
+    category: "Operations automation",
+    published: "2026-08-18",
+    updated: "2026-08-18",
+    readTime: "18 min read",
+    image: "/portfolio/tire-god.jpg",
+    imageAlt: "Tire God operating system interface representing a product business with inventory, positioning, and execution workflows",
+    imageCaption: "A safe replenishment workflow does not ask AI how many units feel right. It reconciles each item and location, separates physical and sellable states, calculates projected availability under an explicit policy, proposes supply with evidence, and preserves human authority over the commitment.",
+    keywords: ["automate inventory replenishment with AI", "AI inventory management automation", "inventory reorder automation", "AI demand planning workflow", "automated inventory replenishment"],
+    intro: [
+      "Inventory replenishment looks like a prediction problem, but most operational failures begin earlier: the wrong item, wrong location, stale on-hand count, unrecorded receipt, duplicated adjustment, missing reservation, unrealistic lead time, or a forecast that quietly became a purchase commitment. AI can make those problems sound precise without making the underlying inventory true.",
+      "The reliable design separates state, calculation, recommendation, approval, and execution. Commerce, warehouse, purchasing, and planning systems provide a reconciled item-location snapshot. Deterministic rules calculate projected availability, reorder points, order constraints, and exceptions. AI explains the evidence and drafts a recommendation; it does not manufacture quantities or authority. A person approves consequential supply, and a restricted service writes one traceable change with concurrency and duplicate protection. This is operational guidance, not accounting, financial, tax, legal, safety, regulatory, or professional supply-chain advice; adapt it to your products, contracts, systems, service targets, and control requirements.",
+    ],
+    sections: [
+      {
+        heading: "Define the outcome as a verified supply decision",
+        paragraphs: [
+          "The workflow is not complete when a dashboard says ‘reorder 500.’ It is complete when the system can show which item and location were evaluated, the exact inventory and demand snapshot, the policy and assumptions used, the proposed supply quantity and date, every exception, who approved the commitment, what record was created, and whether the receiving system later confirmed the expected outcome.",
+          "Start with one item family, one stocking location, and one supply path. A useful first version may propose replenishment for stable, nonperishable items from approved vendors while a planner still creates every order. Do not begin with an agent that can change forecasts, safety stock, vendors, prices, transfer inventory, issue purchase orders, and update sellable quantities across every location.",
+        ],
+        bullets: [
+          "Scope: named items, locations, channels, and supply methods",
+          "Snapshot: resolved inventory, open demand, incoming supply, and timestamps",
+          "Policy: reorder logic, constraints, service target, and owner",
+          "Recommendation: quantity, date, source, destination, and explanation",
+          "Authority: approver and execution boundary",
+          "Evidence: planned order, transfer, purchase order, receipt, and correction history",
+        ],
+      },
+      {
+        heading: "Make item and location identity nonnegotiable",
+        paragraphs: [
+          "A product name is not a reliable inventory key. The same name can refer to variants, pack sizes, units, conditions, lots, owners, channels, or legal entities. Resolve every record to stable item, variant, unit-of-measure, and location IDs before adding quantities. Preserve the source system and tenant so two clients or warehouses can never collapse into one model context.",
+          "Build an explicit crosswalk when systems use different identifiers. Include effective dates, conversion factors, pack definitions, and the owner who approved the mapping. If a SKU maps to two possible items, or a case-to-each conversion is missing, stop that line. AI may suggest the likely match for review; it must not choose the identity that makes the arithmetic work.",
+        ],
+        bullets: [
+          "Stable item, variant, lot or batch, and owner IDs",
+          "Stable site, warehouse, bin, store, or fulfillment-location ID",
+          "Canonical unit plus verified conversion factors",
+          "Channel and legal-entity boundaries",
+          "Versioned crosswalk with ambiguity routed to a human",
+        ],
+      },
+      {
+        heading: "Separate physical stock from sellable stock",
+        paragraphs: [
+          "On hand, available, committed, reserved, damaged, safety stock, quality control, and incoming are different operational facts. Adding them together can make unavailable units look sellable; subtracting them twice can create a false shortage. Define the inventory state model before building any recommendation.",
+          "Shopify’s current inventory guidance, for example, distinguishes incoming, on-hand, available, committed, reserved, damaged, safety-stock, and quality-control quantities at a location. It also notes that incoming stock is not available until received and that committed quantity is changed by order and fulfillment activity rather than arbitrary inventory adjustments. Even if your platform uses different names, preserve the distinctions instead of reducing everything to one count.",
+        ],
+        bullets: [
+          "Physical on-hand quantity and last verified count",
+          "Sellable quantity after commitments, holds, and restrictions",
+          "Incoming supply with expected date and confidence",
+          "Damaged, inspection, quarantine, and safety-stock states",
+          "Reservations and allocations tied to their source demand",
+        ],
+      },
+      {
+        heading: "Create one canonical planning snapshot",
+        paragraphs: [
+          "A replenishment run should use an immutable snapshot with a stable ID. Store included items and locations, cutoff time and time zone, source queries, pagination completion, inventory states, open orders, reservations, transfers, receipts, demand, forecasts, lead times, calendars, costs, policy versions, and retrieval errors. Recommendations, approvals, and later comparisons should point to that snapshot.",
+          "Do not let values change while the model explains them or a person reviews them. If a receipt posts, a customer order cancels, or a count correction arrives, mark the proposal stale and run a new version. Never silently refresh part of an approved recommendation while retaining the old approval.",
+        ],
+      },
+      {
+        heading: "Reconcile the sources before forecasting anything",
+        paragraphs: [
+          "Inventory accuracy is a prerequisite, not an output of the recommendation model. Compare the system-of-record count with warehouse, commerce, order, transfer, and receiving events that should explain it. Detect missing pages, delayed integrations, negative values, impossible state totals, orphan reservations, receipts without source orders, duplicate adjustments, and locations that have not reported recently.",
+          "A location that failed to respond is unknown, not zero. An item with a stale cycle count is uncertain, not safely available. Put incomplete lines into an exception queue and record what could not be verified. The correct automation response to missing evidence is to pause or narrow authority—not to create a confident replenishment quantity from the data that happened to arrive.",
+        ],
+        bullets: [
+          "Expected versus retrieved item-location population",
+          "State totals and invariants specific to the platform",
+          "Unprocessed order, transfer, receipt, return, and adjustment events",
+          "Source freshness and last physical verification",
+          "Explicit completeness status before planning begins",
+        ],
+      },
+      {
+        heading: "Use events for freshness and reconciliation for truth",
+        paragraphs: [
+          "Order, inventory, shipment, return, and receipt events can mark an item-location record as changed and trigger a smaller planning run. They should not be the only ledger. Events can arrive late, out of order, more than once, or not at all. Some platforms do not emit webhooks for every inventory state.",
+          "Shopify documents that changes to committed, reserved, damaged, safety-stock, and quality-control states do not trigger inventory webhooks. That is a useful warning beyond Shopify: a quiet webhook stream does not prove the stock picture is current. Verify requests, deduplicate events, preserve sequence evidence, and perform scheduled authoritative reconciliation for every consequential run.",
+        ],
+      },
+      {
+        heading: "Calculate inventory position outside the model",
+        paragraphs: [
+          "Define a deterministic inventory-position formula for each use case. A simple example may begin with sellable on hand, add qualified incoming supply expected inside the horizon, and subtract confirmed and forecast demand plus policy-defined reservations. Real operations may need lot expiry, channel allocation, substitution, production consumption, transfer timing, inspection delays, or customer priority.",
+          "Store every component, exclusion, date, unit, and formula version. Use business calendars and location time zones. Do not ask a model to total quantities across a prompt or decide whether an incoming shipment is dependable from conversational context. The model should receive resolved metrics and explain what moved them.",
+        ],
+        bullets: [
+          "Current sellable and physical positions",
+          "Qualified incoming supply by expected-availability date",
+          "Committed, reserved, and forecast demand by time bucket",
+          "Projected position before and after proposed supply",
+          "Calculation version and source-level evidence",
+        ],
+      },
+      {
+        heading: "Treat lead time as a distribution—not a label",
+        paragraphs: [
+          "A catalog field that says seven days may hide supplier processing, production, transit, customs, appointment, unloading, inspection, put-away, weekends, and order-cutoff rules. Preserve the contractual or master-data lead time separately from observed performance. Segment by item, vendor, route, location, order size, and season only when the data supports it.",
+          "Use a deterministic policy to select the planning lead time and record why. If history is sparse, disrupted, or not comparable, show the uncertainty and use the approved conservative default. AI can summarize a supplier-performance change; it should not shorten a lead time because recent deliveries sound encouraging.",
+        ],
+      },
+      {
+        heading: "Make safety stock an explicit business policy",
+        paragraphs: [
+          "Safety stock is a buffer against uncertainty, not extra demand and not a magic percentage. Define the service objective, variability inputs, review cadence, excluded events, minimum evidence, owner, and conditions that permit an override. Keep operational safety stock distinct from stock that is damaged, reserved, or held for inspection.",
+          "Microsoft’s current planning documentation describes safety stock as inventory held to reduce stockout risk when demand exceeds plan or supply cannot arrive as expected. It also explains how planning creates supply before projected inventory crosses the minimum and warns that actual demand can claim supply planned for safety stock depending on pegging policy. The important lesson is that safety-stock behavior must be understood and tested in the actual planning engine—not assumed from the field name.",
+        ],
+      },
+      {
+        heading: "Choose the replenishment policy before adding AI",
+        paragraphs: [
+          "Min/max, fixed reorder quantity, maximum quantity, order-for-order, lot-for-lot, periodic review, demand-driven buffers, and transfer replenishment solve different problems. Microsoft Business Central’s documentation describes how reorder points represent anticipated demand during lead time and how fixed, maximum, order, and lot-for-lot policies behave differently. An AI explanation cannot repair a policy that does not match the operating reality.",
+          "For each item-location class, document the reorder trigger, target, review period, minimum and maximum order, pack multiple, shelf life, capacity, storage, budget, service target, and supplier constraints. Run the deterministic policy first. Let AI explain the proposal and exceptions, not choose whichever policy produces the easiest answer.",
+        ],
+        bullets: [
+          "Policy and parameters owned by a named business role",
+          "Item-location eligibility and effective dates",
+          "Order minimums, maximums, multiples, and capacity limits",
+          "Shelf-life, substitution, seasonality, and service constraints",
+          "Change control and backtesting before production use",
+        ],
+      },
+      {
+        heading: "Keep demand history, forecast, and known demand distinct",
+        paragraphs: [
+          "Historical shipments, orders placed, orders fulfilled, lost sales, backorders, promotions, quotes, subscriptions, production schedules, and a statistical forecast represent different things. Preserve them as separate series with source, timestamp, unit, location, and status. Do not train or prompt on a blended number that cannot be explained later.",
+          "Known future demand should not be counted again inside a forecast if the forecast already includes it. Returns and cancellations should not become negative demand without a documented rule. Promotions, launches, closures, one-time projects, and data outages need explicit annotations so the planner can see when history is not a reliable baseline.",
+        ],
+      },
+      {
+        heading: "Constrain AI to explanation and exception handling",
+        paragraphs: [
+          "Give the model a structured snapshot, resolved calculations, approved policy, and strict output schema. Allow it to summarize why the position changed, group related exceptions, identify contradictory evidence, and draft questions for a planner. Require every number, date, item, location, supplier, and recommendation to cite a provided field or calculation.",
+          "Reject invented demand, prices, lead times, service levels, substitutions, vendor commitments, and quantities. When evidence is missing, the model should produce an open question or confidence flag—not a filled value. The final recommendation quantity must be reproduced by code from the stored snapshot and policy even if the model is unavailable.",
+        ],
+      },
+      {
+        heading: "Separate the proposal from the commitment",
+        paragraphs: [
+          "A replenishment recommendation is not permission to buy, transfer, manufacture, allocate, or change sellable stock. Create a proposal record with the item, source, destination, quantity, need date, expected availability date, policy result, constraints, exceptions, evidence, and estimated commercial impact. Route it according to the organization’s approval matrix.",
+          "Bind approval to an exact proposal version and the resolved parameters an execution service will use. If inventory, demand, vendor, price, destination, quantity, policy, or timing changes beyond an approved tolerance, expire the approval. High-volume low-risk items may eventually use rule-based auto-release, but the policy—not model confidence—must define that authority.",
+        ],
+      },
+      {
+        heading: "Write inventory changes with concurrency protection",
+        paragraphs: [
+          "Inventory is shared mutable state. Another order, receipt, count, return, or integration can change the quantity between reading and writing. Use compare-and-swap or an equivalent version precondition so a write created from an old snapshot fails rather than overwriting newer truth.",
+          "Shopify’s current inventory guidance recommends compare-and-swap when explicitly setting quantities: the supplied prior quantity must match the current value or the write is denied. Use adjustment operations rather than absolute sets when the business event is a delta, preserve a reason and reference document, and read the result back. Never let a model choose between set, adjust, and move operations.",
+        ],
+        bullets: [
+          "Exact item, location, state, and tenant boundary",
+          "Expected prior version or quantity",
+          "Business event, reason, source record, and operator",
+          "Schema validation and hard quantity limits",
+          "Read-back verification and exception on mismatch",
+        ],
+      },
+      {
+        heading: "Make retries idempotent",
+        paragraphs: [
+          "A timeout after a transfer, adjustment, planned order, or purchase-order request means the outcome is unknown. Blindly repeating it can double incoming supply or corrupt the count. Give every external operation a stable key derived from the approved proposal and version, store the attempt, and query the remote system before retrying.",
+          "Shopify added idempotency support to inventory-adjustment mutations and explicitly notes that network failures and timeouts can otherwise produce duplicate adjustments and inconsistent counts. Use provider-supported idempotency where available and enforce your own uniqueness around the business operation regardless. Notifications should never be coupled in a way that repeats the inventory write when an email fails.",
+        ],
+      },
+      {
+        heading: "Do not turn incoming supply into available stock",
+        paragraphs: [
+          "A purchase order, advance shipping notice, tracking update, or scheduled inventory change does not prove units are physically present and sellable. Keep incoming supply in its own state until receiving records the actual quantity, location, condition, lot or serial information, and any inspection outcome.",
+          "Shopify’s scheduled-inventory guidance makes the same distinction: a scheduled change can describe when incoming quantity is expected to become available, but it does not itself change the inventory quantity. Receiving, quality control, damage, shortage, overage, and put-away remain authoritative business events—not narrative updates the model can infer.",
+        ],
+      },
+      {
+        heading: "Handle returns, damage, expiry, and counts as first-class events",
+        paragraphs: [
+          "Returned stock may be sellable, damaged, incomplete, quarantined, or awaiting inspection. Expired or recalled stock may still be physically present while being unavailable. Cycle counts can correct records but also reveal process failures. Preserve these states and reasons rather than feeding every positive quantity back into available stock.",
+          "Every adjustment should link to a return, count, damage report, transfer, receipt, production event, or approved correction. If no source event exists, require a reason and independent review appropriate to the risk. Monitor repeated corrections by item, location, user, and integration; inventory automation should expose control problems rather than normalize them.",
+        ],
+      },
+      {
+        heading: "Protect commercial data and client ownership",
+        paragraphs: [
+          "Inventory systems can expose sales velocity, margins, vendor terms, customer demand, warehouse capacity, addresses, unreleased products, and operating constraints. Use least-privileged access, tenant-aware authorization, encrypted credentials, bounded retention, field-level redaction, and sanitized logs. Keep secrets, unnecessary customer data, and raw commercial documents out of prompts.",
+          "The client should own the commerce, warehouse, ERP, planning, cloud, service accounts, policies, audit records, and production integrations whenever practical. Document credential rotation, data export, offboarding, outstanding proposal handling, model-provider settings, and how the automation can be disabled without losing authoritative inventory history.",
+        ],
+      },
+      {
+        heading: "Defend tools from untrusted inventory content",
+        paragraphs: [
+          "Product descriptions, vendor messages, purchase documents, shipment notes, return comments, and linked pages are untrusted input. A malicious or accidental instruction can tell the model to ignore a limit, expose another location, move safety stock, mark incoming goods available, or create urgent supply. Treat that content as data, never operating authority.",
+          "OWASP’s AI Agent Security guidance recommends least-privileged tools, structured output validation, explicit authorization for sensitive actions, separation of decision and execution, human oversight for high-impact operations, and audit evidence. Enforce those controls in deterministic services around the model. The model may propose; the system decides what it is allowed to read and write.",
+        ],
+      },
+      {
+        heading: "Test the failures that a clean dashboard hides",
+        paragraphs: [
+          "Build a fixed evaluation set from real operating patterns and deliberate failures. Verify identity resolution, source completeness, state math, policy calculation, proposal generation, approval binding, concurrency handling, idempotency, receiving, and corrections. Re-run it when mappings, policies, models, prompts, integrations, locations, vendors, or demand sources change.",
+          "NIST’s AI Risk Management Framework emphasizes defined roles, documented human oversight, testing and evaluation, and lifecycle governance. Preserve the tested configuration, cases, expected results, approvals, overrides, residual risks, and release owner. A demo in which the average SKU looks reasonable is not evidence that exception behavior is safe.",
+        ],
+        bullets: [
+          "Duplicate SKU names, wrong pack conversion, and ambiguous location",
+          "Missing page, delayed source, stale count, and negative inventory",
+          "Committed, reserved, damaged, or incoming quantity treated as available",
+          "Duplicate demand, cancelled order, promotion, launch, and lost-sales distortion",
+          "Late supplier, partial receipt, quality hold, expiry, and damaged return",
+          "Concurrent order placed after the planning snapshot",
+          "Timeout after write, duplicate retry, and notification failure",
+          "Prompt injection inside product, vendor, shipment, or return content",
+          "Material state change after approval",
+          "Cross-client or cross-location data exposure",
+        ],
+      },
+      {
+        heading: "Measure service and control—not recommendation volume",
+        paragraphs: [
+          "Track source completeness, inventory-record accuracy, stale counts, identity exceptions, forecast error by horizon, lead-time error, stockout events, fill rate, excess and aging stock, emergency orders, planner overrides, approval time, expired proposals, duplicate prevention, write conflicts, receipt variance, and corrections after execution. Segment by item class and location.",
+          "Do not celebrate the percentage of recommendations auto-approved without checking the inventory outcome. Review false shortages and false surpluses with planners, warehouse operators, purchasing, finance, and customer teams. When a field or process is repeatedly wrong, improve the source workflow before making the model more persuasive.",
+        ],
+      },
+      {
+        heading: "Build the first safe version in five passes",
+        paragraphs: [
+          "First, define one item-location class, inventory-state model, data contract, replenishment policy, and decision owner. Second, produce a reconciled read-only snapshot with deterministic projected inventory and exceptions. Third, let AI explain proposals with citations while planners make every decision. Fourth, add exact-version approval and one idempotent planned-order or transfer path with concurrency and read-back checks. Fifth, connect receiving, monitoring, corrections, and outcome measurement.",
+          "Keep the existing planning and ordering process available while the workflow proves itself. Expand authority only after item identity, state accuracy, policy behavior, and exception handling are reliable. The goal is not an AI that predicts a perfect number. It is a replenishment system that makes uncertainty visible and helps people commit supply using evidence they can inspect.",
+        ],
+      },
+    ],
+    takeaway: "Reliable AI replenishment keeps inventory truth and authority outside the model: stable item-location IDs prevent accidental mixing, explicit states distinguish physical and sellable stock, code calculates projected availability under a versioned policy, AI explains evidence and exceptions, people approve the exact proposal, and restricted services use concurrency and idempotency controls before writing anything.",
+    sources: [
+      { label: "Shopify Developers: Apps in inventory management", url: "https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps" },
+      { label: "Shopify Developers: Manage inventory quantities and states", url: "https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps/manage-quantities-states" },
+      { label: "Shopify Developer Changelog: Idempotency for inventory adjustments", url: "https://shopify.dev/changelog/adding-idempotency-for-inventory-adjustments-and-refund-mutations" },
+      { label: "Microsoft Learn: Safety stock fulfillment for items", url: "https://learn.microsoft.com/en-us/dynamics365/supply-chain/master-planning/safety-stock-replenishment" },
+      { label: "Microsoft Learn: Handling reordering policies", url: "https://learn.microsoft.com/en-us/dynamics365/business-central/design-details-handling-reordering-policies" },
+      { label: "NIST AI Resource Center: AI RMF Core", url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" },
+      { label: "OWASP Cheat Sheet Series: AI Agent Security", url: "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" },
+    ],
+  },
+  {
     slug: "automate-purchase-orders-with-ai",
     title: "How to automate purchase orders with AI without creating unauthorized spending",
     description: "A practical purchase-order automation workflow for validating requests, resolving vendors and prices, preserving approval authority, issuing one controlled PO, and reconciling what was received.",
