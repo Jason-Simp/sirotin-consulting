@@ -65,7 +65,7 @@ async function requestArticle(prompt) {
       json_schema: { name: "automatemejay_daily_article", strict: true, schema: ARTICLE_SCHEMA },
     },
     plugins: [
-      { id: "web", engine: "exa", max_results: 5 },
+      { id: "web", engine: "exa", max_results: 8 },
       { id: "response-healing" },
     ],
     provider: {
