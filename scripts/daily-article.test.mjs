@@ -39,6 +39,17 @@ test("extractExistingPosts reads top-level blog metadata", () => {
   assert.equal(existingPosts[0].published, "2026-08-18");
 });
 
+test("extractExistingPosts reads generated indentation and multiline keywords", () => {
+  const generated = `export const blogPosts = [\n  {\n      slug: "generated-post",\n      title: "Generated post with production indentation",\n      category: "Operations automation",\n      published: "2026-08-19",\n      keywords: [\n        "generated workflow",\n        "idempotent publishing"\n      ],\n  },\n];\n`;
+  assert.deepEqual(extractExistingPosts(generated), [{
+    slug: "generated-post",
+    title: "Generated post with production indentation",
+    category: "Operations automation",
+    published: "2026-08-19",
+    keywords: ["generated workflow", "idempotent publishing"],
+  }]);
+});
+
 test("validateArticle accepts a distinct, schema-complete article", () => {
   const result = validateArticle(article, { date, existingPosts, images: [article.image] });
   assert.ok(result.words >= 1_200);

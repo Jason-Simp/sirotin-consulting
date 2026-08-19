@@ -59,7 +59,6 @@ export const ARTICLE_SCHEMA = {
   ],
 };
 
-const TOP_LEVEL_FIELD = /^    (slug|title|category|published|keywords):\s*(.+)$/gm;
 const WORD = /[a-z0-9]+/g;
 const NON_TOPIC_WORDS = new Set([
   "about", "after", "again", "against", "automation", "business", "from", "have", "into",
@@ -69,20 +68,27 @@ const NON_TOPIC_WORDS = new Set([
 export function extractExistingPosts(source) {
   const posts = [];
   let current = null;
+  const lines = source.split("\n");
 
-  for (const match of source.matchAll(TOP_LEVEL_FIELD)) {
-    const [, field, raw] = match;
+  for (let index = 0; index < lines.length; index += 1) {
+    const match = lines[index].match(/^\s{4,}(slug|title|category|published|keywords):\s*(.*)$/);
+    if (!match) continue;
+    const [, field] = match;
+    let raw = match[2];
+    if (field === "keywords" && raw.trim().startsWith("[") && !raw.trim().replace(/,$/, "").endsWith("]")) {
+      while (index + 1 < lines.length && !raw.trim().replace(/,$/, "").endsWith("]")) {
+        index += 1;
+        raw += `\n${lines[index].trim()}`;
+      }
+    }
+    raw = raw.trim().replace(/,$/, "");
     if (field === "slug") {
-      current = { slug: JSON.parse(raw.replace(/,$/, "")) };
+      current = { slug: JSON.parse(raw) };
       posts.push(current);
       continue;
     }
     if (!current) continue;
-    if (field === "keywords") {
-      current.keywords = JSON.parse(raw.replace(/,$/, ""));
-    } else {
-      current[field] = JSON.parse(raw.replace(/,$/, ""));
-    }
+    current[field] = JSON.parse(raw);
   }
 
   return posts.filter((post) => post.slug && post.title);
