@@ -60,22 +60,14 @@ async function requestArticle(prompt) {
       },
       { role: "user", content: prompt },
     ],
-    tools: [{
-      type: "openrouter:web_search",
-      parameters: {
-        engine: "exa",
-        max_results: 5,
-        max_total_results: 12,
-        max_uses: 3,
-        search_context_size: "medium",
-      },
-    }],
-    max_tool_calls: 3,
     response_format: {
       type: "json_schema",
       json_schema: { name: "automatemejay_daily_article", strict: true, schema: ARTICLE_SCHEMA },
     },
-    plugins: [{ id: "response-healing" }],
+    plugins: [
+      { id: "web", engine: "exa", max_results: 5 },
+      { id: "response-healing" },
+    ],
     provider: {
       require_parameters: true,
       data_collection: "deny",
