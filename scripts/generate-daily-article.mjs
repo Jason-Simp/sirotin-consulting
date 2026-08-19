@@ -75,6 +75,7 @@ async function requestArticle(prompt) {
       type: "json_schema",
       json_schema: { name: "automatemejay_daily_article", strict: true, schema: ARTICLE_SCHEMA },
     },
+    plugins: [{ id: "response-healing" }],
     provider: {
       require_parameters: true,
       data_collection: "deny",
