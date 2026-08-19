@@ -2,8 +2,8 @@ import { access, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export const DEFAULT_MODELS = [
-  "google/gemini-3.7-flash",
   "qwen/qwen3.7-plus",
+  "google/gemini-3.7-flash",
 ];
 
 export const ARTICLE_SCHEMA = {
