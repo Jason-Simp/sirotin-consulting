@@ -64,8 +64,10 @@ async function requestArticle(prompt) {
     tools: [{
       type: "openrouter:web_search",
       parameters: {
-        engine: "parallel",
+        engine: "exa",
         max_results: 5,
+        max_total_results: 12,
+        max_uses: 3,
         search_context_size: "medium",
       },
     }],
