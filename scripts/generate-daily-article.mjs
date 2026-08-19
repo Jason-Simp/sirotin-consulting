@@ -46,12 +46,9 @@ async function openRouterError(response) {
   }
 }
 
-async function requestArticle(prompt) {
+async function requestArticle(prompt, models) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) fail("OPENROUTER_API_KEY is not configured");
-
-  const configured = process.env.OPENROUTER_MODELS?.split(",").map((model) => model.trim()).filter(Boolean);
-  const models = configured?.length ? configured : DEFAULT_MODELS;
   const sharedBody = {
     messages: [
       {
@@ -139,9 +136,27 @@ if (existingPosts.some((post) => post.published === date)) {
 
 const images = await listPortfolioImages(repoRoot);
 const prompt = buildPrompt({ date, existingPosts, images });
-const { article, model, usage } = await requestArticle(prompt);
-const { words } = validateArticle(article, { date, existingPosts, images });
-await verifySourceUrls(article.sources);
+const configured = process.env.OPENROUTER_MODELS?.split(",").map((model) => model.trim()).filter(Boolean);
+const models = configured?.length ? configured : DEFAULT_MODELS;
+let accepted;
+let lastCandidateError;
+for (const requestedModel of models) {
+  try {
+    const candidate = await requestArticle(prompt, [requestedModel]);
+    const { words } = validateArticle(candidate.article, { date, existingPosts, images });
+    await verifySourceUrls(candidate.article.sources);
+    accepted = { ...candidate, words };
+    break;
+  } catch (error) {
+    lastCandidateError = error;
+    safeLog("OpenRouter candidate rejected; trying fallback", {
+      model: requestedModel,
+      reason: String(error?.message ?? error).replace(/[\r\n]+/g, " ").slice(0, 500),
+    });
+  }
+}
+if (!accepted) throw lastCandidateError ?? new Error("Every configured model candidate was rejected");
+const { article, model, usage, words } = accepted;
 
 await mkdir(path.dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify({ article, model, usage }, null, 2)}\n`, { mode: 0o600 });
