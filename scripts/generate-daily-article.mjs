@@ -52,8 +52,7 @@ async function requestArticle(prompt) {
 
   const configured = process.env.OPENROUTER_MODELS?.split(",").map((model) => model.trim()).filter(Boolean);
   const models = configured?.length ? configured : DEFAULT_MODELS;
-  const body = {
-    models,
+  const sharedBody = {
     messages: [
       {
         role: "system",
@@ -86,27 +85,33 @@ async function requestArticle(prompt) {
   };
 
   let response;
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://automatemejay.com",
-        "X-Title": "AutomateMeJay Daily Article",
-      },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(12 * 60 * 1_000),
-    });
-    if (response.ok) break;
-    if (attempt === 1 && [429, 502, 503].includes(response.status)) {
-      const retryAfter = Math.min(Number(response.headers.get("retry-after")) || 10, 30);
-      safeLog("OpenRouter request will retry", { status: response.status, retryAfterSeconds: retryAfter });
-      await new Promise((resolve) => setTimeout(resolve, retryAfter * 1_000));
-      continue;
+  let lastError = "No model was attempted";
+  modelLoop: for (const model of models) {
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://automatemejay.com",
+          "X-Title": "AutomateMeJay Daily Article",
+        },
+        body: JSON.stringify({ model, ...sharedBody }),
+        signal: AbortSignal.timeout(12 * 60 * 1_000),
+      });
+      if (response.ok) break modelLoop;
+      lastError = `status ${response.status}: ${await openRouterError(response)}`;
+      if (attempt === 1 && [429, 502, 503].includes(response.status)) {
+        const retryAfter = Math.min(Number(response.headers.get("retry-after")) || 10, 30);
+        safeLog("OpenRouter request will retry", { model, status: response.status, retryAfterSeconds: retryAfter });
+        await new Promise((resolve) => setTimeout(resolve, retryAfter * 1_000));
+        continue;
+      }
+      safeLog("OpenRouter model fallback", { model, status: response.status });
+      break;
     }
-    fail(`OpenRouter request failed with status ${response.status}: ${await openRouterError(response)}`);
   }
+  if (!response?.ok) fail(`OpenRouter request failed for every configured model: ${lastError}`);
 
   const payload = await response.json();
   const content = payload.choices?.[0]?.message?.content;
