@@ -35,6 +35,17 @@ function fail(message) {
   throw new Error(message);
 }
 
+async function openRouterError(response) {
+  try {
+    const payload = await response.clone().json();
+    const code = typeof payload?.error?.code === "string" ? payload.error.code : "unknown";
+    const message = typeof payload?.error?.message === "string" ? payload.error.message : "No provider detail";
+    return `${code}: ${message.replace(/[\r\n]+/g, " ").slice(0, 500)}`;
+  } catch {
+    return "unparseable provider response";
+  }
+}
+
 async function requestArticle(prompt) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) fail("OPENROUTER_API_KEY is not configured");
@@ -92,7 +103,7 @@ async function requestArticle(prompt) {
       await new Promise((resolve) => setTimeout(resolve, retryAfter * 1_000));
       continue;
     }
-    fail(`OpenRouter request failed with status ${response.status}`);
+    fail(`OpenRouter request failed with status ${response.status}: ${await openRouterError(response)}`);
   }
 
   const payload = await response.json();
