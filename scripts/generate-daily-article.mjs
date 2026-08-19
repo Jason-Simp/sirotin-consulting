@@ -74,7 +74,7 @@ async function requestArticle(prompt) {
       allow_fallbacks: true,
     },
     temperature: 0.35,
-    max_tokens: 12_000,
+    max_tokens: 9_000,
   };
 
   let response;
