@@ -28,7 +28,7 @@ jobs:
     env:
       OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       OPENROUTER_MODELS: google/gemini-3.7-flash,qwen/qwen3.7-plus
-      DAILY_ARTICLE_OUTPUT: ${{ runner.temp }}/daily-article.json
+      DAILY_ARTICLE_OUTPUT: /tmp/daily-article.json
       DAILY_ARTICLE_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}
     steps:
       - name: Check out main
