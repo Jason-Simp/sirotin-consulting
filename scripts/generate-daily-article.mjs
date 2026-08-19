@@ -144,7 +144,14 @@ for (const requestedModel of models) {
   try {
     const candidate = await requestArticle(prompt, [requestedModel]);
     const { words } = validateArticle(candidate.article, { date, existingPosts, images });
+    const sourceCount = candidate.article.sources.length;
     await verifySourceUrls(candidate.article.sources);
+    if (candidate.article.sources.length !== sourceCount) {
+      safeLog("Unreachable optional sources were removed", {
+        removed: sourceCount - candidate.article.sources.length,
+        remaining: candidate.article.sources.length,
+      });
+    }
     accepted = { ...candidate, words };
     break;
   } catch (error) {

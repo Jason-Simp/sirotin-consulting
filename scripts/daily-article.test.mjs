@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { extractExistingPosts, findNearDuplicate, insertArticle, validateArticle } from "./daily-article-lib.mjs";
+import { extractExistingPosts, findNearDuplicate, insertArticle, validateArticle, verifySourceUrls } from "./daily-article-lib.mjs";
 
 const date = "2026-08-19";
 const source = `export type BlogPost = {};\nexport const blogPosts: BlogPost[] = [\n  {\n    slug: "automate-purchase-orders-with-ai",\n    title: "How to automate purchase orders with AI without losing approval control",\n    category: "Operations automation",\n    published: "2026-08-18",\n    keywords: ["automate purchase orders with AI", "AI purchasing workflow", "purchase order automation"],\n  },\n];\n`;
@@ -53,4 +53,17 @@ test("insertArticle prepends the article without deleting existing content", () 
   const next = insertArticle(source, article);
   assert.ok(next.indexOf(article.slug) < next.indexOf(existingPosts[0].slug));
   assert.ok(next.includes("export const blogPosts"));
+});
+
+test("verifySourceUrls removes an unreachable optional citation when the source floor remains", async () => {
+  const sources = [
+    ...article.sources,
+    { label: "Optional blocked reference", url: "https://blocked.example/reference" },
+  ];
+  await verifySourceUrls(sources, async (url) => ({
+    status: String(url).includes("blocked.example") ? 403 : 200,
+    body: { cancel: async () => {} },
+  }));
+  assert.equal(sources.length, 4);
+  assert.ok(sources.every((sourceItem) => !sourceItem.url.includes("blocked.example")));
 });

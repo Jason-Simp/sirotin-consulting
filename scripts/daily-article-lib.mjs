@@ -200,6 +200,12 @@ export async function verifySourceUrls(sources, fetchImpl = fetch) {
 
   const failed = results.filter((result) => !result.ok);
   if (failed.length) {
+    const reachable = results.filter((result) => result.ok).map((result) => result.source);
+    const reachableHosts = new Set(reachable.map((source) => new URL(source.url).hostname));
+    if (reachable.length >= 4 && reachableHosts.size >= 3) {
+      sources.splice(0, sources.length, ...reachable);
+      return results;
+    }
     throw new Error(`Source verification failed: ${failed.map(({ source, status }) => `${source.label} (${status || "network error"})`).join(", ")}`);
   }
   return results;
