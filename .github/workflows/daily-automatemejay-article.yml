@@ -1,0 +1,129 @@
+name: Daily AutomateMeJay article
+
+on:
+  schedule:
+    - cron: "30 7 * * *"
+      timezone: "America/New_York"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Generate and validate without editing or publishing
+        type: boolean
+        default: true
+        required: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: daily-automatemejay-article
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || vars.DAILY_ARTICLE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      OPENROUTER_MODELS: google/gemini-3.7-flash,qwen/qwen3.7-plus
+      DAILY_ARTICLE_OUTPUT: ${{ runner.temp }}/daily-article.json
+      DAILY_ARTICLE_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Verify the OpenRouter credential is configured
+        run: test -n "$OPENROUTER_API_KEY"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Test the automation harness
+        run: pnpm automation:daily-article:test
+
+      - name: Verify the clean security baseline
+        run: |
+          pnpm security:check
+          git diff --exit-code
+
+      - name: Generate and validate the daily article
+        id: article
+        run: |
+          if [[ "$DAILY_ARTICLE_DRY_RUN" == "true" ]]; then
+            pnpm automation:daily-article -- --dry-run
+          else
+            pnpm automation:daily-article
+          fi
+
+      - name: Validate the website
+        run: |
+          pnpm check
+          git diff --check
+
+      - name: Enforce the publication scope
+        if: env.DAILY_ARTICLE_DRY_RUN != 'true' && steps.article.outputs.slug != ''
+        run: |
+          changed="$(git diff --name-only)"
+          [[ "$changed" == "src/lib/blog.ts" ]]
+
+      - name: Commit and push the article
+        if: env.DAILY_ARTICLE_DRY_RUN != 'true' && steps.article.outputs.slug != ''
+        env:
+          ARTICLE_TITLE: ${{ steps.article.outputs.title }}
+        run: |
+          git config user.name "AutomateMeJay Publisher"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/lib/blog.ts
+          git commit -m "Publish daily AutomateMeJay article: $ARTICLE_TITLE"
+          git push origin HEAD:main
+
+      - name: Verify the Render deployment
+        if: env.DAILY_ARTICLE_DRY_RUN != 'true' && steps.article.outputs.slug != ''
+        env:
+          ARTICLE_SLUG: ${{ steps.article.outputs.slug }}
+          ARTICLE_TITLE: ${{ steps.article.outputs.title }}
+        run: node scripts/verify-daily-article.mjs "$ARTICLE_SLUG" "$ARTICLE_TITLE"
+
+      - name: Write the run summary
+        if: always()
+        env:
+          ARTICLE_SLUG: ${{ steps.article.outputs.slug }}
+          ARTICLE_TITLE: ${{ steps.article.outputs.title }}
+          ARTICLE_MODEL: ${{ steps.article.outputs.model }}
+          ARTICLE_WORDS: ${{ steps.article.outputs.words }}
+        run: |
+          {
+            echo "## Daily AutomateMeJay article"
+            echo "- Dry run: $DAILY_ARTICLE_DRY_RUN"
+            echo "- Title: ${ARTICLE_TITLE:-not generated}"
+            echo "- Slug: ${ARTICLE_SLUG:-not generated}"
+            echo "- Model: ${ARTICLE_MODEL:-not reported}"
+            echo "- Words: ${ARTICLE_WORDS:-not reported}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open a failure alert
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="Daily AutomateMeJay article failed"
+          existing="$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number // empty')"
+          if [[ -z "$existing" ]]; then
+            gh issue create --title "$title" --body "The independent daily article workflow failed. Review the run, correct the failing gate, and rerun it manually in dry-run mode before publishing. Run: $RUN_URL"
+          else
+            gh issue comment "$existing" --body "The workflow failed again. Run: $RUN_URL"
+          fi

@@ -11,6 +11,8 @@
     "check": "pnpm lint && pnpm typecheck && pnpm build",
     "security:check": "node scripts/security-remediate.mjs && pnpm audit --audit-level moderate && pnpm check",
     "security:repair": "node scripts/security-remediate.mjs",
+    "automation:daily-article": "node scripts/generate-daily-article.mjs",
+    "automation:daily-article:test": "node --test scripts/daily-article.test.mjs",
     "agent:provision": "node scripts/provision-elevenlabs-agent.mjs",
     "render:safe": "node scripts/render-safe.mjs"
   },
