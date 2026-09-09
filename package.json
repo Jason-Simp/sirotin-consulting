@@ -13,7 +13,6 @@
     "security:repair": "node scripts/security-remediate.mjs",
     "automation:daily-article": "node scripts/generate-daily-article.mjs",
     "automation:daily-article:test": "node --test scripts/daily-article.test.mjs",
-    "invoice:run": "node scripts/run-invoice-scheduler.mjs",
     "agent:provision": "node scripts/provision-elevenlabs-agent.mjs",
     "render:safe": "node scripts/render-safe.mjs"
   },

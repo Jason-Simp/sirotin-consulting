@@ -1,17 +1,20 @@
-import { timingSafeEqual } from "node:crypto";
+import { createHash } from "node:crypto";
 import { runDueInvoices } from "@/lib/invoices";
 import { getRequestId, safeLog } from "@/lib/security";
+import { createAdminClient } from "@/lib/supabase/admin";
 
-function authorized(request: Request) {
-  const secret = process.env.INVOICE_CRON_SECRET;
+async function authorized(request: Request) {
   const supplied = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? "";
-  if (!secret || secret.length < 32 || supplied.length !== secret.length) return false;
-  return timingSafeEqual(Buffer.from(supplied), Buffer.from(secret));
+  if (supplied.length < 32 || supplied.length > 256) return false;
+  const keyHash = createHash("sha256").update(supplied).digest("hex");
+  const supabase = createAdminClient();
+  const { data, error } = await supabase.from("invoice_scheduler_keys").select("key_hash").eq("key_hash", keyHash).eq("active", true).maybeSingle();
+  return !error && Boolean(data);
 }
 
 export async function POST(request: Request) {
   const requestId = getRequestId(request);
-  if (!authorized(request)) {
+  if (!await authorized(request)) {
     safeLog("warn", "invoice.cron_unauthorized", { requestId });
     return Response.json({ error: "Unauthorized." }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
