@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const requestedNext = url.searchParams.get("next") ?? "/portal";
-  const next = requestedNext === "/portal" ? requestedNext : "/portal";
+  const next = requestedNext === "/portal" || requestedNext === "/admin/invoices" ? requestedNext : "/portal";
   const siteUrl = publicEnv.siteUrl ?? "https://automatemejay.com";
 
   if (code) {

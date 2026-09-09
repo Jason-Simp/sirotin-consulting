@@ -19,7 +19,7 @@ export async function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-request-id", requestId);
   const pathname = request.nextUrl.pathname;
-  const sessionSensitivePath = ["/api", "/auth", "/checkout", "/guarantee", "/legal/sow", "/portal", "/sign-in", "/sow"]
+  const sessionSensitivePath = ["/admin", "/api", "/auth", "/checkout", "/guarantee", "/legal/sow", "/portal", "/sign-in", "/sow"]
     .some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
   const hasSupabaseSession = request.cookies.getAll().some(({ name }) => /^sb-.*-auth-token(?:\.\d+)?$/.test(name));
 

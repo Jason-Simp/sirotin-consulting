@@ -17,7 +17,7 @@ export function SessionCompleter() {
       const accessToken = hash.get("access_token");
       const refreshToken = hash.get("refresh_token");
       const requestedNext = new URLSearchParams(window.location.search).get("next");
-      const next = requestedNext === "/portal" ? requestedNext : "/portal";
+      const next = requestedNext === "/portal" || requestedNext === "/admin/invoices" ? requestedNext : "/portal";
 
       // Remove credentials from the visible URL and browser history before any
       // network request or navigation can accidentally preserve them.
