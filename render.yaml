@@ -41,8 +41,6 @@ services:
         value: hello@automatemejay.com
       - key: JASON_NOTIFICATION_EMAIL
         value: hello@automatemejay.com
-      - key: INVOICE_CRON_SECRET
-        sync: false
       - key: NEXT_PUBLIC_ELEVENLABS_AGENT_ID
         sync: false
       - key: AGENT_TOOL_SECRET
