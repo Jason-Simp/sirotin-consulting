@@ -866,6 +866,47 @@ footer { padding: 5rem max(5vw, 1.25rem) 2rem; background: #02060c; color: #fff;
 .portal-empty .button { margin-top: 1.25rem; }
 .portal-awaiting h1 { max-width: 900px; }
 .portal-text-button { display: flex; align-items: center; gap: .45rem; margin-top: 2rem; border: 0; background: transparent; color: #718397; font: inherit; cursor: pointer; }
+
+.invoice-admin-shell { min-height: 100vh; padding: 1.25rem max(4vw, 1.25rem) 6rem; }
+.invoice-admin-header { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding: .8rem 0 1.3rem; color: var(--muted); font-family: var(--font-mono), monospace; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; }
+.invoice-admin-header a { color: var(--cyan); }
+.invoice-admin-intro { max-width: 940px; padding: clamp(4rem, 8vw, 7rem) 0 2.5rem; }
+.invoice-admin-intro h1 { margin-bottom: 1.3rem; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 650; letter-spacing: -.065em; line-height: .94; }
+.invoice-admin-intro > p:last-child { max-width: 720px; color: var(--muted); }
+.invoice-notice { display: flex; align-items: center; gap: .6rem; max-width: 760px; border: 1px solid var(--line); border-radius: .8rem; padding: .8rem 1rem; font-size: .78rem; }
+.invoice-notice.success { border-color: rgba(34, 211, 238, .25); color: #a5f3fc; }
+.invoice-notice.error { border-color: rgba(251, 113, 133, .3); color: #fecdd3; }
+.invoice-admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin: 1.5rem 0 3rem; }
+.invoice-account-card { display: flex; justify-content: space-between; gap: 2rem; border: 1px solid var(--line); border-radius: 1rem; padding: 1.5rem; background: rgba(8, 17, 29, .86); }
+.invoice-account-card svg { color: var(--cyan); }
+.invoice-account-card h2 { margin: .4rem 0 .65rem; }
+.invoice-account-card p { margin: 0; color: var(--muted); font-size: .75rem; }
+.invoice-account-card > div:last-child { min-width: 210px; text-align: right; }
+.invoice-account-card span { display: block; margin-bottom: .65rem; color: var(--cyan); font-size: .7rem; font-weight: 700; }
+.invoice-account-card small { display: block; color: var(--muted); font-size: .66rem; }
+.invoice-ledger { overflow: hidden; border: 1px solid var(--line); border-radius: 1.2rem; background: rgba(5, 13, 23, .82); }
+.invoice-ledger-heading { display: flex; gap: 1rem; align-items: start; padding: 1.5rem; }
+.invoice-ledger-heading svg { color: var(--cyan); }
+.invoice-ledger-heading h2 { margin: .3rem 0 0; font-size: 1.5rem; }
+.invoice-empty { margin: 0; border-top: 1px solid var(--line); padding: 2rem 1.5rem; color: var(--muted); }
+.invoice-table-wrap { overflow-x: auto; border-top: 1px solid var(--line); }
+.invoice-table-wrap table { width: 100%; border-collapse: collapse; min-width: 940px; }
+.invoice-table-wrap th, .invoice-table-wrap td { border-bottom: 1px solid var(--line); padding: 1rem; text-align: left; font-size: .72rem; vertical-align: middle; }
+.invoice-table-wrap th { color: var(--cyan); font-family: var(--font-mono), monospace; font-size: .56rem; letter-spacing: .08em; text-transform: uppercase; }
+.invoice-table-wrap td { color: #c4d0dd; }
+.invoice-table-wrap td strong, .invoice-table-wrap td small { display: block; }
+.invoice-table-wrap td small { color: #708195; }
+.invoice-status { border: 1px solid var(--line); border-radius: 999px; padding: .25rem .5rem; text-transform: capitalize; }
+.invoice-status.sent { border-color: rgba(34, 211, 238, .28); color: #a5f3fc; }
+.invoice-status.paid { border-color: rgba(74, 222, 128, .28); color: #bbf7d0; }
+.invoice-actions { display: flex; gap: .45rem; }
+.invoice-actions button { border: 1px solid var(--line); border-radius: .55rem; padding: .45rem .65rem; background: #07111d; color: #fff; cursor: pointer; font: inherit; font-size: .65rem; }
+
+@media (max-width: 720px) {
+  .invoice-admin-header { align-items: flex-start; flex-direction: column; }
+  .invoice-account-card { flex-direction: column; }
+  .invoice-account-card > div:last-child { min-width: 0; text-align: left; }
+}
 .one-off-hero { display: grid; min-height: 55vh; align-content: center; justify-items: start; max-width: 980px; padding: clamp(7rem, 13vw, 11rem) max(5vw, 1.25rem) 4rem; }
 .one-off-hero > svg { margin: 1.25rem 0; color: var(--cyan); }
 .one-off-hero h1 { max-width: 880px; font-size: clamp(3rem, 7vw, 7rem); line-height: .92; letter-spacing: -.075em; }

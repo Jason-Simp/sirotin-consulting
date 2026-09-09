@@ -36,6 +36,9 @@ export async function POST(request: Request) {
       "email.failed": "failed",
     } as Record<string, string>)[event.type];
     if (eventData.email_id && deliveryStatus) {
+      await supabase.from("invoice_email_deliveries")
+        .update({ delivery_status: deliveryStatus })
+        .eq("resend_email_id", eventData.email_id);
       const { data: delivery } = await supabase.from("newsletter_deliveries")
         .update({ status: deliveryStatus })
         .eq("resend_email_id", eventData.email_id)
